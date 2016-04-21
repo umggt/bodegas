@@ -50,21 +50,8 @@ namespace Bodegas.App
 
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-
                 var root = applicationEnvironment.ApplicationBasePath;
-                //var wwwroot = env.WebRootPath;
-
-                UseDevelopmentStaticFiles(app, root, "node_modules");
-                UseDevelopmentStaticFiles(app, root, "bower_components");
-                UseDevelopmentStaticFiles(app, root, "scripts");
-                UseDevelopmentStaticFiles(app, root, "styles");
-
-                app.Map(new PathString("/app"), config =>
-                {
-                    config.Use(TemplatesFromScriptsPath);
-                });
-
+                ConfigureDevelopmentEnvironment(app, root);
             }
 
             app.Map(new PathString("/auth"), config =>
@@ -73,6 +60,18 @@ namespace Bodegas.App
                 config.UseMvcWithDefaultRoute();
             });
 
+        }
+
+        private void ConfigureDevelopmentEnvironment(IApplicationBuilder app, string root)
+        {
+            app.UseDeveloperExceptionPage();
+
+            UseDevelopmentStaticFiles(app, root, "node_modules");
+            UseDevelopmentStaticFiles(app, root, "bower_components");
+            UseDevelopmentStaticFiles(app, root, "scripts");
+            UseDevelopmentStaticFiles(app, root, "styles");
+
+            app.Map(new PathString("/app"), config => { config.Use(TemplatesFromScriptsPath); });
         }
 
         private async Task TemplatesFromScriptsPath(HttpContext context, Func<Task> next)
