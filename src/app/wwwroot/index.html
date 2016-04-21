@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head class="no-js" lang="">
+    <base href="/">
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Bodegas</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="container-fluid">
+        <h1>Bodegas</h1>
+        <bodegas-main>Loading...</bodegas-main>
+    </div>
+
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../node_modules/es6-promise/dist/es6-promise.js"></script>
+    <script src="../node_modules/es6-shim/es6-shim.js"></script>
+    <script src="../node_modules/systemjs/dist/system.js"></script>
+    <script src="../node_modules/angular2/bundles/angular2-polyfills.js"></script>
+    <script src="../node_modules/rxjs/bundles/rx.js"></script>
+    <script src="../node_modules/angular2/bundles/angular2.dev.js"></script>
+    <script src="../node_modules/angular2/bundles/http.dev.js"></script>
+    <script src="../node_modules/angular2/bundles/router.dev.js"></script>
+
+    <script>
+        System.config({
+            map: {
+                "ts-helpers": "../node_modules/ts-helpers/index.js"
+            },
+            packages: {
+                app: {
+                    defaultExtension: 'js'
+                }
+            }
+        });
+        System.import('app/boot').then(null, console.error.bind(console));
+    </script>
+</body>
+</html>
