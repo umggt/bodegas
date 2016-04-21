@@ -7,20 +7,17 @@
   "licenseUrl": "",
   "frameworks": {
     "net451": { },
-    "dotnet5.4": {
-      "dependencies": {
-        "Microsoft.CSharp": "4.0.1-beta-23516",
-        "System.Collections": "4.0.11-beta-23516",
-        "System.Linq": "4.0.1-beta-23516",
-        "System.Runtime": "4.0.21-beta-23516",
-        "System.Threading": "4.0.11-beta-23516"
-      }
-    }
+    "dnxcore50": { }
+  },
+  "commands": {
+    "ef": "EntityFramework.Commands"
   },
   "dependencies": {
+    "EntityFramework.Commands": "7.0.0-rc1-final",
     "EntityFramework.Core": "7.0.0-rc1-final",
     "EntityFramework.Relational": "7.0.0-rc1-final",
     "EntityFramework.Sqlite": "7.0.0-rc1-final",
-    "Microsoft.AspNet.Mvc": "6.0.0-rc1-final"
+    "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",
+    "Serilog": "2.0.0-beta-531"
   }
 }

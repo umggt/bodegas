@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Bodegas.Db;
+using Microsoft.Data.Entity;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Bodegas
 {
@@ -23,6 +26,17 @@ namespace Bodegas
                     await next();
                 }
             });
+        }
+
+        public static IApplicationBuilder MigrateDatabase(this IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                serviceScope.ServiceProvider.GetService<BodegasContext>().Database.Migrate();
+                serviceScope.ServiceProvider.GetService<BodegasContext>().EnsureSeedData();
+            }
+
+            return app;
         }
     }
 }

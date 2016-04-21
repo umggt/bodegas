@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -10,18 +11,42 @@ using Microsoft.AspNet.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
 using Bodegas.Auth;
+using Bodegas.Db;
 using Microsoft.AspNet.FileProviders;
+using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Mvc.Formatters;
 using Microsoft.AspNet.StaticFiles;
+using Microsoft.Data.Entity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Serilog;
 
 namespace Bodegas.App
 {
     public class Startup
     {
         private readonly IApplicationEnvironment applicationEnvironment;
+        private readonly IConfigurationRoot configuration;
 
-        public Startup(IApplicationEnvironment applicationEnvironment)
+        public Startup(IApplicationEnvironment applicationEnvironment, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             this.applicationEnvironment = applicationEnvironment;
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.ColoredConsole()
+                .CreateLogger();
+
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+
+            configuration = builder.Build();
+
+            loggerFactory.AddSerilog();
         }
 
 
@@ -33,7 +58,21 @@ namespace Bodegas.App
             var certificate = new X509Certificate2(certificatePath, "idsrv3test");
 
             services.AddAuthenticationServer(certificate);
-            services.AddMvc().AddAuthenticationViewLocationExpander();
+            services.AddMvc(ConfigureJsonFormatter).AddAuthenticationViewLocationExpander();
+
+            var defaultConnectionString = configuration["Data:DefaultConnection:ConnectionString"];
+
+            services.AddEntityFramework().AddSqlite().AddDbContext<BodegasContext>(options => options.UseSqlite(defaultConnectionString));
+
+        }
+
+        private static void ConfigureJsonFormatter(MvcOptions options)
+        {
+            var jsonFormatter = options.OutputFormatters.First(x => x is JsonOutputFormatter) as JsonOutputFormatter;
+            Debug.Assert(jsonFormatter != null, "jsonFormatter != null");
+            var settings = jsonFormatter.SerializerSettings;
+            settings.DateTimeZoneHandling = DateTimeZoneHandling.Local;
+            settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +91,9 @@ namespace Bodegas.App
             {
                 var root = applicationEnvironment.ApplicationBasePath;
                 ConfigureDevelopmentEnvironment(app, root);
+
+                CreateDatabaseDirectory(env);
+                app.MigrateDatabase();
             }
 
             app.Map(new PathString("/auth"), config =>
@@ -60,7 +102,22 @@ namespace Bodegas.App
                 config.UseMvcWithDefaultRoute();
             });
 
+            app.Map(new PathString("/api"), config =>
+            {
+                config.UseMvc();
+            });
+
         }
+
+        private static void CreateDatabaseDirectory(IHostingEnvironment env)
+        {
+            var databaseDirectory = Path.Combine(env.WebRootPath, "data");
+            if (!Directory.Exists(databaseDirectory))
+            {
+                Directory.CreateDirectory(databaseDirectory);
+            }
+        }
+
 
         private void ConfigureDevelopmentEnvironment(IApplicationBuilder app, string root)
         {
