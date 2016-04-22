@@ -247,6 +247,6 @@ ModelManifest.xml
 # Especificos de bodegas
 bower_components/
 !/src/app/certificados/idsrv4test.pfx
+/src/app/data
 /src/app/wwwroot/app
 /src/app/wwwroot/css
-/src/app/wwwroot/data/bodegas.sqlite

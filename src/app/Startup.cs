@@ -60,7 +60,7 @@ namespace Bodegas.App
             services.AddAuthenticationServer(certificate);
             services.AddMvc(ConfigureJsonFormatter).AddAuthenticationViewLocationExpander();
 
-            var defaultConnectionString = configuration["Data:DefaultConnection:ConnectionString"];
+            var defaultConnectionString = configuration["Data:DefaultConnection:ConnectionString"].Replace("|ApplicationBasePath|", Path.GetFullPath(applicationEnvironment.ApplicationBasePath));
 
             services.AddEntityFramework().AddSqlite().AddDbContext<BodegasContext>(options => options.UseSqlite(defaultConnectionString));
 
@@ -92,7 +92,7 @@ namespace Bodegas.App
                 var root = applicationEnvironment.ApplicationBasePath;
                 ConfigureDevelopmentEnvironment(app, root);
 
-                CreateDatabaseDirectory(env);
+                CreateDatabaseDirectory(root);
                 app.MigrateDatabase();
             }
 
@@ -109,9 +109,9 @@ namespace Bodegas.App
 
         }
 
-        private static void CreateDatabaseDirectory(IHostingEnvironment env)
+        private static void CreateDatabaseDirectory(string root)
         {
-            var databaseDirectory = Path.Combine(env.WebRootPath, "data");
+            var databaseDirectory = Path.Combine(root, "data");
             if (!Directory.Exists(databaseDirectory))
             {
                 Directory.CreateDirectory(databaseDirectory);
