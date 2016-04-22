@@ -1,12 +1,10 @@
 ﻿[
   {
     "outputFile": "wwwroot/css/auth.css",
-    "inputFile": "styles/auth.scss",
-    "minify": {
-      "enabled": true
-    },
-    "options": {
-      "sourceMap": true
-    }
+    "inputFile": "styles/auth.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/main.css",
+    "inputFile": "styles/main.scss"
   }
 ]
