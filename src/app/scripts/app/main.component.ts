@@ -1,6 +1,6 @@
 ﻿import { Component } from "angular2/core"
 import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from "angular2/router"
-import { HTTP_BINDINGS } from "angular2/http"
+import { HTTP_BINDINGS, HTTP_PROVIDERS } from "angular2/http"
 import { BodegasListadoComponent } from "./core/bodegas-listado.component"
 import { NavegacionComponent } from "./core/navegacion.component"
 import { DashboardComponent } from "./core/dashboard.component"
@@ -9,7 +9,7 @@ import { DashboardComponent } from "./core/dashboard.component"
     selector: 'bodegas-main',
     templateUrl: 'app/main.template.html',
     directives: [ROUTER_DIRECTIVES, NavegacionComponent],
-    providers: [ROUTER_PROVIDERS]
+    providers: [ROUTER_PROVIDERS, HTTP_PROVIDERS]
 })
 @RouteConfig([
     {

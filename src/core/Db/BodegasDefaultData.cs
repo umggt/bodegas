@@ -21,6 +21,12 @@ namespace Bodegas.Db
         {
             Log.Debug("Generando las opciones de menú por defecto.");
 
+            var opcionDashboard = new OpcionDeMenu
+            {
+                Titulo = "Dashboard",
+                Ruta = "Dashboard"
+            };
+
             var opcionManteminientos = new OpcionDeMenu
             {
                 Titulo = "Mantenimientos",
@@ -34,6 +40,7 @@ namespace Bodegas.Db
                 }
             };
 
+            context.OpcionesDeMenu.Add(opcionDashboard);
             context.OpcionesDeMenu.Add(opcionManteminientos);
             context.SaveChanges();
         }

@@ -12,8 +12,15 @@
                 </div>
                 <!-- /input-group -->
             </li>
-            <li>
-                <a [routerLink]="['BodegasListado']"><i class="fa fa-dashboard fa-fw"></i> Bodegas</a>
+            <li *ngFor="#opcion of opciones">
+                <a *ngIf="opcion.ruta" [routerLink]="[opcion.ruta]"><i class="fa fa-dashboard fa-fw"></i> {{ opcion.titulo }}<span *ngIf="opcion.opciones && opcion.opciones.length" class="fa arrow"></span></a>
+                <a *ngIf="!opcion.ruta"><i class="fa fa-dashboard fa-fw"></i> {{ opcion.titulo }}<span *ngIf="opcion.opciones && opcion.opciones.length" class="fa arrow"></span></a>
+                <ul *ngIf="opcion.opciones && opcion.opciones.length" class="nav nav-second-level">
+                    <li *ngFor="#subOpcion of opcion.opciones">
+                        <a *ngIf="subOpcion.ruta" [routerLink]="[subOpcion.ruta]">{{ subOpcion.titulo }}</a>
+                        <a *ngIf="!subOpcion.ruta" href="">{{ subOpcion.titulo }}</a>
+                    </li>
+                </ul>
             </li>
             <li>
                 <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
