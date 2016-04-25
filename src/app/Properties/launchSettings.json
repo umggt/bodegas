@@ -20,6 +20,13 @@
       "environmentVariables": {
         "Hosting:Environment": "Development"
       }
+    },
+    "app": {
+      "commandName": "app",
+      "commandLineArgs": "",
+      "environmentVariables": {
+        "Hosting:Environment": "Development"
+      }
     }
   }
 }

@@ -5,7 +5,7 @@ import { IOpcionDeMenu } from "./modelos";
 @Injectable()
 export class MenuServicio {
 
-    private url = "/api/core/opcionesdemenu/";
+    private url = "http://localhost:5002/api/core/menu/principal/opciones";
 
     constructor(private http: Http) { }
 

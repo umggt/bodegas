@@ -17,7 +17,12 @@
     "EntityFramework.Core": "7.0.0-rc1-final",
     "EntityFramework.Relational": "7.0.0-rc1-final",
     "EntityFramework.Sqlite": "7.0.0-rc1-final",
+    "Microsoft.AspNet.Diagnostics": "1.0.0-rc1-final",
+    "Microsoft.AspNet.IISPlatformHandler": "1.0.0-rc1-final",
     "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",
-    "Serilog": "2.0.0-beta-531"
+    "Microsoft.AspNet.Server.Kestrel": "1.0.0-rc1-final",
+    "Microsoft.AspNet.StaticFiles": "1.0.0-rc1-final",
+    "Serilog": "2.0.0-beta-531",
+    "Serilog.Extensions.Logging": "1.0.0-rc1-final-10092"
   }
 }

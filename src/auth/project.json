@@ -12,6 +12,11 @@
   "dependencies": {
     "core": "1.0.0-*",
     "IdentityServer4": "1.0.0-beta1-update1",
-    "Microsoft.AspNet.Mvc": "6.0.0-rc1-final"
+    "Microsoft.AspNet.IISPlatformHandler": "1.0.0-rc1-final",
+    "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",
+    "Microsoft.AspNet.Server.Kestrel": "1.0.0-rc1-final",
+    "Microsoft.AspNet.StaticFiles": "1.0.0-rc1-final",
+    "Serilog": "2.0.0-beta-531",
+    "Serilog.Extensions.Logging": "1.0.0-rc1-final-10092"
   }
 }

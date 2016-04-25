@@ -7,7 +7,7 @@ using Microsoft.AspNet.Mvc;
 
 namespace Bodegas.Controllers
 {
-    [Route("core/[controller]")]
+    [Route("menu/principal/opciones")]
     public class OpcionesDeMenuController : Controller
     {
 

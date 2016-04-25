@@ -19,7 +19,8 @@
   },
 
   "commands": {
-    "web": "Microsoft.AspNet.Server.Kestrel"
+    "web": "Microsoft.AspNet.Server.Kestrel",
+    "app": "app"
   },
 
   "frameworks": {
