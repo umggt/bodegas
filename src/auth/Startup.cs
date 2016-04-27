@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Builder;
+﻿using Bodegas.Auth.Services;
+using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.FileProviders;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
@@ -50,6 +51,8 @@ namespace Bodegas.Auth
 
             services.AddAuthenticationServer(certificate);
             services.AddMvc(Bodegas.Startup.ConfigureJsonFormatter).AddAuthenticationViewLocationExpander();
+
+            services.AddTransient<LoginService>();
         }
 
         public void Configure(IApplicationBuilder app)

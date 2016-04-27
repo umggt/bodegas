@@ -16,22 +16,22 @@ namespace Bodegas.Auth.Configuration
                 {
                     ClientId = "bodegas_app",
                     ClientName = "Cliente JavaScript de Bodegas",
-                    ClientUri = "http://localhost:58153/",
+                    ClientUri = "http://localhost:5000/",
                     RequireConsent = false,
                     Flow = Flows.Implicit,
                     RedirectUris = new List<string>
                     {
-                        "http://localhost:58153/",
-                        "http://localhost:58153/silent_renew.html",
+                        "http://localhost:5000/",
+                        "http://localhost:5000/silent_renew.html",
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
-                        "http://localhost:58153/logedout.html",
+                        "http://localhost:5000/logedout.html",
                     },
 
                     AllowedCorsOrigins = new List<string>
                     {
-                        "http://localhost:58153/"
+                        "http://localhost:5000/"
                     },
 
                     AllowedScopes = new List<string>

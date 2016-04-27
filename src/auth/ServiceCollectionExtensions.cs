@@ -15,6 +15,7 @@ namespace Bodegas.Auth
                 options.RequireSsl = false;
             });
 
+            builder.Services.AddCors();
             builder.AddInMemoryClients(Clients.Get());
             builder.AddInMemoryScopes(Scopes.Get());
             builder.AddInMemoryUsers(Users.Get());
