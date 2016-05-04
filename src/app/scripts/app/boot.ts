@@ -5,4 +5,7 @@ import {MainComponent} from "./main.component"
 import "ts-helpers";
 import 'rxjs/add/operator/map';
 
-bootstrap(MainComponent);
+var manager = bodega.tokenManager;
+if (manager.access_token && manager.id_token && manager.profile && !manager.expired) {
+    bootstrap(MainComponent);
+}
