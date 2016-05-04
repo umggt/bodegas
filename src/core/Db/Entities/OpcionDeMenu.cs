@@ -25,6 +25,9 @@ namespace Bodegas.Db.Entities
         [StringLength(200)]
         public string Url { get; set; }
 
+        [StringLength(50)]
+        public string Icono { get; set; }
+
         public int? OpcionPadreId { get; set; }
 
         public OpcionDeMenu OpcionPadre { get; set; }

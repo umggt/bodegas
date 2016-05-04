@@ -6,13 +6,13 @@
   "projectUrl": "",
   "licenseUrl": "",
   "frameworks": {
-    "net451": { },
     "dnxcore50": { }
   },
   "commands": {
     "ef": "EntityFramework.Commands"
   },
   "dependencies": {
+    "IdentityServer4.AccessTokenValidation": "1.0.0-beta3",
     "EntityFramework.Commands": "7.0.0-rc1-final",
     "EntityFramework.Core": "7.0.0-rc1-final",
     "EntityFramework.Relational": "7.0.0-rc1-final",

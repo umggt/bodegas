@@ -6,7 +6,6 @@
   "projectUrl": "",
   "licenseUrl": "",
   "frameworks": {
-    "net451": { },
     "dnxcore50": { }
   },
   "dependencies": {

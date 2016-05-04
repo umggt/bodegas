@@ -24,12 +24,14 @@ namespace Bodegas.Db
             var opcionDashboard = new OpcionDeMenu
             {
                 Titulo = "Dashboard",
+                Icono = "fa-dashboard",
                 Ruta = "Dashboard"
             };
 
             var opcionManteminientos = new OpcionDeMenu
             {
                 Titulo = "Mantenimientos",
+                Icono = "fa-database",
                 Opciones = new[]
                 {
                     new OpcionDeMenu

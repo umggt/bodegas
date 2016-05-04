@@ -8,9 +8,11 @@ using IdentityModel;
 using System;
 using Bodegas.Auth.Services;
 using System.Linq;
+using Microsoft.AspNet.Authorization;
 
 namespace Bodegas.Auth.Controllers
 {
+    [AllowAnonymous]
     public class LoginController : Controller
     {
         private readonly LoginService _loginService;

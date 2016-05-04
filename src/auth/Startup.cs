@@ -50,7 +50,7 @@ namespace Bodegas.Auth
             var certificate = new X509Certificate2(certificatePath, "idsrv3test");
 
             services.AddAuthenticationServer(certificate);
-            services.AddMvc(Bodegas.Startup.ConfigureJsonFormatter).AddAuthenticationViewLocationExpander();
+            services.AddMvc(Bodegas.Startup.ConfigureMvc).AddAuthenticationViewLocationExpander();
 
             services.AddTransient<LoginService>();
         }

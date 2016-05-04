@@ -10,9 +10,11 @@ export class MenuServicio {
     constructor(private http: Http) { }
 
     obtenerOpciones() {
-        console.log("asfd");
-        console.log([this.http, this.url]);
-        return this.http.get(this.url).map(x => x.json() as IOpcionDeMenu[]);
+
+        const headers = new Headers();
+        headers.append("Authorization", `Bearer ${Bodega.tokenManager.access_token}`);
+
+        return this.http.get(this.url, { headers: headers }).map(x => x.json() as IOpcionDeMenu[]);
     }
 
 }

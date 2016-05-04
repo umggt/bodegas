@@ -34,6 +34,7 @@ namespace Bodegas.Controllers
                 {
                     padre.Id,
                     padre.Titulo,
+                    padre.Icono,
                     padre.Ruta,
                     tieneOpciones = hijos.Count > 0,
                     opciones = hijos.Select(x => new

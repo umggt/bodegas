@@ -1,5 +1,5 @@
 ﻿
-module bodega {
+module Bodega {
 
     var config = {
         authority: "http://localhost:5001/auth",

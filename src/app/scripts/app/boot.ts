@@ -3,9 +3,9 @@ import {bootstrap} from "angular2/platform/browser"
 import {MainComponent} from "./main.component"
 
 import "ts-helpers";
-import 'rxjs/add/operator/map';
+import "rxjs/add/operator/map";
 
-var manager = bodega.tokenManager;
+var manager = Bodega.tokenManager;
 if (manager.access_token && manager.id_token && manager.profile && !manager.expired) {
     bootstrap(MainComponent);
 }
