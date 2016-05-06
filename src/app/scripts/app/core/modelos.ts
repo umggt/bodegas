@@ -12,5 +12,6 @@ export interface IOpcionDeMenu {
     id: number;
     titulo: string;
     ruta: string;
+    rutas: string[];
     opciones: IOpcionDeMenu[];
 }

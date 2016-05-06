@@ -122,6 +122,10 @@ body {
     content: "\f107";
 }
 
+.sidebar .nav-second-level {
+    display: none;
+}
+
 .sidebar .nav-second-level li,
 .sidebar .nav-third-level li {
     border-bottom: none !important;
@@ -363,5 +367,13 @@ table.dataTable thead .sorting:after {
         &:hover {
             color: darken($brand-warning, 15%);
         }
+    }
+}
+
+.router-link-active {
+    @extend .active;
+    
+    & + ul.nav-second-level{
+        display: block;
     }
 }
