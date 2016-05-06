@@ -104,6 +104,8 @@ body {
 .sidebar ul li {
     border-bottom: 1px solid darken($gray-lightest, 6.5%);
     a {
+        cursor: pointer;
+
         &.active {
             background-color: $gray-lighter;
         }
@@ -370,10 +372,15 @@ table.dataTable thead .sorting:after {
     }
 }
 
+.active {
+    & + ul.nav-second-level {
+        display: block;
+        a.active {
+            background-color: darken($gray-lighter, 5%);
+        }
+    }
+}
+
 .router-link-active {
     @extend .active;
-    
-    & + ul.nav-second-level{
-        display: block;
-    }
 }

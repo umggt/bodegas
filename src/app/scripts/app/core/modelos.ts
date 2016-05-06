@@ -13,5 +13,7 @@ export interface IOpcionDeMenu {
     titulo: string;
     ruta: string;
     rutas: string[];
+    tieneOpciones: boolean;
     opciones: IOpcionDeMenu[];
+    expandido: boolean; // existe solo en la UI
 }

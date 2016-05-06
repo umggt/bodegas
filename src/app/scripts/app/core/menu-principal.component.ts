@@ -18,6 +18,16 @@ export class MenuPrincipalComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.menuServicio.obtenerOpciones().subscribe(x => this.opciones = x);
+        this.menuServicio.obtenerOpciones().subscribe(x => {
+            this.opciones = x;
+            console.log(x);
+        });
+    }
+
+    expandir(opcion: IOpcionDeMenu) {
+        this.opciones.forEach(item => {
+            item.expandido = false;
+        });
+        opcion.expandido = true;
     }
 }
