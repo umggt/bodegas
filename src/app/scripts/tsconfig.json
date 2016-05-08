@@ -1,22 +1,22 @@
 {
   "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "module": "system",
-    "moduleResolution": "node",
-    "noEmitOnError": true,
-    "noImplicitAny": false,
-    "outDir": "../wwwroot/app",
     "removeComments": false,
-    "sourceMap": true,
-    "target": "es5",
-    "pretty": true,
-    "noEmitHelpers": true
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "outDir": "../wwwroot/app"
   },
   "compileOnSave": true,
   "buildOnSave": true,
   "exclude": [
     "node_modules",
-    "wwwroot"
+    "wwwroot",
+    "typings/main",
+    "typings/main.d.ts"
   ]
 }

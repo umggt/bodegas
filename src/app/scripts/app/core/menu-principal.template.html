@@ -12,7 +12,7 @@
                 </div>
                 <!-- /input-group -->
             </li>
-            <li *ngFor="#opcion of opciones" (click)="expandir(opcion)">
+            <li *ngFor="let opcion of opciones" (click)="expandir(opcion)">
                 <a *ngIf="opcion.ruta" [routerLink]="[opcion.ruta]">
                     <i class="fa fa-fw" [ngClass]="opcion.icono"></i> {{ opcion.titulo }}
                     <span *ngIf="opcion.tieneOpciones" class="fa arrow"></span>
@@ -22,7 +22,7 @@
                     <span *ngIf="opcion.tieneOpciones" class="fa arrow"></span>
                 </a>
                 <ul *ngIf="opcion.tieneOpciones" class="nav nav-second-level">
-                    <li *ngFor="#opcionHija of opcion.opciones">
+                    <li *ngFor="let opcionHija of opcion.opciones">
                         <a [routerLink]="[opcionHija.ruta]" (click)="$event.stopPropagation()">
                             {{ opcionHija.titulo }}
                         </a>

@@ -8,10 +8,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Bodegas</title>
-    <script src="../node_modules/oidc-token-manager/dist/oidc-token-manager.js"></script>
+    <script src="/node_modules/oidc-token-manager/dist/oidc-token-manager.js"></script>
     <script src="/app/auth.checker.js"></script>
-    <link href="../bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
-    <link href="../bower_components/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="/bower_components/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link href="/css/main.css" rel="stylesheet" />
 </head>
 <body>
@@ -23,28 +23,25 @@
     </div>
 
 
-    <script src="../bower_components/jquery/dist/jquery.js"></script>
-    <script src="../node_modules/es6-promise/dist/es6-promise.js"></script>
-    <script src="../node_modules/es6-shim/es6-shim.js"></script>
-    <script src="../node_modules/systemjs/dist/system.js"></script>
-    <script src="../node_modules/angular2/bundles/angular2-polyfills.js"></script>
-    <script src="../node_modules/rxjs/bundles/rx.js"></script>
-    <script src="../node_modules/angular2/bundles/angular2.dev.js"></script>
-    <script src="../node_modules/angular2/bundles/http.dev.js"></script>
-    <script src="../node_modules/angular2/bundles/router.dev.js"></script>
+    <script src="/node_modules/es6-shim/es6-shim.min.js"></script>
 
+    <script src="/node_modules/zone.js/dist/zone.js"></script>
+    <script src="/node_modules/reflect-metadata/Reflect.js"></script>
+    <script src="/node_modules/systemjs/dist/system.src.js"></script>
+
+    <script src="app/sytemjs.config.js"></script>
     <script>
-        System.config({
-            map: {
-                "ts-helpers": "../node_modules/ts-helpers/index.js"
-            },
-            packages: {
-                app: {
-                    defaultExtension: 'js'
-                }
-            }
-        });
-        System.import('app/boot').then(null, console.error.bind(console));
+        //System.config({
+        //    map: {
+        //        "ts-helpers": "../node_modules/ts-helpers/index.js"
+        //    },
+        //    packages: {
+        //        app: {
+        //            defaultExtension: 'js'
+        //        }
+        //    }
+        //});
+        System.import('app').catch(function (err) { console.error(err); });
     </script>
 
     <iframe id="rp" style="display:none"></iframe>

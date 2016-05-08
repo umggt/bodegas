@@ -1,8 +1,8 @@
-﻿/// <reference path="../../node_modules/angular2/typings/browser.d.ts" />
-import {bootstrap} from "angular2/platform/browser"
+﻿/// <reference path="../typings/browser/ambient/es6-shim/index.d.ts" />
+import {bootstrap}    from '@angular/platform-browser-dynamic';
 import {MainComponent} from "./main.component"
 
-import "ts-helpers";
+//import "ts-helpers";
 import "rxjs/add/operator/map";
 
 var manager = Bodega.tokenManager;
