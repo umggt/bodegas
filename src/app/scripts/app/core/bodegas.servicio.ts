@@ -1,7 +1,6 @@
 ﻿import { Injectable } from "@angular/core"
 import { Http, Headers, RequestMethod } from "@angular/http"
 import { IBodega, IBodegaResumen } from "./modelos"
-import "rxjs/add/operator/map";
 
 @Injectable()
 export class BodegasServicio {

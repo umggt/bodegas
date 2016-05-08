@@ -2,7 +2,6 @@
 import {bootstrap}    from '@angular/platform-browser-dynamic';
 import {MainComponent} from "./main.component"
 
-//import "ts-helpers";
 import "rxjs/add/operator/map";
 
 var manager = Bodega.tokenManager;
