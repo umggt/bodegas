@@ -1,0 +1,24 @@
+﻿<pagina titulo="Listado de Usuarios">
+    <div class="row">
+        <div class="col-lg-12">
+            
+            <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th>Login</th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let usuario of usuarios">
+                        <td><a [routerLink]="['UsuariosEditar', { id: usuario.id }]">{{ usuario.login }}</a></td>
+                        <td>{{ usuario.nombre }}</td>
+                        <td>{{ usuario.correo }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</pagina>

@@ -42,8 +42,23 @@ namespace Bodegas.Db
                 }
             };
 
+            var opcionSeguridad = new OpcionDeMenu
+            {
+                Titulo = "Seguridad",
+                Icono = "fa-lock",
+                Opciones = new[]
+                {
+                    new OpcionDeMenu
+                    {
+                        Titulo = "Usuarios",
+                        Ruta = "UsuariosListado"
+                    }
+                }
+            };
+
             context.OpcionesDeMenu.Add(opcionDashboard);
             context.OpcionesDeMenu.Add(opcionManteminientos);
+            context.OpcionesDeMenu.Add(opcionSeguridad);
             context.SaveChanges();
         }
     }

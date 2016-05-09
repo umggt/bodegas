@@ -4,6 +4,8 @@ import { HTTP_BINDINGS, HTTP_PROVIDERS } from "@angular/http"
 import { BodegasListadoComponent } from "./core/bodegas-listado.component"
 import { NavegacionComponent } from "./core/navegacion.component"
 import { DashboardComponent } from "./core/dashboard.component"
+import { UsuariosListadoComponent } from "./seguridad/usuarios-listado.component"
+import { UsuariosEditarComponent } from "./seguridad/usuarios-editar.component"
 
 @Component({
     selector: 'bodegas-main',
@@ -27,6 +29,16 @@ import { DashboardComponent } from "./core/dashboard.component"
         path: '/bodegas',
         name: 'BodegasListado',
         component: BodegasListadoComponent
+    },
+    {
+        path: '/usuarios',
+        name: 'UsuariosListado',
+        component: UsuariosListadoComponent
+    },
+    {
+        path: '/usuarios/:id',
+        name: 'UsuariosEditar',
+        component: UsuariosEditarComponent
     }
 ])
 export class MainComponent {

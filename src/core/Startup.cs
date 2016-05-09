@@ -99,7 +99,12 @@ namespace Bodegas
                     options.AutomaticAuthenticate = true;
                     options.AutomaticChallenge = true;
                 });
-                config.UseMvc();
+                config.UseMvc(routes => {
+                    routes.MapRoute(
+                        name: "default",
+                        template: "{controller}/{id?}"
+                    );
+                });
             });
 
         }
