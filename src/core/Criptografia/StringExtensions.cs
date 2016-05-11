@@ -14,7 +14,7 @@ namespace Bodegas.Criptografia
             var hash = encriptador.GenerarHash(clave, salt, 10, 184);
             var result = new byte[salt.Length + hash.Length];
             Array.Copy(salt, result, salt.Length);
-            Array.Copy(hash, result, hash.Length);
+            Array.Copy(hash, 0, result, salt.Length, hash.Length);
             return result;
         }
     }
