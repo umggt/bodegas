@@ -15,9 +15,32 @@ namespace Bodegas.Db.Entities
         public string Login { get; set; }
 
         [Required]
-        [MaxLength(1024)]
-        public byte[] Password { get; set; }
+        [MaxLength(200)]
+        public byte[] Clave { get; set; }
+
+        [Required]
+        [StringLength(400)]
+        public string Etiqueta { get; set; }
+
+        [Required]
+        [StringLength(200)]
+        public string Nombres { get; set; }
+
+        [StringLength(200)]
+        public string Apellidos { get; set; }
+
+        [Required]
+        [StringLength(200)]
+        [DataType(DataType.EmailAddress)]
+        public string Correo { get; set; }
+
+        public bool CorreoVerificado { get; set; }
+
+        [StringLength(200)]
+        public string SitioWeb { get; set; }
 
         public ICollection<UsuarioAtributo> Atributos { get; set; }
+
+        public ICollection<UsuarioRol> Roles { get; set; }
     }
 }

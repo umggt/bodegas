@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Bodegas.Db.DefaultData;
 using Serilog;
 
 namespace Bodegas.Db
@@ -12,12 +9,19 @@ namespace Bodegas.Db
         {
             if (context.AllMigrationsApplied())
             {
-                BodegasDefaultData.Generar(context);
+                context.GenerarDatos();
             }
             else
             {
                 Log.Debug("No se han aplicado todas las migrations de BodegasContext (no se genera data).");
             }
+        }
+
+        private static void GenerarDatos(this BodegasContext context)
+        {
+            context
+                .GenerarOpcionesDeMenu()
+                .GenerarUsuarios();
         }
     }
 }

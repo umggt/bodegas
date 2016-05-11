@@ -23,6 +23,7 @@
     "Microsoft.AspNet.Server.Kestrel": "1.0.0-rc1-final",
     "Microsoft.AspNet.StaticFiles": "1.0.0-rc1-final",
     "Serilog": "2.0.0-beta-531",
-    "Serilog.Extensions.Logging": "1.0.0-rc1-final-10092"
+    "Serilog.Extensions.Logging": "1.0.0-rc1-final-10092",
+    "System.Security.Cryptography.Algorithms": "4.0.0-beta-23516"
   }
 }

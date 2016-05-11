@@ -5,20 +5,17 @@ using System.Threading.Tasks;
 using Bodegas.Db.Entities;
 using Serilog;
 
-namespace Bodegas.Db
+namespace Bodegas.Db.DefaultData
 {
-    public static class BodegasDefaultData
+    internal static class OpcionesDeMenuData
     {
-        public static void Generar(BodegasContext context)
+        internal static BodegasContext GenerarOpcionesDeMenu(this BodegasContext context)
         {
-            if (!context.OpcionesDeMenu.Any())
+            if (context.OpcionesDeMenu.Any())
             {
-                GenerarOpcionesDeMenu(context);
+                return context;
             }
-        }
 
-        private static void GenerarOpcionesDeMenu(BodegasContext context)
-        {
             Log.Debug("Generando las opciones de menú por defecto.");
 
             var opcionDashboard = new OpcionDeMenu
@@ -60,6 +57,7 @@ namespace Bodegas.Db
             context.OpcionesDeMenu.Add(opcionManteminientos);
             context.OpcionesDeMenu.Add(opcionSeguridad);
             context.SaveChanges();
+            return context;
         }
     }
 }
