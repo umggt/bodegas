@@ -38,5 +38,16 @@ namespace Bodegas
 
             return app;
         }
+
+        public static IApplicationBuilder CreateDatabaseDirectory(this IApplicationBuilder app, string applicationBasePath)
+        {
+            var databaseDirectory = Path.Combine(applicationBasePath, "data");
+            if (!Directory.Exists(databaseDirectory))
+            {
+                Directory.CreateDirectory(databaseDirectory);
+            }
+
+            return app;
+        }
     }
 }

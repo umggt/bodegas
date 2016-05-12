@@ -1,6 +1,11 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 using Bodegas.Auth.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using IdentityServer4.Core.Services.InMemory;
+using System.Collections.Generic;
+using IdentityServer4.Core.Services;
+using Bodegas.Auth.Services;
+using IdentityServer4.Core.Validation;
 
 namespace Bodegas.Auth
 {
@@ -16,9 +21,11 @@ namespace Bodegas.Auth
             });
 
             builder.Services.AddCors();
+            builder.Services.AddTransient<IProfileService, ProfileService>();
+            //builder.Services.AddTransient<IResourceOwnerPasswordValidator, InMemoryResourceOwnerPasswordValidator>();
+
             builder.AddInMemoryClients(Clients.Get());
             builder.AddInMemoryScopes(Scopes.Get());
-            builder.AddInMemoryUsers(Users.Get());
         }
     }
 }

@@ -46,6 +46,12 @@ namespace Bodegas.Auth
 
         public void ConfigureServices(IServiceCollection services)
         {
+
+            var defaultConnectionString = configuration["Data:DefaultConnection:ConnectionString"];
+            if (string.IsNullOrWhiteSpace(defaultConnectionString)) return;
+
+            services.ConfigureDatabase(defaultConnectionString, application.ApplicationBasePath);
+
             var certificatePath = Path.Combine(application.ApplicationBasePath, "certificados", "idsrv4test.pfx");
             var certificate = new X509Certificate2(certificatePath, "idsrv3test");
 

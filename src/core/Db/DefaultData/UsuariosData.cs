@@ -16,7 +16,7 @@ namespace Bodegas.Db.DefaultData
             var alice = new Usuario
             {
                 Login = "alice",
-                Clave = "alice".Hash(),
+                Clave = "alice".Encriptar(),
                 Etiqueta = "Alice Smith",
                 Nombres = "Alice",
                 Apellidos = "Smith",
@@ -35,7 +35,7 @@ namespace Bodegas.Db.DefaultData
             var bob = new Usuario
             {
                 Login = "bob",
-                Clave = "bob".Hash(),
+                Clave = "bob".Encriptar(),
                 Etiqueta = "Bob Smith",
                 Nombres = "Bob",
                 Apellidos = "Smith",

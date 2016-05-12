@@ -7,15 +7,17 @@ namespace Bodegas.Criptografia
 {
     public static class StringExtensions
     {
-        public static byte[] Hash(this string clave)
+
+        public static byte[] Encriptar(this string clave)
         {
             var encriptador = new EncriptadorDeClaves();
-            var salt = encriptador.GenerarSalt(16);
-            var hash = encriptador.GenerarHash(clave, salt, 10, 184);
-            var result = new byte[salt.Length + hash.Length];
-            Array.Copy(salt, result, salt.Length);
-            Array.Copy(hash, 0, result, salt.Length, hash.Length);
-            return result;
+            return encriptador.Encriptar(clave);
+        }
+
+        public static bool Comparar(this string clave, byte[] claveEncriptada)
+        {
+            var encriptador = new EncriptadorDeClaves();
+            return encriptador.Comparar(clave, claveEncriptada);
         }
     }
 }

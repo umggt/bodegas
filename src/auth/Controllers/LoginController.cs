@@ -54,10 +54,10 @@ namespace Bodegas.Auth.Controllers
                 {
                     var user = _loginService.FindByUsername(model.Username);
 
-                    var name = user.Claims.Where(x => x.Type == JwtClaimTypes.Name).Select(x => x.Value).FirstOrDefault() ?? user.Username;
+                    var name = user.Etiqueta ?? user.Login;
 
                     var claims = new Claim[] {
-                        new Claim(JwtClaimTypes.Subject, user.Subject),
+                        new Claim(JwtClaimTypes.Subject, user.Id.ToString()),
                         new Claim(JwtClaimTypes.Name, name),
                         new Claim(JwtClaimTypes.IdentityProvider, "idsvr"),
                         new Claim(JwtClaimTypes.AuthenticationTime, DateTime.UtcNow.ToEpochTime().ToString()),

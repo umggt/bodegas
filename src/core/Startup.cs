@@ -23,12 +23,12 @@ namespace Bodegas
 {
     public class Startup
     {
-        private readonly IApplicationEnvironment applicationEnvironment;
+        private readonly IApplicationEnvironment application;
         private readonly IConfigurationRoot configuration;
 
         public Startup(IApplicationEnvironment applicationEnvironment, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            this.applicationEnvironment = applicationEnvironment;
+            this.application = applicationEnvironment;
 
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
@@ -46,13 +46,12 @@ namespace Bodegas
             services.AddMvc(ConfigureMvc);
             //services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 
-
             var defaultConnectionString = configuration["Data:DefaultConnection:ConnectionString"];
             if (string.IsNullOrWhiteSpace(defaultConnectionString)) return;
 
-            defaultConnectionString = defaultConnectionString.Replace("|ApplicationBasePath|", Path.GetFullPath(applicationEnvironment.ApplicationBasePath));
-            services.AddEntityFramework().AddSqlite().AddDbContext<BodegasContext>(options => options.UseSqlite(defaultConnectionString));
+            services.ConfigureDatabase(defaultConnectionString, application.ApplicationBasePath);
         }
+
 
         public static void ConfigureMvc(MvcOptions options)
         {
@@ -81,8 +80,7 @@ namespace Bodegas
 
             if (env.IsDevelopment())
             {
-                var root = applicationEnvironment.ApplicationBasePath;
-                CreateDatabaseDirectory(root);
+                app.CreateDatabaseDirectory(application.ApplicationBasePath);
                 app.MigrateDatabase();
             }
 
@@ -109,13 +107,6 @@ namespace Bodegas
 
         }
 
-        private static void CreateDatabaseDirectory(string root)
-        {
-            var databaseDirectory = Path.Combine(root, "data");
-            if (!Directory.Exists(databaseDirectory))
-            {
-                Directory.CreateDirectory(databaseDirectory);
-            }
-        }
+        
     }
 }

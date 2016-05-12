@@ -1,4 +1,7 @@
-﻿using IdentityServer4.Core.Services.InMemory;
+﻿using Bodegas.Criptografia;
+using Bodegas.Db;
+using Bodegas.Db.Entities;
+using IdentityServer4.Core.Services.InMemory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,26 +11,38 @@ namespace Bodegas.Auth.Services
 {
     public class LoginService
     {
-        private readonly List<InMemoryUser> _users;
+        private readonly BodegasContext db;
 
-        public LoginService(List<InMemoryUser> users)
+        public LoginService(BodegasContext db)
         {
-            _users = users;
+            this.db = db;
         }
 
         public bool ValidateCredentials(string username, string password)
         {
-            var user = FindByUsername(username);
-            if (user != null)
+            if (username == null)
             {
-                return user.Password.Equals(password);
+                throw new ArgumentNullException(nameof(username));
             }
-            return false;
+
+            if (password == null)
+            {
+                throw new ArgumentNullException(nameof(password));
+            }
+            
+            var usuario = FindByUsername(username);
+
+            if (usuario == null)
+            {
+                return false;
+            }
+
+            return password.Comparar(usuario.Clave);
         }
 
-        public InMemoryUser FindByUsername(string username)
+        public Usuario FindByUsername(string username)
         {
-            return _users.FirstOrDefault(x => x.Username.Equals(username, System.StringComparison.OrdinalIgnoreCase));
+            return db.Usuarios.FirstOrDefault(u => u.Login.ToLowerInvariant() == username.ToLowerInvariant());
         }
     }
 }
