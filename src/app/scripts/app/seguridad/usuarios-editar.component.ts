@@ -21,6 +21,7 @@ export class UsuariosEditarComponent implements OnInit {
     getUsuario() {
         return JSON.stringify(this.usuario);
     }
+
     ngOnInit() {
         this.usuariosServicio.obtenerUnico(1).subscribe(x => {
             this.usuario = x;

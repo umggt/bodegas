@@ -3,21 +3,33 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bodegas.Modelos;
+using Bodegas.Storage;
 
 namespace Bodegas.Controllers
 {
     [Route("[controller]")]
     public class UsuariosController : Controller
     {
+        private readonly UsuariosStorage usuarios;
+
+        public UsuariosController(UsuariosStorage usuarios)
+        {
+            this.usuarios = usuarios;
+        }
+
         [HttpGet]
-        public IActionResult GetAll() {
-            return Ok(new[] { new { Id = 1, Login = "alice", Nombre = "Alice", Correo = "alice@alice.com" } });
+        public async Task<IActionResult> GetAll(int pagina = 1, int elementos = 20)
+        {
+            var result = await usuarios.ObtenerTodosAsync(new PaginacionParametros { Pagina = pagina, ElementosPorPagina = elementos });
+            return Ok(result);
         }
 
         [HttpGet("{id}", Name = "GetUsuario")]
-        public IActionResult GetSingle(int id)
+        public async Task<IActionResult> GetSingle(int id)
         {
-            return Ok(new { Id = 1, Login = "alice", Nombre = "Alice", Correo = "alice@alice.com" });
+            var result = await usuarios.ObtenerUnicoAsync(id);
+            return Ok(result);
         }
     }
 }

@@ -20,7 +20,7 @@ export class UsuariosListadoComponent implements OnInit {
 
     ngOnInit() {
         this.usuariosServicio.obtenerTodos().subscribe(x => {
-            this.usuarios = x;
+            this.usuarios = x.elementos;
             console.log(x);
         });
     }
