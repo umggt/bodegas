@@ -36,7 +36,7 @@
                             <tr>
                                 <th>Atributo</th>
                                 <th>Valor</th>
-                                <th style="width: 50px"></th>
+                                <th style="width: 60px"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -44,7 +44,7 @@
                                 <th>{{ atributo }}</th>
                                 <td>{{ valor(atributo) }}</td>
                                 <td class="text-center">
-                                    <div class="btn-group btn-group-xs">
+                                    <div class="btn-group btn-group-xs hidden-xs">
                                         <button type="button" class="btn btn-default">
                                             <span class="sr-only">Editar</span>
                                             <i class="glyphicon glyphicon-pencil"></i>
@@ -52,7 +52,17 @@
                                         <button type="button" class="btn btn-default">
                                             <span class="sr-only">Eliminar</span>
                                             <i class="glyphicon glyphicon-remove"></i>
-                                        </button>    
+                                        </button>
+                                    </div>
+                                    <div class="btn-group visible-xs">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Opciones <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" style="right: 0; left:inherit">
+                                            <li><a href="#">Editar</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="#">Eliminar</a></li>
+                                        </ul>
                                     </div>
                                 </td>
                             </tr>
