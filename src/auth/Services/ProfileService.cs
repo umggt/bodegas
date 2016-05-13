@@ -30,7 +30,7 @@ namespace Bodegas.Auth.Services
 
             var claims = new List<Claim>{
                 new Claim(JwtClaimTypes.Subject, usuario.Id.ToString()),
-                new Claim(JwtClaimTypes.Name, usuario.Etiqueta),
+                new Claim(JwtClaimTypes.Name, usuario.NombreCompleto),
                 new Claim(JwtClaimTypes.GivenName, usuario.Nombres),
                 new Claim(JwtClaimTypes.FamilyName, usuario.Apellidos),
                 new Claim(JwtClaimTypes.Email, usuario.Correo),
@@ -51,8 +51,7 @@ namespace Bodegas.Auth.Services
             if (context.Subject == null) throw new ArgumentNullException("subject");
             var usuarioId = int.Parse(context.Subject.GetSubjectId());
             var usuario = await db.Usuarios.SingleOrDefaultAsync(u => u.Id == usuarioId);
-            // TODO: context.IsActive = usuario != null && usuairo.Activo;
-            context.IsActive = usuario != null;
+            context.IsActive = usuario != null && usuario.Activo;
         }
     }
 }

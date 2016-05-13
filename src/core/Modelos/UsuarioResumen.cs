@@ -11,5 +11,6 @@ namespace Bodegas.Modelos
         public string Login { get; set; }
         public string Nombre { get; set; }
         public string Correo { get; set; }
+        public bool Activo { get; set; }
     }
 }

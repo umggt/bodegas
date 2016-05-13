@@ -85,7 +85,7 @@ namespace core.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool?>("Activo");
+                    b.Property<bool>("Activo");
 
                     b.Property<string>("Apellidos")
                         .HasAnnotation("MaxLength", 200);
@@ -100,15 +100,12 @@ namespace core.Migrations
 
                     b.Property<bool>("CorreoVerificado");
 
-                    b.Property<string>("Etiqueta")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 400);
-
                     b.Property<string>("Login")
                         .IsRequired()
                         .HasAnnotation("MaxLength", 100);
 
                     b.Property<string>("NombreCompleto")
+                        .IsRequired()
                         .HasAnnotation("MaxLength", 400);
 
                     b.Property<string>("Nombres")

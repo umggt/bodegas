@@ -23,6 +23,8 @@ namespace Bodegas.Modelos
 
         public string SitioWeb { get; set; }
 
+        public bool Activo { get; set; }
+
         public IDictionary<string, string[]> Atributos { get; set; }
 
         public IDictionary<int, string> Roles { get; set; }

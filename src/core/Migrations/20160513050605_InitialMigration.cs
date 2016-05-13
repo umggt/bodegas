@@ -4,10 +4,33 @@ using Microsoft.Data.Entity.Migrations;
 
 namespace core.Migrations
 {
-    public partial class RolesPermisosUsuarios : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "OpcionesDeMenu",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Descripcion = table.Column<string>(nullable: true),
+                    Icono = table.Column<string>(nullable: true),
+                    OpcionPadreId = table.Column<int>(nullable: true),
+                    Ruta = table.Column<string>(nullable: true),
+                    Titulo = table.Column<string>(nullable: false),
+                    Url = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OpcionDeMenu", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OpcionDeMenu_OpcionDeMenu_OpcionPadreId",
+                        column: x => x.OpcionPadreId,
+                        principalTable: "OpcionesDeMenu",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
             migrationBuilder.CreateTable(
                 name: "Permiso",
                 columns: table => new
@@ -40,12 +63,13 @@ namespace core.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Activo = table.Column<bool>(nullable: false),
                     Apellidos = table.Column<string>(nullable: true),
                     Clave = table.Column<byte[]>(nullable: false),
                     Correo = table.Column<string>(nullable: false),
                     CorreoVerificado = table.Column<bool>(nullable: false),
-                    Etiqueta = table.Column<string>(nullable: false),
                     Login = table.Column<string>(nullable: false),
+                    NombreCompleto = table.Column<string>(nullable: false),
                     Nombres = table.Column<string>(nullable: false),
                     SitioWeb = table.Column<string>(nullable: true)
                 },
@@ -128,6 +152,7 @@ namespace core.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable("OpcionesDeMenu");
             migrationBuilder.DropTable("RolPermiso");
             migrationBuilder.DropTable("UsuarioAtributo");
             migrationBuilder.DropTable("UsuarioRol");

@@ -8,8 +8,8 @@ using Bodegas.Db;
 namespace core.Migrations
 {
     [DbContext(typeof(BodegasContext))]
-    [Migration("20160513042046_UsuarioNombreCompletoActivo")]
-    partial class UsuarioNombreCompletoActivo
+    [Migration("20160513050605_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -86,7 +86,7 @@ namespace core.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool?>("Activo");
+                    b.Property<bool>("Activo");
 
                     b.Property<string>("Apellidos")
                         .HasAnnotation("MaxLength", 200);
@@ -101,15 +101,12 @@ namespace core.Migrations
 
                     b.Property<bool>("CorreoVerificado");
 
-                    b.Property<string>("Etiqueta")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 400);
-
                     b.Property<string>("Login")
                         .IsRequired()
                         .HasAnnotation("MaxLength", 100);
 
                     b.Property<string>("NombreCompleto")
+                        .IsRequired()
                         .HasAnnotation("MaxLength", 400);
 
                     b.Property<string>("Nombres")

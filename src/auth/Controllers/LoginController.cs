@@ -54,7 +54,7 @@ namespace Bodegas.Auth.Controllers
                 {
                     var user = _loginService.FindByUsername(model.Username);
 
-                    var name = user.Etiqueta ?? user.Login;
+                    var name = user.NombreCompleto ?? user.Login;
 
                     var claims = new Claim[] {
                         new Claim(JwtClaimTypes.Subject, user.Id.ToString()),

@@ -17,12 +17,13 @@ namespace Bodegas.Db.DefaultData
             {
                 Login = "alice",
                 Clave = "alice".Encriptar(),
-                Etiqueta = "Alice Smith",
+                NombreCompleto = "Alice Smith",
                 Nombres = "Alice",
                 Apellidos = "Smith",
                 Correo = "alicesmith@email.com",
                 CorreoVerificado = true,
                 SitioWeb = "http://alice.com",
+                Activo = true,
                 Atributos = new[]
                 {
                     new UsuarioAtributo { Nombre = "street_address", Valor = "One Hacker Way" },
@@ -36,12 +37,13 @@ namespace Bodegas.Db.DefaultData
             {
                 Login = "bob",
                 Clave = "bob".Encriptar(),
-                Etiqueta = "Bob Smith",
+                NombreCompleto = "Bob Smith",
                 Nombres = "Bob",
                 Apellidos = "Smith",
                 Correo = "bobsmith@email.com",
                 CorreoVerificado = true,
                 SitioWeb = "http://bob.com",
+                Activo = true,
                 Atributos = new[]
                 {
                     new UsuarioAtributo { Nombre = "street_address", Valor = "One Hacker Way" },

@@ -24,8 +24,9 @@ namespace Bodegas.Storage
                 {
                     Id = n.Id,
                     Login = n.Login,
-                    Nombre = n.Etiqueta,
-                    Correo = n.Correo
+                    Nombre = n.NombreCompleto,
+                    Correo = n.Correo,
+                    Activo = n.Activo
                 };
 
             IOrderedQueryable<UsuarioResumen> orderedQuery = null;
@@ -139,12 +140,13 @@ namespace Bodegas.Storage
             {
                 Id = usuario.Id,
                 Login = usuario.Login,
-                NombreCompleto = usuario.Etiqueta,
+                NombreCompleto = usuario.NombreCompleto,
                 Nombres = usuario.Nombres,
                 Apellidos = usuario.Apellidos,
                 Correo = usuario.Correo,
                 CorreoVerificado = usuario.CorreoVerificado,
                 SitioWeb = usuario.SitioWeb,
+                Activo = usuario.Activo,
                 Atributos = usuario.Atributos.GroupBy(x => x.Nombre).ToDictionary(x => x.Key, x => x.Select(y => y.Valor).ToArray()),
                 Roles = usuario.Roles.ToDictionary(x => x.RolId, x => x.Rol.Nombre)
             };
