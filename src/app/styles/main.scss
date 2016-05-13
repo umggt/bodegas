@@ -28,6 +28,10 @@ body {
 
 // Navigation
 
+.nav-tabs {
+    margin-bottom: 15px;
+}
+
 // --Topbar
 
 .navbar-top-links {
@@ -278,6 +282,10 @@ table.dataTable thead .sorting:after {
     color: rgba(50,50,50,.5);
 }
 
+table.table-data {
+    margin-bottom: 6px;
+}
+
 // Circle Buttons 
 
 .btn-circle {
@@ -383,4 +391,8 @@ table.dataTable thead .sorting:after {
 
 .router-link-active {
     @extend .active;
+}
+
+ul.pagination {
+    margin: 4px 0;
 }
