@@ -11,7 +11,7 @@ namespace Bodegas.Modelos
 
         public string Login { get; set; }
 
-        public string Etiqueta { get; set; }
+        public string NombreCompleto { get; set; }
 
         public string Nombres { get; set; }
 

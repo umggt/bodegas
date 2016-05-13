@@ -24,7 +24,7 @@ namespace Bodegas.Storage
                 {
                     Id = n.Id,
                     Login = n.Login,
-                    Etiqueta = n.Etiqueta,
+                    Nombre = n.Etiqueta,
                     Correo = n.Correo
                 };
 
@@ -63,11 +63,11 @@ namespace Bodegas.Storage
                     {
                         if (columna.Value)
                         {
-                            orderedQuery = orderedQuery == null ? query.OrderBy(x => x.Etiqueta) : orderedQuery.ThenBy(x => x.Etiqueta);
+                            orderedQuery = orderedQuery == null ? query.OrderBy(x => x.Nombre) : orderedQuery.ThenBy(x => x.Nombre);
                         }
                         else
                         {
-                            orderedQuery = orderedQuery == null ? query.OrderByDescending(x => x.Etiqueta) : orderedQuery.ThenByDescending(x => x.Etiqueta);
+                            orderedQuery = orderedQuery == null ? query.OrderByDescending(x => x.Nombre) : orderedQuery.ThenByDescending(x => x.Nombre);
                         }
                     }
 
@@ -139,7 +139,7 @@ namespace Bodegas.Storage
             {
                 Id = usuario.Id,
                 Login = usuario.Login,
-                Etiqueta = usuario.Etiqueta,
+                NombreCompleto = usuario.Etiqueta,
                 Nombres = usuario.Nombres,
                 Apellidos = usuario.Apellidos,
                 Correo = usuario.Correo,
