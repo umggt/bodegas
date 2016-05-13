@@ -1,5 +1,6 @@
 ﻿import { Component, OnInit } from "@angular/core"
-import { ROUTER_DIRECTIVES } from "@angular/router-deprecated"
+import { FORM_DIRECTIVES, CORE_DIRECTIVES }    from "@angular/common"
+import { ROUTER_DIRECTIVES, RouteParams } from "@angular/router-deprecated"
 import { UsuariosServicio } from "./usuarios.servicio"
 import { Usuario } from "./modelos"
 import { PaginaComponent } from "../pagina.component"
@@ -8,14 +9,15 @@ import { PaginaComponent } from "../pagina.component"
     selector: 'usuarios-editar',
     templateUrl: 'app/seguridad/usuarios-editar.template.html',
     providers: [UsuariosServicio],
-    directives: [ROUTER_DIRECTIVES, PaginaComponent]
+    directives: [ROUTER_DIRECTIVES, PaginaComponent, CORE_DIRECTIVES, FORM_DIRECTIVES]
 })
 export class UsuariosEditarComponent implements OnInit {
 
-    usuario: Usuario;
+    private usuarioId: number;
+    usuario: Usuario = {};
 
-    constructor(private usuariosServicio: UsuariosServicio) {
-
+    constructor(private routeParams: RouteParams, private usuariosServicio: UsuariosServicio) {
+        this.usuarioId = parseInt(routeParams.get("id"), 10);
     }
 
     getUsuario() {
@@ -23,7 +25,8 @@ export class UsuariosEditarComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.usuariosServicio.obtenerUnico(1).subscribe(x => {
+        
+        this.usuariosServicio.obtenerUnico(this.usuarioId).subscribe(x => {
             this.usuario = x;
             console.log(this.usuario);
         });

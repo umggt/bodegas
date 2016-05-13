@@ -6,8 +6,8 @@
 }
 
 export interface Usuario {
-    id: number;
-    login: string;
-    nombre: string;
-    correo: string;
+    id?: number;
+    login?: string;
+    nombre?: string;
+    correo?: string;
 }
