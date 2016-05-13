@@ -21,7 +21,8 @@ namespace Bodegas.Db
         {
             context
                 .GenerarOpcionesDeMenu()
-                .GenerarUsuarios();
+                .GenerarUsuarios()
+                .GenerarRoles();
         }
     }
 }

@@ -6,11 +6,11 @@ namespace Bodegas.Db.DefaultData
 {
     internal static class UsuariosData
     {
-        internal static BodegasContext GenerarUsuarios(this BodegasContext context)
+        internal static BodegasContext GenerarUsuarios(this BodegasContext db)
         {
-            if (context.Usuarios.Any())
+            if (db.Usuarios.Any())
             {
-                return context;
+                return db;
             }
 
             var alice = new Usuario
@@ -53,11 +53,11 @@ namespace Bodegas.Db.DefaultData
                 }
             };
 
-            context.Usuarios.Add(alice);
-            context.Usuarios.Add(bob);
-            context.SaveChanges();
+            db.Usuarios.Add(alice);
+            db.Usuarios.Add(bob);
+            db.SaveChanges();
 
-            return context;
+            return db;
         }
     }
 }

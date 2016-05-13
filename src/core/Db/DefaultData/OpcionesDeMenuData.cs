@@ -9,11 +9,11 @@ namespace Bodegas.Db.DefaultData
 {
     internal static class OpcionesDeMenuData
     {
-        internal static BodegasContext GenerarOpcionesDeMenu(this BodegasContext context)
+        internal static BodegasContext GenerarOpcionesDeMenu(this BodegasContext db)
         {
-            if (context.OpcionesDeMenu.Any())
+            if (db.OpcionesDeMenu.Any())
             {
-                return context;
+                return db;
             }
 
             Log.Debug("Generando las opciones de menú por defecto.");
@@ -53,11 +53,11 @@ namespace Bodegas.Db.DefaultData
                 }
             };
 
-            context.OpcionesDeMenu.Add(opcionDashboard);
-            context.OpcionesDeMenu.Add(opcionManteminientos);
-            context.OpcionesDeMenu.Add(opcionSeguridad);
-            context.SaveChanges();
-            return context;
+            db.OpcionesDeMenu.Add(opcionDashboard);
+            db.OpcionesDeMenu.Add(opcionManteminientos);
+            db.OpcionesDeMenu.Add(opcionSeguridad);
+            db.SaveChanges();
+            return db;
         }
     }
 }
