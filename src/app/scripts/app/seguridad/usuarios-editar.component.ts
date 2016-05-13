@@ -31,4 +31,29 @@ export class UsuariosEditarComponent implements OnInit {
             console.log(this.usuario);
         });
     }
+
+    cambiarNombres(nombres: string) {
+        var apellidos = this.usuario.apellidos;
+        this.cambiarNombreCompleto(nombres, apellidos);
+    }
+
+    cambiarApellidos(apellidos : string) {
+        var nombres = this.usuario.nombres;
+        this.cambiarNombreCompleto(nombres, apellidos);
+    }
+
+    private cambiarNombreCompleto(nombres: string, apellidos: string) {
+        var nombreCompletoOriginal = this.usuario.nombreCompleto;
+        var nombresOriginales = this.usuario.nombres;
+        var apellidosOriginales = this.usuario.apellidos;
+        var actualizar = nombreCompletoOriginal == `${nombresOriginales} ${apellidosOriginales}`;
+
+        this.usuario.nombres = nombres;
+        this.usuario.apellidos = apellidos;
+
+        if (actualizar) {
+            this.usuario.nombreCompleto = `${nombres} ${apellidos}`;
+        }
+    }
+
 }

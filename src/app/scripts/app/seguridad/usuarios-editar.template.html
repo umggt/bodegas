@@ -4,21 +4,25 @@
 
             <form role="form">
                 <div class="form-group col-md-6">
+                    <label>Usuario:</label>
+                    <input class="form-control" [ngModel]="usuario.login" placeholder="ej: fulano" required maxlength="100" disabled>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Correo electr&oacute;nico</label>
+                    <input class="form-control" [(ngModel)]="usuario.correo" placeholder="ej: fulano@dominio.com" required maxlength="200" type="email">
+                </div>
+                <div class="form-group col-md-6">
                     <label>Nombres</label>
-                    <input class="form-control" [(ngModel)]="usuario.nombres" placeholder="ej: Fulano" required maxlength="200">
+                    <input class="form-control" [ngModel]="usuario.nombres" (ngModelChange)="cambiarNombres($event)" placeholder="ej: Fulano" required maxlength="200">
                 </div>
                 <div class="form-group col-md-6">
                     <label>Apellidos</label>
-                    <input class="form-control" [(ngModel)]="usuario.apellidos" placeholder="ej: de Tal" maxlength="200">
+                    <input class="form-control" [ngModel]="usuario.apellidos" (ngModelChange)="cambiarApellidos($event)" placeholder="ej: de Tal" maxlength="200">
                 </div>
                 <div class="form-group col-md-12">
                     <label>Nombre completo</label>
-                    <input class="form-control" [(ngModel)]="usuario.nombreCompleto" placeholder="ej: Dr. Fulano de Tal" required maxlength="200">
+                    <input class="form-control" [(ngModel)]="usuario.nombreCompleto" placeholder="ej: Dr. Fulano de Tal" required maxlength="400">
                     <p class="help-block small">Este es el nombre que se mostrar&aacute; en su perfil y reportes.</p>
-                </div>
-                <div class="form-group col-md-12">
-                    <label>Correo electr&oacute;nico</label>
-                    <input class="form-control" [(ngModel)]="usuario.correo" placeholder="ej: usuario@dominio.com" required maxlength="200" type="email">
                 </div>
                 <div class="form-group col-md-12">
                     <label>Sitio Web</label>

@@ -8,6 +8,8 @@
 export interface Usuario {
     id?: number;
     login?: string;
-    nombre?: string;
     correo?: string;
+    nombres?: string;
+    apellidos?: string;
+    nombreCompleto?: string;
 }
