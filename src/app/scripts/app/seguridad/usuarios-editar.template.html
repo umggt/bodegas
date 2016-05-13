@@ -28,8 +28,44 @@
                     <label>Sitio Web</label>
                     <input class="form-control" [(ngModel)]="usuario.sitioWeb" placeholder="ej: http://www.misitio.com" required maxlength="200" type="url">
                 </div>
-            </form>
 
+                <div class="form-group col-md-12">
+                    <label>Atributos</label>
+                    <table class="table table-bordered table-striped table-condensed col-md-12">
+                        <thead>
+                            <tr>
+                                <th>Atributo</th>
+                                <th>Valor</th>
+                                <th style="width: 50px"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let atributo of atributos()">
+                                <th>{{ atributo }}</th>
+                                <td>{{ valor(atributo) }}</td>
+                                <td class="text-center">
+                                    <div class="btn-group btn-group-xs">
+                                        <button type="button" class="btn btn-default">
+                                            <span class="sr-only">Editar</span>
+                                            <i class="glyphicon glyphicon-pencil"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-default">
+                                            <span class="sr-only">Eliminar</span>
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                        </button>    
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </form>
+            <div class="form-group">
+                <div class="col-sm-offset-7 col-sm-5 text-right">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
         </div>
     </div>
 </pagina>

@@ -12,4 +12,9 @@ export interface Usuario {
     nombres?: string;
     apellidos?: string;
     nombreCompleto?: string;
+    atributos?: Dictionary<string[]>;
+}
+
+export interface Dictionary<U> {
+    [ index: string ] : U
 }

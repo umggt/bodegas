@@ -14,7 +14,7 @@ import { PaginaComponent } from "../pagina.component"
 export class UsuariosEditarComponent implements OnInit {
 
     private usuarioId: number;
-    usuario: Usuario = {};
+    usuario: Usuario = { };
 
     constructor(private routeParams: RouteParams, private usuariosServicio: UsuariosServicio) {
         this.usuarioId = parseInt(routeParams.get("id"), 10);
@@ -40,6 +40,21 @@ export class UsuariosEditarComponent implements OnInit {
     cambiarApellidos(apellidos : string) {
         var nombres = this.usuario.nombres;
         this.cambiarNombreCompleto(nombres, apellidos);
+    }
+
+    atributos(): string[] {
+        if (!this.usuario.atributos) return null;
+        return Object.keys(this.usuario.atributos);
+    }
+
+    valor(atributo: string) : string {
+        if (!this.usuario.atributos) return null;
+
+        var atributoValor = this.usuario.atributos[atributo];
+
+        if (!atributoValor) return null;
+
+        return atributoValor.join(", ");
     }
 
     private cambiarNombreCompleto(nombres: string, apellidos: string) {
