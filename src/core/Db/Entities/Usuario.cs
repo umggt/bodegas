@@ -22,6 +22,9 @@ namespace Bodegas.Db.Entities
         [StringLength(400)]
         public string Etiqueta { get; set; }
 
+        [StringLength(400)]
+        public string NombreCompleto { get; set; }
+
         [Required]
         [StringLength(200)]
         public string Nombres { get; set; }
@@ -38,6 +41,8 @@ namespace Bodegas.Db.Entities
 
         [StringLength(200)]
         public string SitioWeb { get; set; }
+
+        public bool? Activo { get; set; }
 
         public ICollection<UsuarioAtributo> Atributos { get; set; }
 
