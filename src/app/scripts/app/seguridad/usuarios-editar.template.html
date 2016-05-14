@@ -54,7 +54,7 @@
                                 <tbody>
                                 <tr *ngFor="let atributo of atributos()">
                                     <th>{{ atributo }}</th>
-                                    <td>{{ valor(atributo) }}</td>
+                                    <td>{{ valores(atributo) }}</td>
                                     <td class="text-center">
                                         <div class="btn-group btn-group-xs hidden-xs">
                                             <button type="button" class="btn btn-default">
@@ -101,12 +101,13 @@
                             </nav>
                         </div>
 
-                        <div role="tabpanel" class="tab-pane active" id="roles">
-
+                        <div role="tabpanel" class="tab-pane" id="roles">
+                            <button *ngFor="let rol of roles" class="btn col-sm-3" style="border-radius:0;" (click)="toggleRol(rol)" [ngClass]="{ 'btn-success': rol.asignado, 'btn-default': !rol.asignado }">
+                                {{ rol.nombre }}
+                                <i class="glyphicon pull-right" [ngClass]="{ 'glyphicon-ok': rol.asignado, 'glyphicon-remove': !rol.asignado }"></i>
+                            </button>
                         </div>
-
                     </div>
-
                 </div>
 
             </form>

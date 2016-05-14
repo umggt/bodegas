@@ -17,6 +17,7 @@ namespace Bodegas
             connectionString = connectionString.Replace("|ApplicationBasePath|", Path.GetFullPath(applicationBasePath));
             services.AddEntityFramework().AddSqlite().AddDbContext<BodegasContext>(options => options.UseSqlite(connectionString));
             services.AddTransient<UsuariosStorage>();
+            services.AddTransient<RolesStorage>();
         }
 
     }

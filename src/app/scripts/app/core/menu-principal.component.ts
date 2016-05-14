@@ -20,7 +20,6 @@ export class MenuPrincipalComponent implements OnInit {
     ngOnInit() {
         this.menuServicio.obtenerOpciones().subscribe(x => {
             this.opciones = x;
-            console.log(x);
         });
     }
 

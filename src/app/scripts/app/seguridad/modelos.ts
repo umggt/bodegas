@@ -13,8 +13,16 @@ export interface Usuario {
     apellidos?: string;
     nombreCompleto?: string;
     atributos?: Dictionary<string[]>;
+    roles?: Dictionary<string>;
 }
 
 export interface Dictionary<U> {
     [ index: string ] : U
+}
+
+export interface RolResumen {
+    id: number;
+    nombre: string;
+    cantidadUsuarios: number;
+    asignado?: boolean;
 }
