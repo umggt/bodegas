@@ -13,6 +13,8 @@ export class ErroresServicio {
                 }
             }
             return erroresResult;
+        } else if (error.status == 304 /*Not Modified*/) {
+            return [];
         }
         return [error.text()];
     }

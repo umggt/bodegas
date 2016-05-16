@@ -389,17 +389,17 @@ namespace Bodegas.Storage
 
         private Task<bool> ExisteLoginInterno(string login)
         {
-            return db.Usuarios.AnyAsync(x => x.Login.ToLowerInvariant() == login);
+            return db.Usuarios.AnyAsync(x => x.Login.ToLower() == login);
         }
 
         private Task<bool> ExisteCorreoInterno(string correo)
         {
-            return db.Usuarios.AnyAsync(x => x.Correo.ToLowerInvariant() == correo);
+            return db.Usuarios.AnyAsync(x => x.Correo.ToLower() == correo);
         }
 
         private Task<bool> ExisteCorreoEnOtroUsuario(int usuarioIdIgnorar, string correo)
         {
-            return db.Usuarios.AnyAsync(x => x.Id != usuarioIdIgnorar && x.Correo.ToLowerInvariant() == correo);
+            return db.Usuarios.AnyAsync(x => x.Id != usuarioIdIgnorar && x.Correo.ToLower() == correo);
         }
 
 

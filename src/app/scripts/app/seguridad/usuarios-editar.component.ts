@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit } from "@angular/core"
-import { FORM_DIRECTIVES, CORE_DIRECTIVES, NgForm } from "@angular/common"
+import { FORM_DIRECTIVES, CORE_DIRECTIVES } from "@angular/common"
 import { ROUTER_DIRECTIVES, RouteParams } from "@angular/router-deprecated"
 import { UsuariosServicio } from "./usuarios.servicio"
 import { RolesServicio } from "./roles.servicio"
@@ -96,15 +96,7 @@ export class UsuariosEditarComponent implements OnInit {
 
         return atributoValor.join(", ");
     }
-
-    isInvalid(form: NgForm, control: string) {
-        if (!form) return false;
-        if (!form.controls) return false;
-        if (!form.controls[control]) return false;
-        var formControl = form.controls[control];
-        return formControl.touched && !formControl.valid;
-    }
-
+    
     toggleRol(rol: RolResumen) {
 
         if (!this.usuario) return;
@@ -120,6 +112,9 @@ export class UsuariosEditarComponent implements OnInit {
 
     guardar() {
         this.guardando = true;
+        this.mensaje = null;
+        this.errores = null;
+
         this.usuariosServicio.guardar(this.usuario).subscribe(
             usuario => {
                 this.usuarioId = usuario.id;
@@ -130,6 +125,10 @@ export class UsuariosEditarComponent implements OnInit {
             },
             error => {
                 this.errores = this.erroresServicio.handleResponse(error);
+                // El resultado Not Modified lo captura como error.
+                if (!this.errores || this.errores.length === 0) {
+                    this.mensaje = "el usuario se guardó correctamente";
+                }
                 this.guardando = false;
             });
     }

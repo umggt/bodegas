@@ -46,8 +46,8 @@ namespace Bodegas.Controllers
             return CreatedAtRoute("GetUsuario", new { id = usuarioId }, result);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Put(int id, UsuarioDetalle usuario)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, [FromBody] UsuarioDetalle usuario)
         {
             if (!ModelState.IsValid)
             {
@@ -62,7 +62,7 @@ namespace Bodegas.Controllers
             }
             else
             {
-                throw new InvalidOperationException("Ocurrió un error inesperado.");
+                return new HttpStatusCodeResult((int) HttpStatusCode.NotModified);
             }
         }
     }
