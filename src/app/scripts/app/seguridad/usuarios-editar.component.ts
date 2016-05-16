@@ -5,6 +5,7 @@ import { UsuariosServicio } from "./usuarios.servicio"
 import { RolesServicio } from "./roles.servicio"
 import { Usuario, RolResumen } from "./modelos"
 import { PaginaComponent } from "../pagina.component"
+import { Response } from "@angular/http"
 
 /**
  * Componente que permite crear y editar usuarios desde la Interfaz de Usuario
@@ -22,6 +23,7 @@ export class UsuariosEditarComponent implements OnInit {
     roles: RolResumen[];
     modoCreacion = false;
     error: string;
+    errores: string[];
 
     /**
      * Constructor del componente
@@ -108,8 +110,20 @@ export class UsuariosEditarComponent implements OnInit {
                 this.modoCreacion = false;
                 this.usuario = usuario;
             },
-            error => {
-                this.error = error;
+            (error: Response) => {
+                if (error.status === 400) {
+                    var errores = error.json();
+                    this.error = "Errores de validación";
+                    this.errores = [];
+                    for (var key in errores) {
+                        for (var i = 0; i < errores[key].length; i++) {
+                            this.errores.push(errores[key][i]);
+                        }
+                    }
+                    return;
+                }
+                this.error = error.text();
+                console.error(this.error);
             });
         console.log(this.usuario);
     }

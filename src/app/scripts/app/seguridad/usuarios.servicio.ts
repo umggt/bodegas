@@ -4,6 +4,7 @@ import { Http, Headers, RequestMethod } from "@angular/http"
 import { UsuarioResumen, Usuario } from "./modelos"
 import { PaginacionResultado } from "../modelos"
 
+
 @Injectable()
 export class UsuariosServicio {
 

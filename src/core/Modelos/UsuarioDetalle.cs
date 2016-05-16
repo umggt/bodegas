@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using static Bodegas.Constants.ErrorMessages;
 
 namespace Bodegas.Modelos
 {
@@ -10,30 +8,36 @@ namespace Bodegas.Modelos
     {
         public int Id { get; set; }
 
-        [Required]
-        [StringLength(100)]
+        [Display(Name = "Usuario")]
+        [Required(ErrorMessage = RequiredMessage)]
+        [StringLength(100, ErrorMessage = StringLengthMessage)]
         public string Login { get; set; }
 
-        [Required]
-        [StringLength(400)]
+        [Display(Name = "Nombre Completo")]
+        [Required(ErrorMessage = RequiredMessage)]
+        [StringLength(400, ErrorMessage = StringLengthMessage)]
         public string NombreCompleto { get; set; }
 
-        [Required]
-        [StringLength(200)]
+        [Required(ErrorMessage = RequiredMessage)]
+        [StringLength(200, ErrorMessage = StringLengthMessage)]
         public string Nombres { get; set; }
 
-        [StringLength(200)]
+        [StringLength(200, ErrorMessage = StringLengthMessage)]
         public string Apellidos { get; set; }
 
-        [Required]
-        [StringLength(200)]
         [DataType(DataType.EmailAddress)]
+        [Display(Name = "Correo Electrónico")]
+        [Required(ErrorMessage = RequiredMessage)]
+        [EmailAddress(ErrorMessage = EmailMessage)]
+        [StringLength(200, ErrorMessage = StringLengthMessage)]
         public string Correo { get; set; }
 
         public bool CorreoVerificado { get; set; }
 
-        [StringLength(200)]
         [DataType(DataType.Url)]
+        [Display(Name = "Sitio Web")]
+        [Url(ErrorMessage = UrlMessage)]
+        [StringLength(200, ErrorMessage = StringLengthMessage)]
         public string SitioWeb { get; set; }
 
         public bool Activo { get; set; }
@@ -41,7 +45,6 @@ namespace Bodegas.Modelos
         public IDictionary<string, string[]> Atributos { get; set; }
 
         public IDictionary<int, string> Roles { get; set; }
-
 
     }
 
