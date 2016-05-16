@@ -4,8 +4,10 @@ import { ROUTER_DIRECTIVES, RouteParams } from "@angular/router-deprecated"
 import { UsuariosServicio } from "./usuarios.servicio"
 import { RolesServicio } from "./roles.servicio"
 import { Usuario, RolResumen } from "./modelos"
+import { PaginacionResultado } from "../modelos"
 import { PaginaComponent } from "../pagina.component"
-import { Response } from "@angular/http"
+import { PaginacionComponent } from "../paginacion.component"
+import { ErroresServicio } from "../errores.servicio"
 
 /**
  * Componente que permite crear y editar usuarios desde la Interfaz de Usuario
@@ -13,14 +15,14 @@ import { Response } from "@angular/http"
 @Component({
     selector: 'usuarios-editar',
     templateUrl: 'app/seguridad/usuarios-editar.template.html',
-    providers: [UsuariosServicio, RolesServicio],
-    directives: [ROUTER_DIRECTIVES, PaginaComponent, CORE_DIRECTIVES, FORM_DIRECTIVES]
+    providers: [UsuariosServicio, RolesServicio, ErroresServicio],
+    directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES, PaginaComponent, PaginacionComponent]
 })
 export class UsuariosEditarComponent implements OnInit {
 
     private usuarioId: number;
     usuario: Usuario = {};
-    roles: RolResumen[];
+    roles: PaginacionResultado<RolResumen>;
     modoCreacion = false;
     error: string;
     errores: string[];
@@ -33,7 +35,11 @@ export class UsuariosEditarComponent implements OnInit {
     constructor(
         private routeParams: RouteParams,
         private usuariosServicio: UsuariosServicio,
-        private rolesServicio: RolesServicio) {
+        private rolesServicio: RolesServicio,
+        private erroresServicio: ErroresServicio) {
+
+        this.roles = {};
+
         let idParam = this.routeParams.get("id");
         if (!idParam) {
             this.usuarioId = null;
@@ -110,22 +116,13 @@ export class UsuariosEditarComponent implements OnInit {
                 this.modoCreacion = false;
                 this.usuario = usuario;
             },
-            (error: Response) => {
-                if (error.status === 400) {
-                    var errores = error.json();
-                    this.error = "Errores de validación";
-                    this.errores = [];
-                    for (var key in errores) {
-                        for (var i = 0; i < errores[key].length; i++) {
-                            this.errores.push(errores[key][i]);
-                        }
-                    }
-                    return;
-                }
-                this.error = error.text();
-                console.error(this.error);
+            error => {
+                this.errores = this.erroresServicio.handleResponse(error);
             });
-        console.log(this.usuario);
+    }
+
+    cambiarPaginaDeRol(pagina: number) {
+        console.log(pagina);
     }
 
     /**
@@ -156,7 +153,7 @@ export class UsuariosEditarComponent implements OnInit {
      */
     private obtenerRoles() {
         this.rolesServicio.obtenerTodos().subscribe(x => {
-            this.roles = x.elementos;
+            this.roles = x;
             this.checkRoles();
         });
     }
@@ -164,10 +161,10 @@ export class UsuariosEditarComponent implements OnInit {
     private checkRoles() {
 
         if (this.modoCreacion) return;
-        if (!this.roles) return;
+        if (!this.roles || !this.roles.elementos) return;
         if (!this.usuario || !this.usuario.roles) return;
 
-        for (var rol of this.roles) {
+        for (var rol of this.roles.elementos) {
             rol.asignado = !!this.usuario.roles[rol.id.toString()];
         }
     }

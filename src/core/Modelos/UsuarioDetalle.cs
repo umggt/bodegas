@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using static Bodegas.Constants.ErrorMessages;
+using static Bodegas.Constantes.MensajesDeError;
 
 namespace Bodegas.Modelos
 {
