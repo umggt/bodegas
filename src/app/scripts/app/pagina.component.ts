@@ -8,4 +8,7 @@ export class PaginaComponent {
 
     @Input()
     titulo: string;
+
+    @Input()
+    subtitulo: string;
 }

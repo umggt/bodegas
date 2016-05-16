@@ -2,7 +2,7 @@
 import { Observable } from 'rxjs/Observable'
 import { Http, Headers, RequestMethod } from "@angular/http"
 import { RolResumen } from "./modelos"
-import { PaginacionResultado } from "../core/modelos"
+import { PaginacionResultado } from "../modelos"
 
 @Injectable()
 export class RolesServicio {

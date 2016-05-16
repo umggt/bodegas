@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bodegas.Modelos;
 using Bodegas.Storage;
+using System.Net;
 
 namespace Bodegas.Controllers
 {
@@ -30,6 +31,39 @@ namespace Bodegas.Controllers
         {
             var result = await usuarios.ObtenerUnicoAsync(id);
             return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] UsuarioDetalle usuario)
+        {
+            if (!ModelState.IsValid)
+            {
+                return HttpBadRequest(ModelState);
+            }
+
+            var usuarioId = await usuarios.CrearAsync(usuario);
+            var result = await usuarios.ObtenerUnicoAsync(usuarioId);
+            return CreatedAtRoute("GetUsuario", new { id = usuarioId }, result);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put(int id, UsuarioDetalle usuario)
+        {
+            if (!ModelState.IsValid)
+            {
+                return HttpBadRequest(ModelState);
+            }
+
+            var modificado = await usuarios.EditarAsync(id, usuario);
+            if (modificado)
+            {
+                var result = await usuarios.ObtenerUnicoAsync(id);
+                return Ok(result);
+            }
+            else
+            {
+                throw new InvalidOperationException("Ocurrió un error inesperado.");
+            }
         }
     }
 }

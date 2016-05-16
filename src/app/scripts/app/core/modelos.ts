@@ -17,16 +17,3 @@ export interface IOpcionDeMenu {
     opciones: IOpcionDeMenu[];
     expandido: boolean; // existe solo en la UI
 }
-
-export interface PaginacionResultado<T>
-{
-    pagina: number,
-    totalPaginas: number,
-    totalElementos: number,
-    cantidadElementos: number,
-    elementosPorPagina: number,
-    paginaAnterior?: number,
-    paginaSiguiente?: number,
-    paginas: number[],
-    elementos: T[]
-}

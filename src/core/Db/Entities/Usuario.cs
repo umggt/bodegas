@@ -37,6 +37,7 @@ namespace Bodegas.Db.Entities
         public bool CorreoVerificado { get; set; }
 
         [StringLength(200)]
+        [DataType(DataType.Url)]
         public string SitioWeb { get; set; }
 
         public bool Activo { get; set; }

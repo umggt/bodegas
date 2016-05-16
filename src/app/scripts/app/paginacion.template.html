@@ -1,0 +1,20 @@
+﻿<nav>
+    <span class="pull-left">
+
+    </span>
+    <ul class="pagination pull-right">
+        <li *ngIf="resultado.paginaAnterior">
+            <a href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li *ngFor="let pagina of resultado.paginas">
+            <a href="#" (click)="cambiarPagina(pagina)" [ngClass]="{'active': pagina === resultado.pagina }">{{ pagina === -1 ? '&hellip;' : pagina }}</a>
+        </li>
+        <li *ngIf="resultado.paginaSiguiente">
+            <a href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>

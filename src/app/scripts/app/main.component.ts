@@ -36,6 +36,11 @@ import { UsuariosEditarComponent } from "./seguridad/usuarios-editar.component"
         component: UsuariosListadoComponent
     },
     {
+        path: '/usuarios/nuevo',
+        name: 'UsuariosCrear',
+        component: UsuariosEditarComponent
+    },
+    {
         path: '/usuarios/:id',
         name: 'UsuariosEditar',
         component: UsuariosEditarComponent

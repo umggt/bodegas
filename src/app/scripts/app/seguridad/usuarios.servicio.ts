@@ -2,7 +2,7 @@
 import { Observable } from 'rxjs/Observable'
 import { Http, Headers, RequestMethod } from "@angular/http"
 import { UsuarioResumen, Usuario } from "./modelos"
-import { PaginacionResultado } from "../core/modelos"
+import { PaginacionResultado } from "../modelos"
 
 @Injectable()
 export class UsuariosServicio {
@@ -40,5 +40,12 @@ export class UsuariosServicio {
         headers.append("Content-Type", "application/json");
         headers.append("Authorization", `Bearer ${Bodega.tokenManager.access_token}`);
         return this.http.request(url, { body: body, headers: headers, method: method }).map(x => x.json() as Usuario);
+    }
+
+    private handleError(error: any) {
+        // In a real world app, we might use a remote logging infrastructure
+        let errMsg = error.message || 'Server error';
+        console.error('[UsuariosServicio]: ' + errMsg); // log to console instead
+        return Observable.throw(errMsg);
     }
 }

@@ -19,7 +19,9 @@ export class UsuariosEditarComponent implements OnInit {
 
     private usuarioId: number;
     usuario: Usuario = {};
-    roles: RolResumen[]; 
+    roles: RolResumen[];
+    modoCreacion = false;
+    error: string;
 
     /**
      * Constructor del componente
@@ -30,7 +32,15 @@ export class UsuariosEditarComponent implements OnInit {
         private routeParams: RouteParams,
         private usuariosServicio: UsuariosServicio,
         private rolesServicio: RolesServicio) {
-        this.usuarioId = parseInt(this.routeParams.get("id"), 10);
+        let idParam = this.routeParams.get("id");
+        if (!idParam) {
+            this.usuarioId = null;
+            this.modoCreacion = true;
+        } else {
+            this.usuarioId = parseInt(idParam, 10);
+            this.modoCreacion = false;
+        }
+        
     }
 
     ngOnInit() {
@@ -91,14 +101,39 @@ export class UsuariosEditarComponent implements OnInit {
         rol.asignado = !rol.asignado;
     }
 
+    guardar() {
+        this.usuariosServicio.guardar(this.usuario).subscribe(
+            usuario => {
+                this.usuarioId = usuario.id;
+                this.modoCreacion = false;
+                this.usuario = usuario;
+            },
+            error => {
+                this.error = error;
+            });
+        console.log(this.usuario);
+    }
+
     /**
      * Obtiene la información del usuario y la almacena en el campo "usuario".
      */
     private obtenerUsuario() {
-        this.usuariosServicio.obtenerUnico(this.usuarioId).subscribe(x => {
-            this.usuario = x;
-            this.checkRoles();
-        });
+        if (this.modoCreacion) {
+            this.usuario = {
+                login: "",
+                correo: "",
+                nombres: "",
+                apellidos: "",
+                nombreCompleto: "",
+                atributos: {},
+                roles: {}
+            };
+        } else {
+            this.usuariosServicio.obtenerUnico(this.usuarioId).subscribe(x => {
+                this.usuario = x;
+                this.checkRoles();
+            });
+        }
     }
 
     /**
@@ -114,6 +149,7 @@ export class UsuariosEditarComponent implements OnInit {
 
     private checkRoles() {
 
+        if (this.modoCreacion) return;
         if (!this.roles) return;
         if (!this.usuario || !this.usuario.roles) return;
 
@@ -134,13 +170,13 @@ export class UsuariosEditarComponent implements OnInit {
         var nombreCompletoOriginal = this.usuario.nombreCompleto;
         var nombresOriginales = this.usuario.nombres;
         var apellidosOriginales = this.usuario.apellidos;
-        var actualizar = nombreCompletoOriginal == `${nombresOriginales} ${apellidosOriginales}`;
+        var actualizar = nombreCompletoOriginal == `${nombresOriginales} ${apellidosOriginales}`.trim();
 
-        this.usuario.nombres = nombres;
-        this.usuario.apellidos = apellidos;
+        this.usuario.nombres = nombres.trim();
+        this.usuario.apellidos = apellidos.trim();
 
         if (actualizar) {
-            this.usuario.nombreCompleto = `${nombres} ${apellidos}`;
+            this.usuario.nombreCompleto = `${nombres} ${apellidos}`.trim();
         }
     }
 
