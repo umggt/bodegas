@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit } from "@angular/core"
-import { FORM_DIRECTIVES, CORE_DIRECTIVES }    from "@angular/common"
+import { FORM_DIRECTIVES, CORE_DIRECTIVES, NgForm } from "@angular/common"
 import { ROUTER_DIRECTIVES, RouteParams } from "@angular/router-deprecated"
 import { UsuariosServicio } from "./usuarios.servicio"
 import { RolesServicio } from "./roles.servicio"
@@ -24,7 +24,8 @@ export class UsuariosEditarComponent implements OnInit {
     usuario: Usuario = {};
     roles: PaginacionResultado<RolResumen>;
     modoCreacion = false;
-    error: string;
+    guardando = false;
+    mensaje: string;
     errores: string[];
 
     /**
@@ -95,7 +96,15 @@ export class UsuariosEditarComponent implements OnInit {
 
         return atributoValor.join(", ");
     }
-    
+
+    isInvalid(form: NgForm, control: string) {
+        if (!form) return false;
+        if (!form.controls) return false;
+        if (!form.controls[control]) return false;
+        var formControl = form.controls[control];
+        return formControl.touched && !formControl.valid;
+    }
+
     toggleRol(rol: RolResumen) {
 
         if (!this.usuario) return;
@@ -110,14 +119,18 @@ export class UsuariosEditarComponent implements OnInit {
     }
 
     guardar() {
+        this.guardando = true;
         this.usuariosServicio.guardar(this.usuario).subscribe(
             usuario => {
                 this.usuarioId = usuario.id;
                 this.modoCreacion = false;
                 this.usuario = usuario;
+                this.guardando = false;
+                this.mensaje = "el usuario se guardó correctamente";
             },
             error => {
                 this.errores = this.erroresServicio.handleResponse(error);
+                this.guardando = false;
             });
     }
 
