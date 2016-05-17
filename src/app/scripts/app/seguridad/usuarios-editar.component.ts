@@ -26,6 +26,7 @@ export class UsuariosEditarComponent implements OnInit {
     modoCreacion = false;
     guardando = false;
     mensaje: string;
+    alerta: string;
     errores: string[];
 
     /**
@@ -113,6 +114,7 @@ export class UsuariosEditarComponent implements OnInit {
     guardar() {
         this.guardando = true;
         this.mensaje = null;
+        this.alerta = null;
         this.errores = null;
 
         this.usuariosServicio.guardar(this.usuario).subscribe(
@@ -124,12 +126,12 @@ export class UsuariosEditarComponent implements OnInit {
                 this.mensaje = "el usuario se guardó correctamente";
             },
             error => {
-                this.errores = this.erroresServicio.handleResponse(error);
-                // El resultado Not Modified lo captura como error.
-                if (!this.errores || this.errores.length === 0) {
-                    this.mensaje = "el usuario se guardó correctamente";
-                }
                 this.guardando = false;
+                if (this.erroresServicio.isNotModifiedResponse(error)) {
+                    this.alerta = "Ninguna propiedad del usuario ha sido modificada.";
+                } else {
+                    this.errores = this.erroresServicio.obtenerErrores(error);
+                }
             });
     }
 

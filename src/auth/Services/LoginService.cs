@@ -42,7 +42,8 @@ namespace Bodegas.Auth.Services
 
         public Usuario FindByUsername(string username)
         {
-            return db.Usuarios.FirstOrDefault(u => u.Login.ToLowerInvariant() == username.ToLowerInvariant());
+            username = username.ToLowerInvariant();
+            return db.Usuarios.FirstOrDefault(u => u.Login.ToLower() == username);
         }
     }
 }

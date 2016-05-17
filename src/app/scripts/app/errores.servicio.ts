@@ -3,9 +3,13 @@
 
 export class ErroresServicio {
 
-    handleResponse(error: Response) {
-        if (error.status === 400) {
-            var errores = error.json();
+    isNotModifiedResponse(response: Response) {
+        return response.status == 304 /* Not Modified */;
+    }
+    
+    obtenerErrores(response: Response) {
+        if (response.status === 400 /* Bad request, tal vez error de validación*/) {
+            var errores = response.json();
             var erroresResult: string[] = [];
             for (var key in errores) {
                 for (var i = 0; i < errores[key].length; i++) {
@@ -13,10 +17,8 @@ export class ErroresServicio {
                 }
             }
             return erroresResult;
-        } else if (error.status == 304 /*Not Modified*/) {
-            return [];
         }
-        return [error.text()];
+        return [response.text()];
     }
 
 }

@@ -15,6 +15,11 @@
         <strong>Acci&oacute;n Finalizada</strong> {{ mensaje }}
     </div>
 
+    <div *ngIf="alerta" class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Acci&oacute;n Finalizada</strong> {{ alerta }}
+    </div>
+
     <div class="row">
         <div class="col-lg-12">
 
@@ -54,11 +59,19 @@
                         <li role="presentation">
                             <a href="#roles" aria-controls="roles" role="tab" data-toggle="tab">Roles</a>
                         </li>
+                        <li role="presentation">
+                            <a href="#foto" aria-controls="foto" role="tab" data-toggle="tab">Foto</a>
+                        </li>
                     </ul>
 
                     <div class="tab-content">
 
                         <div role="tabpanel" class="tab-pane active" id="atributos">
+                            <button type="button" class="btn btn-sm btn-success pull-right" style="margin-bottom: 4px;">
+                                <span class="hidden-xs">Nuevo atributo</span>
+                                <i class="glyphicon glyphicon-plus"></i>
+                            </button>
+
                             <table class="table table-data table-striped table-bordered table-condensed table-hover">
                                 <thead>
                                     <tr>
@@ -107,11 +120,16 @@
                             </div>
                             <paginacion [resultado]="roles" (alCambiarPagina)="cambiarPaginaDeRol($event)"></paginacion>
                         </div>
+
+                        <div id="foto" class="tab-pane">
+
+                        </div>
+
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-7 col-sm-5 text-right">
-                        {{ (!frmUsuario.form.valid || guardando) | json}}
+                        <a class="btn btn-default" [routerLink]="['UsuariosListado']">Cancelar</a>
                         <button type="submit" class="btn btn-primary" [disabled]="!frmUsuario.form.valid || guardando">Guardar</button>
                     </div>
                 </div>
