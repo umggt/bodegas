@@ -3,16 +3,16 @@
 
     </span>
     <ul class="pagination pull-right">
-        <li *ngIf="resultado.paginaAnterior">
-            <a href="#" aria-label="Previous">
+        <li [ngClass]="{'disabled': !resultado.paginaAnterior }">
+            <a aria-label="Previous" (click)="paginaAnterior()" class="pointer">
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
-        <li *ngFor="let pagina of resultado.paginas">
-            <a href="#" (click)="cambiarPagina(pagina)" [ngClass]="{'active': pagina === resultado.pagina }">{{ pagina === -1 ? '&hellip;' : pagina }}</a>
+        <li *ngFor="let pagina of resultado.paginas" [ngClass]="{'active': pagina === resultado.pagina }">
+            <a (click)="cambiarPagina(pagina)" class="pointer">{{ pagina === -1 ? '&hellip;' : pagina }}</a>
         </li>
-        <li *ngIf="resultado.paginaSiguiente">
-            <a href="#" aria-label="Next">
+        <li [ngClass]="{'disabled': !resultado.paginaSiguiente }">
+            <a aria-label="Next" (click)="paginaSiguiente()" class="pointer">
                 <span aria-hidden="true">&raquo;</span>
             </a>
         </li>

@@ -17,6 +17,16 @@ export class PaginacionComponent {
         this.resultado = { paginas: [] };
     }
 
+    paginaAnterior() {
+        var pagina = this.resultado.pagina;
+        this.cambiarPagina(pagina - 1);
+    }
+
+    paginaSiguiente() {
+        var pagina = this.resultado.pagina;
+        this.cambiarPagina(pagina + 1);
+    }
+
     cambiarPagina(pagina: number) {
 
         let paginas = this.resultado.paginas;

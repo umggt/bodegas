@@ -1,8 +1,8 @@
 ﻿import { Injectable, } from "@angular/core"
 import { Observable } from 'rxjs/Observable'
-import { Http, Headers, RequestMethod } from "@angular/http"
+import { Http, Headers, RequestMethod, URLSearchParams } from "@angular/http"
 import { UsuarioResumen, Usuario } from "./modelos"
-import { PaginacionResultado } from "../modelos"
+import { PaginacionResultado, PaginacionParametros } from "../modelos"
 
 
 @Injectable()
@@ -12,11 +12,31 @@ export class UsuariosServicio {
 
     constructor(private http: Http) { }
 
-    obtenerTodos(): Observable<PaginacionResultado<UsuarioResumen>> {
+    obtenerTodos(paginacion?: PaginacionParametros): Observable<PaginacionResultado<UsuarioResumen>> {
         const headers = new Headers();
         headers.append("Authorization", `Bearer ${Bodega.tokenManager.access_token}`);
 
-        return this.http.get(this.url, { headers: headers }).map(x => x.json() as PaginacionResultado<UsuarioResumen>);
+        let params: URLSearchParams = null;
+        
+        if (paginacion) {
+            let paramsLength = 0;
+            params = new URLSearchParams();
+
+            for (var key in paginacion) {
+                if (!paginacion.hasOwnProperty(key)) {
+                    continue;
+                }
+
+                params.append(key, paginacion[key]);
+                paramsLength++;
+            }
+            
+            if (!paramsLength) {
+                params = null;
+            }
+        }
+
+        return this.http.get(this.url, { headers: headers, search: params }).map(x => x.json() as PaginacionResultado<UsuarioResumen>);
     }
 
     obtenerUnico(id: number): Observable<Usuario> {

@@ -14,6 +14,7 @@ import { PaginacionComponent } from "../paginacion.component"
 })
 export class UsuariosListadoComponent implements OnInit {
 
+    private pagina: number = null;
     usuarios: PaginacionResultado<UsuarioResumen>;
 
     constructor(private usuariosServicio: UsuariosServicio) {
@@ -21,12 +22,16 @@ export class UsuariosListadoComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.usuariosServicio.obtenerTodos().subscribe(x => {
+        this.obtenerUsuarios();
+    }
+
+    obtenerUsuarios(pagina?: number) {
+        this.usuariosServicio.obtenerTodos({ pagina: pagina }).subscribe(x => {
             this.usuarios = x;
         });
     }
 
     cambiarPagina(pagina: number) {
-        console.log(pagina);
+        this.obtenerUsuarios(pagina);
     }
 }

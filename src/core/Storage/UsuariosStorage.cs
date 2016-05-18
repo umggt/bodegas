@@ -128,7 +128,7 @@ namespace Bodegas.Storage
                 TotalPaginas = totalPaginas,
                 PaginaSiguiente = paginacion.Pagina == totalPaginas ? null as int? : paginacion.Pagina + 1,
                 PaginaAnterior = paginacion.Pagina == 1 ? null as int? : paginacion.Pagina - 1,
-                Paginas = Enumerable.Range(1, totalPaginas - 1).ToArray()
+                Paginas = Enumerable.Range(1, totalPaginas).ToArray()
             };
 
             return result;

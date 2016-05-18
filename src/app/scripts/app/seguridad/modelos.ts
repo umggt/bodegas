@@ -1,4 +1,6 @@
-﻿export interface UsuarioResumen {
+﻿import { Dictionary } from "../modelos"
+
+export interface UsuarioResumen {
     id: number;
     login: string;
     nombre: string;
@@ -14,10 +16,6 @@ export interface Usuario {
     nombreCompleto?: string;
     atributos?: Dictionary<string[]>;
     roles?: Dictionary<string>;
-}
-
-export interface Dictionary<U> {
-    [ index: string ] : U
 }
 
 export interface RolResumen {
