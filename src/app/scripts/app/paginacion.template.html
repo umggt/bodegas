@@ -1,7 +1,7 @@
 ﻿<nav>
-    <span class="pull-left">
-
-    </span>
+    <small class="pull-left" style="margin-top: 14px">
+        Pagina {{resultado.pagina}} de {{resultado.totalPaginas}}. Mostrando {{resultado.cantidadElementos}} elementos de un total de {{resultado.totalElementos}}
+    </small>
     <ul class="pagination pull-right">
         <li [ngClass]="{'disabled': !resultado.paginaAnterior }">
             <a aria-label="Previous" (click)="paginaAnterior()" class="pointer">
