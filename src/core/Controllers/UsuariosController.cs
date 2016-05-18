@@ -20,9 +20,9 @@ namespace Bodegas.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(int pagina = 1, int elementos = 20)
+        public async Task<IActionResult> GetAll(int pagina = 1, int elementos = 20, string ordenamiento = null)
         {
-            var result = await usuarios.ObtenerTodosAsync(new PaginacionParametros { Pagina = pagina, ElementosPorPagina = elementos });
+            var result = await usuarios.ObtenerTodosAsync(new PaginacionParametros { Pagina = pagina, ElementosPorPagina = elementos, Ordenamiento = ordenamiento?.Split(',')?.Select(x => new { order = !x.StartsWith("-"), field = x.TrimStart('-') })?.GroupBy(x => x.field)?.ToDictionary(x => x.Key, x => x.First().order) });
             return Ok(result);
         }
 

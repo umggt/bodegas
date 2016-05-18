@@ -7,6 +7,7 @@ using Bodegas.Modelos;
 using Microsoft.Data.Entity;
 using Bodegas.Db.Entities;
 using Bodegas.Exceptions;
+using System.Linq.Expressions;
 
 namespace Bodegas.Storage
 {
@@ -22,67 +23,46 @@ namespace Bodegas.Storage
         public async Task<PaginacionResultado<UsuarioResumen>> ObtenerTodosAsync(PaginacionParametros paginacion)
         {
             var query = from n in db.Usuarios
-                select new UsuarioResumen
-                {
-                    Id = n.Id,
-                    Login = n.Login,
-                    Nombre = n.NombreCompleto,
-                    Correo = n.Correo,
-                    Activo = n.Activo
-                };
+                        select new UsuarioResumen
+                        {
+                            Id = n.Id,
+                            Login = n.Login,
+                            Nombre = n.NombreCompleto,
+                            Correo = n.Correo,
+                            Activo = n.Activo
+                        };
 
-            IOrderedQueryable<UsuarioResumen> orderedQuery = null;
+            var orderMapping = new Dictionary<string, Expression<Func<UsuarioResumen, object>>> {
+                { "id", x => x.Id },
+                { "login", x => x.Login },
+                { "nombre", x => x.Nombre },
+                { "correo", x => x.Correo },
+                { "activo", x=> x.Activo }
+            };
+            var result = await Ordenar(paginacion, query, x => x.Id, orderMapping);
 
-            if (paginacion.Ordenamiento != null && paginacion.Ordenamiento.Count > 0)
+            return result;
+        }
+
+        private static async Task<PaginacionResultado<T>> Ordenar<T>(PaginacionParametros paginacion, IQueryable<T> query, Expression<Func<T, object>> defaultOrder = null, Dictionary<string, Expression<Func<T, object>>> orderMapping = null)
+        {
+            IOrderedQueryable<T> orderedQuery = null;
+
+            if (orderMapping != null && paginacion.Ordenamiento != null && paginacion.Ordenamiento.Count > 0)
             {
                 foreach (var columna in paginacion.Ordenamiento)
                 {
-                    if (columna.Key == "id")
+                    if (orderMapping.ContainsKey(columna.Key))
                     {
-                        if (columna.Value)
-                        {
-                            orderedQuery = orderedQuery == null ? query.OrderBy(x => x.Id) : orderedQuery.ThenBy(x => x.Id);
-                        }
-                        else
-                        {
-                            orderedQuery = orderedQuery == null ? query.OrderByDescending(x => x.Id) : orderedQuery.ThenByDescending(x => x.Id);
-                        }
-                        
-                    }
+                        var fn = orderMapping[columna.Key];
 
-                    if (columna.Key == "login")
-                    {
                         if (columna.Value)
                         {
-                            orderedQuery = orderedQuery == null ? query.OrderBy(x => x.Login) : orderedQuery.ThenBy(x => x.Login);
+                            orderedQuery = orderedQuery == null ? query.OrderBy(fn) : orderedQuery.ThenBy(fn);
                         }
                         else
                         {
-                            orderedQuery = orderedQuery == null ? query.OrderByDescending(x => x.Login) : orderedQuery.ThenByDescending(x => x.Login);
-                        }
-                    }
-
-                    if (columna.Key == "etiqueta")
-                    {
-                        if (columna.Value)
-                        {
-                            orderedQuery = orderedQuery == null ? query.OrderBy(x => x.Nombre) : orderedQuery.ThenBy(x => x.Nombre);
-                        }
-                        else
-                        {
-                            orderedQuery = orderedQuery == null ? query.OrderByDescending(x => x.Nombre) : orderedQuery.ThenByDescending(x => x.Nombre);
-                        }
-                    }
-
-                    if (columna.Key == "correo")
-                    {
-                        if (columna.Value)
-                        {
-                            orderedQuery = orderedQuery == null ? query.OrderBy(x => x.Correo) : orderedQuery.ThenBy(x => x.Correo);
-                        }
-                        else
-                        {
-                            orderedQuery = orderedQuery == null ? query.OrderByDescending(x => x.Correo) : orderedQuery.ThenByDescending(x => x.Correo);
+                            orderedQuery = orderedQuery == null ? query.OrderByDescending(fn) : orderedQuery.ThenByDescending(fn);
                         }
                     }
                 }
@@ -90,7 +70,7 @@ namespace Bodegas.Storage
 
             if (orderedQuery == null)
             {
-                orderedQuery = query.OrderBy(x => x.Id);
+                orderedQuery = query.OrderBy(defaultOrder);
             }
 
             if (paginacion.ElementosPorPagina < 1 || paginacion.ElementosPorPagina > 100)
@@ -98,9 +78,8 @@ namespace Bodegas.Storage
                 paginacion.ElementosPorPagina = 20;
             }
 
-
             var totalElementos = query.Count();
-            var totalPaginas = (int) Math.Ceiling(totalElementos / (double) paginacion.ElementosPorPagina);
+            var totalPaginas = (int)Math.Ceiling(totalElementos / (double)paginacion.ElementosPorPagina);
 
             if (paginacion.Pagina < 1)
             {
@@ -118,7 +97,7 @@ namespace Bodegas.Storage
 
             var elementos = await resultado.ToArrayAsync();
 
-            var result = new PaginacionResultado<UsuarioResumen>
+            var result = new PaginacionResultado<T>
             {
                 Elementos = elementos,
                 Pagina = paginacion.Pagina,
@@ -130,7 +109,6 @@ namespace Bodegas.Storage
                 PaginaAnterior = paginacion.Pagina == 1 ? null as int? : paginacion.Pagina - 1,
                 Paginas = Enumerable.Range(1, totalPaginas).ToArray()
             };
-
             return result;
         }
 

@@ -45,11 +45,42 @@ export class HttpServicio {
                     continue;
                 }
 
-                if (object[key] === undefined || object[key] === null) {
+                var obj = object[key];
+
+                if (obj === undefined || obj === null) {
                     continue;
                 }
 
-                params.append(key, object[key]);
+
+                if (key === 'ordenamiento' && typeof obj === "object") {
+
+                    let fields = "";
+                    let firstField = true;
+                    for (var subKey in obj) {
+
+                        if (!obj.hasOwnProperty(subKey)) {
+                            continue;
+                        }
+
+                        let prefix = firstField ? "" : ",";
+
+                        let order = ""; //asc
+                        if (obj[subKey] === false) {
+                            order = "-"; //desc
+                        }
+
+                        fields += `${prefix}${order}${subKey}`;
+                        firstField = false;
+                    }
+
+                    if (fields.length > 0) {
+                        params.append(key, fields);
+                    }
+                    
+
+                } else {
+                    params.append(key, obj);
+                }
                 paramsLength++;
             }
 
