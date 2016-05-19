@@ -7,9 +7,9 @@
             <table class="table table-data table-bordered table-striped table-condensed">
                 <thead>
                     <tr>
-                        <th (click)="ordenar('login')">Login</th>
-                        <th>Nombre</th>
-                        <th>Correo</th>
+                        <th class="ordenable" (click)="ordenar.porCampo('login')" [ngClass]="ordenar.css('login')">Login</th>
+                        <th class="ordenable" (click)="ordenar.porCampo('nombre')" [ngClass]="ordenar.css('nombre')">Nombre</th>
+                        <th class="ordenable" (click)="ordenar.porCampo('correo')" [ngClass]="ordenar.css('correo')">Correo</th>
                     </tr>
                 </thead>
                 <tbody>

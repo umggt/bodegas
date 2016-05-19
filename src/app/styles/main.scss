@@ -400,3 +400,15 @@ ul.pagination {
 .pointer {
     cursor: pointer;
 }
+
+.ordenable {
+    cursor: pointer;
+
+    &.asc {
+        color: blue;
+    }
+
+    &.desc {
+        color: green;
+    }
+}

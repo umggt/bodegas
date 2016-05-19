@@ -1,6 +1,7 @@
 ﻿import { Component, OnInit } from "@angular/core"
 import { ROUTER_DIRECTIVES } from "@angular/router-deprecated"
 import { UsuariosServicio } from "./usuarios.servicio"
+import { OrdenarServicio} from "../ordenar.servicio"
 import { UsuarioResumen } from "./modelos"
 import { PaginacionResultado, Dictionary } from "../modelos"
 import { PaginaComponent } from "../pagina.component"
@@ -16,9 +17,11 @@ export class UsuariosListadoComponent implements OnInit {
 
     private pagina: number = null;
     usuarios: PaginacionResultado<UsuarioResumen>;
+    ordenar: OrdenarServicio;
 
-    constructor(private usuariosServicio: UsuariosServicio) {
-        this.usuarios = { };
+    constructor(private usuariosServicio: UsuariosServicio, ordenar: OrdenarServicio) {
+        this.usuarios = {};
+        this.ordenar = ordenar;
     }
 
     ngOnInit() {
@@ -27,7 +30,7 @@ export class UsuariosListadoComponent implements OnInit {
 
     obtenerUsuarios(pagina?: number, campo?: string) {
         var ord: Dictionary<boolean> = null;
-
+        
         if (campo) {
             ord = {};
             ord[campo] = true;
@@ -42,8 +45,5 @@ export class UsuariosListadoComponent implements OnInit {
     cambiarPagina(pagina: number) {
         this.obtenerUsuarios(pagina);
     }
-
-    ordenar(campo: string) {
-        this.obtenerUsuarios(this.pagina, campo);
-    }
+    
 }
