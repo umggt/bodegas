@@ -404,11 +404,36 @@ ul.pagination {
 .ordenable {
     cursor: pointer;
 
+    &.asc, &.desc {
+        > i {
+            color: black;
+        }
+    }
+
     &.asc {
-        color: blue;
+        > i:before {
+            content: "\f0de";
+        }
     }
 
     &.desc {
-        color: green;
+        > i:before {
+            content: "\f0dd";
+        }
+    }
+
+    > i {
+        color: #808080;
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        float: right !important;
+
+        &:before {
+            content: "\f0dc";
+        }
     }
 }

@@ -62,6 +62,12 @@ export class HttpServicio {
                             continue;
                         }
 
+                        let value = obj[subKey];
+
+                        if (value === undefined) {
+                            continue;
+                        }
+
                         let prefix = firstField ? "" : ",";
 
                         let order = ""; //asc

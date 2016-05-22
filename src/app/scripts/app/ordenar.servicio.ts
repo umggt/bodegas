@@ -1,8 +1,14 @@
 ﻿import { Dictionary } from "./modelos"
+import { EventEmitter } from "@angular/core"
 
 export class OrdenarServicio {
 
     campos: Dictionary<boolean> = {};
+    alCambiarOrden: EventEmitter<string>;
+
+    constructor() {
+        this.alCambiarOrden = new EventEmitter<string>();
+    }
 
     porCampo(campo: string) {
 
@@ -14,7 +20,7 @@ export class OrdenarServicio {
             this.campos[campo] = true;
         }
 
-        console.log(this.campos);
+        this.alCambiarOrden.emit(campo);
     }
 
     reiniciar() {

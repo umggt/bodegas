@@ -19,9 +19,10 @@ export class UsuariosListadoComponent implements OnInit {
     usuarios: PaginacionResultado<UsuarioResumen>;
     ordenar: OrdenarServicio;
 
-    constructor(private usuariosServicio: UsuariosServicio, ordenar: OrdenarServicio) {
+    constructor(private usuariosServicio: UsuariosServicio) {
         this.usuarios = {};
-        this.ordenar = ordenar;
+        this.ordenar = new OrdenarServicio();
+        this.ordenar.alCambiarOrden.subscribe(this.cambiarOrden);
     }
 
     ngOnInit() {
@@ -29,15 +30,9 @@ export class UsuariosListadoComponent implements OnInit {
     }
 
     obtenerUsuarios(pagina?: number, campo?: string) {
-        var ord: Dictionary<boolean> = null;
-        
-        if (campo) {
-            ord = {};
-            ord[campo] = true;
-        }
-
+        var ordenamiento = this.ordenar.campos;
         this.pagina = pagina;
-        this.usuariosServicio.obtenerTodos({ pagina: pagina, ordenamiento: ord }).subscribe(x => {
+        this.usuariosServicio.obtenerTodos({ pagina: pagina, ordenamiento: ordenamiento }).subscribe(x => {
             this.usuarios = x;
         });
     }
@@ -45,5 +40,8 @@ export class UsuariosListadoComponent implements OnInit {
     cambiarPagina(pagina: number) {
         this.obtenerUsuarios(pagina);
     }
-    
+
+    cambiarOrden = (columna: string) => {
+        this.obtenerUsuarios(this.pagina);
+    }
 }
