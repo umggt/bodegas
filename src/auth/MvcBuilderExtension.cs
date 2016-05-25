@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using QFile.AuthenticationServer;
 
 namespace Bodegas.Auth
 {
@@ -9,7 +8,7 @@ namespace Bodegas.Auth
         {
             return builder.AddRazorOptions(razor =>
             {
-                razor.ViewLocationExpanders.Add(new QFileViewLocationExpander());
+                razor.ViewLocationExpanders.Add(new BodegasViewLocationExpander());
             });
         }
     }

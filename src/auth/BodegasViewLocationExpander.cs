@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QFile.AuthenticationServer
+namespace Bodegas.Auth
 {
-    public class QFileViewLocationExpander : IViewLocationExpander
+    public class BodegasViewLocationExpander : IViewLocationExpander
     {
         public IEnumerable<string> ExpandViewLocations(
             ViewLocationExpanderContext context,
