@@ -19,6 +19,11 @@ namespace Bodegas.Db
         public DbSet<RolPermiso> RolPermisos { get; set; }
         public DbSet<Permiso> Permisos { get; set; }
         public DbSet<OpcionDeMenu> OpcionesDeMenu { get; set; }
+        public DbSet<Bodega> Bodegas { get; set; }
+        public DbSet<Marca> Marcas { get; set; }
+        public DbSet<Producto> Productos { get; set; }
+        public DbSet<ProductoUnidadDeMedida> ProductoUnidadesDeMedida { get; set; }
+        public DbSet<UnidadDeMedida> UnidadesDeMedida { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -40,7 +45,8 @@ namespace Bodegas.Db
                 .MapearRol()
                 .MapearPermiso()
                 .MapearRolPermiso()
-                .MapearUsuarioRol();
+                .MapearUsuarioRol()
+                .MapearBodega();
         }
 
         
