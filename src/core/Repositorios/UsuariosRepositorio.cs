@@ -32,6 +32,11 @@ namespace Bodegas.Repositorios
                             Activo = n.Activo
                         };
 
+            // Aqui se mapean los paremetros que envía la UI a sus respectivas propiedad
+            // para poder realizar el ordenamiento.
+            // Por ejemplo, si la UI envía ordenamiento=login,-nombre este mapping
+            // identifica que "login" corresponde a la propiedad "Login" de UsuarioResumen
+            // y que "nombre" corresponde a la propiedad "Nombre" de UsuarioResumen.
             var orderMapping = new OrdenMapping<UsuarioResumen> {
                 { "id", x => x.Id },
                 { "login", x => x.Login },
