@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Data.Entity.Metadata;
 
 namespace Bodegas.Db.Mappings
 {
@@ -17,8 +18,8 @@ namespace Bodegas.Db.Mappings
                 // para prevenir bodegas con el mismo nombre.
                 bodega.HasAlternateKey(u => u.Nombre);
 
-                bodega.HasOne(b => b.UsuarioCreacion).WithMany().HasPrincipalKey(u => u.Id).HasForeignKey(b => b.UsuarioCreacionId);
-                bodega.HasOne(b => b.UsuarioModifica).WithMany().HasForeignKey(u => u.Id).HasForeignKey(b => b.UsuarioModificaId);
+                bodega.HasOne(b => b.UsuarioCreacion).WithMany().HasPrincipalKey(u => u.Id).HasForeignKey(b => b.UsuarioCreacionId).OnDelete(DeleteBehavior.Restrict);
+                bodega.HasOne(b => b.UsuarioModifica).WithMany().HasForeignKey(u => u.Id).HasForeignKey(b => b.UsuarioModificaId).OnDelete(DeleteBehavior.Restrict);
 
             });
 

@@ -15,7 +15,7 @@ namespace Bodegas.Db.Entities
         [StringLength(100)]
         public string Nombre { get; set; }
 
-        public ICollection<Producto> Productos { get; set; }
+        public ICollection<ProductoMarca> Productos { get; set; }
 
     }
 }

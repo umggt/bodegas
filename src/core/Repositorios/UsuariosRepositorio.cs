@@ -9,13 +9,13 @@ using Bodegas.Db.Entities;
 using Bodegas.Exceptions;
 using System.Linq.Expressions;
 
-namespace Bodegas.Storage
+namespace Bodegas.Repositorios
 {
-    public class UsuariosStorage
+    public class UsuariosRepositorio
     {
         private readonly BodegasContext db;
 
-        public UsuariosStorage(BodegasContext db)
+        public UsuariosRepositorio(BodegasContext db)
         {
             this.db = db;
         }

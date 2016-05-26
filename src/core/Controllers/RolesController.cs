@@ -1,5 +1,5 @@
 ﻿using Bodegas.Modelos;
-using Bodegas.Storage;
+using Bodegas.Repositorios;
 using Microsoft.AspNet.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,9 +11,9 @@ namespace Bodegas.Controllers
     [Route("[controller]")]
     public class RolesController : Controller
     {
-        private readonly RolesStorage roles;
+        private readonly RolesRepositorio roles;
 
-        public RolesController(RolesStorage roles)
+        public RolesController(RolesRepositorio roles)
         {
             this.roles = roles;
         }

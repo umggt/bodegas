@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Bodegas.Modelos;
-using Bodegas.Storage;
+using Bodegas.Repositorios;
 using System.Net;
 
 namespace Bodegas.Controllers
@@ -12,9 +12,9 @@ namespace Bodegas.Controllers
     [Route("[controller]")]
     public class UsuariosController : Controller
     {
-        private readonly UsuariosStorage usuarios;
+        private readonly UsuariosRepositorio usuarios;
 
-        public UsuariosController(UsuariosStorage usuarios)
+        public UsuariosController(UsuariosRepositorio usuarios)
         {
             this.usuarios = usuarios;
         }

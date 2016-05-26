@@ -1,6 +1,6 @@
 ﻿namespace Bodegas.Db.Entities
 {
-    public enum TipoCaracteristica
+    public enum ProductoTipoCaracteristica
     {
         NumeroEntero,
         NumeroEnteroPositivo,

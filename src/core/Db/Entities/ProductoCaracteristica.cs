@@ -8,6 +8,8 @@ namespace Bodegas.Db.Entities
 {
     public class ProductoCaracteristica
     {
+        public int Id { get; set; }
+
         public int ProductoId { get; set; }
         public Producto Producto { get; set; }
 
@@ -15,7 +17,7 @@ namespace Bodegas.Db.Entities
         [StringLength(200)]
         public string Nombre { get; set; }
 
-        public TipoCaracteristica TipoCaracteristica { get; set; }
+        public ProductoTipoCaracteristica TipoCaracteristica { get; set; }
 
         public int? ListaId { get; set; }
 
@@ -26,5 +28,7 @@ namespace Bodegas.Db.Entities
         public decimal? Maximo { get; set; }
 
         public bool Requerido { get; set; }
+
+        public string ExpresionDeValidacion { get; set; }
     }
 }

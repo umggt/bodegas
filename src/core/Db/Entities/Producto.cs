@@ -17,9 +17,15 @@ namespace Bodegas.Db.Entities
         [StringLength(5000)]
         public string Descripcion { get; set; }
 
-        public int MarcaId { get; set; }
-
-        public Marca Marca { get; set; }
+        /// <summary>
+        /// Caracteristicas que puede tener el producto
+        /// </summary>
+        public ICollection<ProductoCaracteristica> Caracteristicas { get; set; }
+        
+        /// <summary>
+        /// Marcas que aplican para el producto
+        /// </summary>
+        public ICollection<ProductoMarca> Marcas { get; set; }
 
         /// <summary>
         /// Unidades de medida que aplican para el producto

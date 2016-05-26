@@ -8,9 +8,10 @@ using Bodegas.Db;
 namespace core.Migrations
 {
     [DbContext(typeof(BodegasContext))]
-    partial class BodegasContextModelSnapshot : ModelSnapshot
+    [Migration("20160526193100_MigrationInicial")]
+    partial class MigrationInicial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348");

@@ -7,13 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Bodegas.Storage
+namespace Bodegas.Repositorios
 {
-    public class RolesStorage
+    public class RolesRepositorio
     {
         private readonly BodegasContext db;
 
-        public RolesStorage(BodegasContext db)
+        public RolesRepositorio(BodegasContext db)
         {
             this.db = db;
         }

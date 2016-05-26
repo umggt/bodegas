@@ -250,3 +250,4 @@ bower_components/
 /src/app/data
 /src/app/wwwroot/app
 /src/app/wwwroot/css
+/src/core/bodegas.db
