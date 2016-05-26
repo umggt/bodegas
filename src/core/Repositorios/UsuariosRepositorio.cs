@@ -32,83 +32,16 @@ namespace Bodegas.Repositorios
                             Activo = n.Activo
                         };
 
-            var orderMapping = new Dictionary<string, Expression<Func<UsuarioResumen, object>>> {
+            var orderMapping = new OrdenMapping<UsuarioResumen> {
                 { "id", x => x.Id },
                 { "login", x => x.Login },
                 { "nombre", x => x.Nombre },
                 { "correo", x => x.Correo },
                 { "activo", x=> x.Activo }
             };
-            var result = await Ordenar(paginacion, query, x => x.Id, orderMapping);
 
-            return result;
-        }
+            var result = await query.OrdenarAsync(paginacion, x => x.Id, orderMapping);
 
-        private static async Task<PaginacionResultado<T>> Ordenar<T>(PaginacionParametros paginacion, IQueryable<T> query, Expression<Func<T, object>> defaultOrder = null, Dictionary<string, Expression<Func<T, object>>> orderMapping = null)
-        {
-            IOrderedQueryable<T> orderedQuery = null;
-
-            if (orderMapping != null && paginacion.Ordenamiento != null && paginacion.Ordenamiento.Count > 0)
-            {
-                foreach (var columna in paginacion.Ordenamiento)
-                {
-                    if (orderMapping.ContainsKey(columna.Key))
-                    {
-                        var fn = orderMapping[columna.Key];
-
-                        if (columna.Value)
-                        {
-                            orderedQuery = orderedQuery == null ? query.OrderBy(fn) : orderedQuery.ThenBy(fn);
-                        }
-                        else
-                        {
-                            orderedQuery = orderedQuery == null ? query.OrderByDescending(fn) : orderedQuery.ThenByDescending(fn);
-                        }
-                    }
-                }
-            }
-
-            if (orderedQuery == null)
-            {
-                orderedQuery = query.OrderBy(defaultOrder);
-            }
-
-            if (paginacion.ElementosPorPagina < 1 || paginacion.ElementosPorPagina > 100)
-            {
-                paginacion.ElementosPorPagina = 20;
-            }
-
-            var totalElementos = query.Count();
-            var totalPaginas = (int)Math.Ceiling(totalElementos / (double)paginacion.ElementosPorPagina);
-
-            if (paginacion.Pagina < 1)
-            {
-                paginacion.Pagina = 1;
-            }
-
-            if (paginacion.Pagina > totalPaginas)
-            {
-                paginacion.Pagina = totalPaginas;
-            }
-
-            var skip = (paginacion.Pagina - 1) * paginacion.ElementosPorPagina;
-            var take = paginacion.ElementosPorPagina;
-            var resultado = orderedQuery.Skip(skip).Take(take);
-
-            var elementos = await resultado.ToArrayAsync();
-
-            var result = new PaginacionResultado<T>
-            {
-                Elementos = elementos,
-                Pagina = paginacion.Pagina,
-                ElementosPorPagina = paginacion.ElementosPorPagina,
-                CantidadElementos = elementos.Length,
-                TotalElementos = totalElementos,
-                TotalPaginas = totalPaginas,
-                PaginaSiguiente = paginacion.Pagina == totalPaginas ? null as int? : paginacion.Pagina + 1,
-                PaginaAnterior = paginacion.Pagina == 1 ? null as int? : paginacion.Pagina - 1,
-                Paginas = Enumerable.Range(1, totalPaginas).ToArray()
-            };
             return result;
         }
 
@@ -379,7 +312,6 @@ namespace Bodegas.Repositorios
         {
             return db.Usuarios.AnyAsync(x => x.Id != usuarioIdIgnorar && x.Correo.ToLower() == correo);
         }
-
 
         private async Task<bool> ModificarValorActivo(int id, bool valor)
         {
