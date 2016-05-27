@@ -47,6 +47,26 @@ import { ListasListadoComponent } from "./mantenimientos/listas-listado.componen
         path: '/usuarios/:id',
         name: 'UsuariosEditar',
         component: UsuariosEditarComponent
+    },
+    {
+        path: '/productos',
+        name: 'ProductosListado',
+        component: ProductosListadoComponent
+    },
+    {
+        path: '/productos/nuevo',
+        name: 'ProductosCrear',
+        component: ProductosEditarComponent
+    },
+    {
+        path: '/productos/:id',
+        name: 'ProductosEditar',
+        component: ProductosEditarComponent
+    },
+    {
+        path: '/listas',
+        name: 'ListasListado',
+        component: ListasListadoComponent
     }
 ])
 export class MainComponent {
