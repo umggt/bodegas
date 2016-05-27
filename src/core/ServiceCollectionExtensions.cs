@@ -2,11 +2,7 @@
 using Bodegas.Repositorios;
 using Microsoft.Data.Entity;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Bodegas
 {
@@ -18,6 +14,7 @@ namespace Bodegas
             services.AddEntityFramework().AddSqlite().AddDbContext<BodegasContext>(options => options.UseSqlite(connectionString));
             services.AddTransient<UsuariosRepositorio>();
             services.AddTransient<RolesRepositorio>();
+            services.AddTransient<ProductosRepositorio>();
         }
 
     }
