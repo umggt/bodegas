@@ -35,6 +35,11 @@ namespace Bodegas.Db.DefaultData
                     {
                         Titulo = "Bodegas",
                         Ruta = "BodegasListado"
+                    },
+                    new OpcionDeMenu
+                    {
+                        Titulo = "Productos",
+                        Ruta = "ProductosListado"
                     }
                 }
             };

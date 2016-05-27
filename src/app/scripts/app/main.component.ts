@@ -6,6 +6,8 @@ import { NavegacionComponent } from "./core/navegacion.component"
 import { DashboardComponent } from "./core/dashboard.component"
 import { UsuariosListadoComponent } from "./seguridad/usuarios-listado.component"
 import { UsuariosEditarComponent } from "./seguridad/usuarios-editar.component"
+import { ProductosListadoComponent } from "./core/productos-listado.component"
+import { ProductosEditarComponent } from "./core/productos-editar.component"
 import { ListasListadoComponent } from "./mantenimientos/listas-listado.component"
 
 @Component({
@@ -45,11 +47,6 @@ import { ListasListadoComponent } from "./mantenimientos/listas-listado.componen
         path: '/usuarios/:id',
         name: 'UsuariosEditar',
         component: UsuariosEditarComponent
-    },
-    {
-        path: '/listas',
-        name: 'ListasListado',
-        component: ListasListadoComponent
     }
 ])
 export class MainComponent {
