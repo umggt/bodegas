@@ -18,6 +18,7 @@ namespace Bodegas
             services.AddEntityFramework().AddSqlite().AddDbContext<BodegasContext>(options => options.UseSqlite(connectionString));
             services.AddTransient<UsuariosRepositorio>();
             services.AddTransient<RolesRepositorio>();
+            services.AddTransient<ListasRepositorio>();
         }
 
     }
