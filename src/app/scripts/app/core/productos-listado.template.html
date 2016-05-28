@@ -19,15 +19,15 @@
                     <tr>
                         <th class="ordenable" (click)="ordenar.porCampo('nombre')" [ngClass]="ordenar.css('nombre')">Nombre <i></i></th>
                         <th class="ordenable" (click)="ordenar.porCampo('descripcion')" [ngClass]="ordenar.css('descripcion')">Descripcion <i></i></th>
-                        <th></th>
+                        <th style="width:50px"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let producto of productos.elementos">
                         <td><a [routerLink]="['ProductosEditar', { id: producto.id }]">{{ producto.nombre }}</a></td>
                         <td>{{ producto.descripcion }}</td>
-                        <td>
-                            <button type="button" class="btn btn-default" (click)="eliminar(producto)">
+                        <td class="text-center">
+                            <button type="button" class="btn btn-xs btn-default" (click)="eliminar(producto)">
                                 <span class="sr-only">Eliminar</span>
                                 <i class="glyphicon glyphicon-remove"></i>
                             </button>
