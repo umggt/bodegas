@@ -23,17 +23,34 @@ export class HttpServicio {
         return options;
     }
 
-    get(url: string, options?: RequestOptionsArgs): Observable<Response> {
+    public get(url: string, options?: RequestOptionsArgs): Observable<Response> {
         var defaultOptions = this.getDefaultOptions(options);
         return this.http.get(url, defaultOptions);
     }
 
-    request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
+    public delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
+        var defaultOptions = this.getDefaultOptions(options);
+        return this.http.delete(url, defaultOptions);
+    }
+
+    public post(url: string, data: Object, options?: RequestOptionsArgs): Observable<Response> {
+        var defaultOptions = this.getDefaultOptions(options);
+        const body = JSON.stringify(data);
+        return this.http.post(url, body, defaultOptions);
+    }
+
+    public put(url: string, data: Object, options?: RequestOptionsArgs): Observable<Response> {
+        var defaultOptions = this.getDefaultOptions(options);
+        const body = JSON.stringify(data);
+        return this.http.put(url, body, defaultOptions);
+    }
+
+    public request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
         var defaultOptions = this.getDefaultOptions(options);
         return this.http.request(url, defaultOptions);
     }
 
-    params(object: Object) : URLSearchParams {
+    public params(object: Object) : URLSearchParams {
         let params: URLSearchParams = null;
 
         if (object) {

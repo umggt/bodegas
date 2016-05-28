@@ -2,6 +2,16 @@
     <div class="row">
         <div class="col-lg-12">
 
+            <div *ngIf="errores && errores.length" class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Ocurri&oacute; un Error</strong>
+                <ul *ngIf="errores && errores.length">
+                    <li *ngFor="let descripcionError of errores">
+                        {{descripcionError}}
+                    </li>
+                </ul>
+            </div>
+
             <a [routerLink]="['ProductosCrear']" class="btn btn-sm btn-success pull-right" style="margin-bottom: 4px;"><span class="hidden-xs">Nuevo producto</span> <i class="glyphicon glyphicon-plus"></i></a>
 
             <table class="table table-data table-bordered table-striped table-condensed">
@@ -9,12 +19,19 @@
                     <tr>
                         <th class="ordenable" (click)="ordenar.porCampo('nombre')" [ngClass]="ordenar.css('nombre')">Nombre <i></i></th>
                         <th class="ordenable" (click)="ordenar.porCampo('descripcion')" [ngClass]="ordenar.css('descripcion')">Descripcion <i></i></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let producto of productos.elementos">
                         <td><a [routerLink]="['ProductosEditar', { id: producto.id }]">{{ producto.nombre }}</a></td>
                         <td>{{ producto.descripcion }}</td>
+                        <td>
+                            <button type="button" class="btn btn-default" (click)="eliminar(producto)">
+                                <span class="sr-only">Eliminar</span>
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
