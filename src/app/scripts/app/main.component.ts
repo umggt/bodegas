@@ -10,6 +10,7 @@ import { UsuariosEditarComponent } from "./seguridad/usuarios-editar.component"
 import { ProductosListadoComponent } from "./core/productos-listado.component"
 import { ProductosEditarComponent } from "./core/productos-editar.component"
 import { ListasListadoComponent } from "./mantenimientos/listas-listado.component"
+import { ListasEditarComponent } from "./mantenimientos/listas-editar.component"
 
 @Component({
     selector: 'bodegas-main',
@@ -80,6 +81,16 @@ import { ListasListadoComponent } from "./mantenimientos/listas-listado.componen
         path: '/listas',
         name: 'ListasListado',
         component: ListasListadoComponent
+    },
+    {
+        path: '/listas/nuevo',
+        name: 'ListasCrear',
+        component: ListasEditarComponent
+    },
+    {
+        path: '/listas/:id',
+        name: 'ListasEditar',
+        component: ListasEditarComponent
     }
 ])
 export class MainComponent {

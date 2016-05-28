@@ -1,0 +1,103 @@
+﻿<pagina titulo="Lista" [subtitulo]="'(' + (lista?.nombre || ( modoCreacion ? 'nueva' : '...')) + ')'">
+
+    <div *ngIf="errores && errores.length" class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Ocurri&oacute; un Error</strong>
+        <ul *ngIf="errores && errores.length">
+            <li *ngFor="let descripcionError of errores">
+                {{descripcionError}}
+            </li>
+        </ul>
+    </div>
+
+    <div *ngIf="mensaje" class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Acci&oacute;n Finalizada</strong> {{ mensaje }}
+    </div>
+
+    <div *ngIf="alerta" class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Acci&oacute;n Finalizada</strong> {{ alerta }}
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+
+            <form role="form" (ngSubmit)="guardar()" #frmLista="ngForm">
+                <div class="form-group col-md-12" [class.has-error]="nombre.touched  && !nombre.valid" [hidden]="mostrar()">
+                    <label class="control-label">ID:</label>
+                    <input class="form-control" [(ngModel)]="lista.id" ngControl="id" #nombre="ngForm" disabled="disabled">
+                </div>
+                <div class="form-group col-md-12" [class.has-error]="nombre.touched  && !nombre.valid">
+                    <label class="control-label">Nombre:</label>
+                    <input class="form-control" [(ngModel)]="lista.nombre" placeholder="ingrese el nombre de la lista" required maxlength="100" ngControl="nombre" #nombre="ngForm">
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-7 col-sm-5 text-right">
+                        <a class="btn btn-default" [routerLink]="['ListasListado']">Cancelar</a>
+                        <button type="submit" class="btn btn-primary" [disabled]="!frmLista.form.valid || guardando">Guardar</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">            
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-center">Id</th>
+                        <th  class="text-center">Valor</th>                       
+                        <th>
+                            <div style="text-align: center;">
+                                <div class="btn btn-group">
+                                    <button (click)="nuevo()">
+                                        <span class="fa fa-plus"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody style="font-size: 9pt;">
+                    <tr  *ngFor="let valor of lista.valores" >
+                        <td  class="text-center">{{valor.id}}</td>
+                        <td  class="text-left">{{valor.valor}}</td>
+                        <td>
+                            <div style="text-align: right;">
+                                <div class="btn btn-group">
+                                    <button  (click) ="eliminarValor(valor.id)">
+                                        <span class="fa fa-trash"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>        
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Ingrese un nuevo valor</h4>
+                </div>
+                <div class="modal-body">                    
+                    <label class="control-label">Valor:</label>
+                    <input class="form-control" placeholder="ingrese el valor" required maxlength="100" [(ngModel)]="valor">                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" (click) ="guardarValor()">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</pagina>

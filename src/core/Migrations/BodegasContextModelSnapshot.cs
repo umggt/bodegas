@@ -162,8 +162,6 @@ namespace core.Migrations
                         .HasAnnotation("MaxLength", 100);
 
                     b.HasKey("Id");
-
-                    b.HasAlternateKey("Nombre");
                 });
 
             modelBuilder.Entity("Bodegas.Db.Entities.ListaValor", b =>
@@ -178,8 +176,6 @@ namespace core.Migrations
                         .HasAnnotation("MaxLength", 100);
 
                     b.HasKey("Id");
-
-                    b.HasAlternateKey("ListaId", "Valor");
                 });
 
             modelBuilder.Entity("Bodegas.Db.Entities.Marca", b =>

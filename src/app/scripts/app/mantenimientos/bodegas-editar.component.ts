@@ -2,7 +2,7 @@
 import { FORM_DIRECTIVES, CORE_DIRECTIVES } from "@angular/common"
 import { ROUTER_DIRECTIVES, RouteParams } from "@angular/router-deprecated"
 import { BodegasServicio } from "./bodegas.servicio"
-import { BodegaResumen } from "./modelos"
+import { BodegaResumen } from "./bodegas.modelos"
 import { PaginacionResultado } from "../modelos"
 import { PaginaComponent } from "../pagina.component"
 import { PaginacionComponent } from "../paginacion.component"

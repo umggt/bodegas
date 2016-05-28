@@ -2,7 +2,7 @@
 import { ROUTER_DIRECTIVES } from "@angular/router-deprecated"
 import { BodegasServicio } from "./bodegas.servicio"
 import { OrdenarServicio} from "../ordenar.servicio"
-import { BodegaResumen } from "./modelos"
+import { BodegaResumen } from "./bodegas.modelos"
 import { PaginacionResultado, Dictionary } from "../modelos"
 import { PaginaComponent } from "../pagina.component"
 import { PaginacionComponent } from "../paginacion.component"

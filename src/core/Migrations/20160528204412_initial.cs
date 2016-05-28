@@ -4,7 +4,7 @@ using Microsoft.Data.Entity.Migrations;
 
 namespace core.Migrations
 {
-    public partial class MigrationInicial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,7 +19,6 @@ namespace core.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Lista", x => x.Id);
-                    table.UniqueConstraint("AK_Lista_Nombre", x => x.Nombre);
                 });
             migrationBuilder.CreateTable(
                 name: "Marca",
@@ -140,7 +139,6 @@ namespace core.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ListaValor", x => x.Id);
-                    table.UniqueConstraint("AK_ListaValor_ListaId_Valor", x => new { x.ListaId, x.Valor });
                     table.ForeignKey(
                         name: "FK_ListaValor_Lista_ListaId",
                         column: x => x.ListaId,

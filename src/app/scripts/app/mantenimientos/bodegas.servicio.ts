@@ -1,7 +1,7 @@
 ﻿import { Injectable } from "@angular/core"
 import { Observable } from 'rxjs/Observable'
 import { Headers, RequestMethod, URLSearchParams } from "@angular/http"
-import { BodegaResumen } from "./modelos"
+import { BodegaResumen } from "./bodegas.modelos"
 import { PaginacionResultado, PaginacionParametros } from "../modelos"
 import { HttpServicio } from "../http.servicio"
 

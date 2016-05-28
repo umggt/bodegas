@@ -14,7 +14,7 @@ namespace Bodegas.Db.Mappings
         {
             builder.Entity<ListaValor>(listaValor =>
             {
-                listaValor.HasAlternateKey(x => new {x.ListaId, x.Valor});
+                //listaValor.HasAlternateKey(x => new {x.ListaId, x.Valor});
 
                 listaValor.HasOne(x => x.Lista)
                     .WithMany(x => x.Valores)
