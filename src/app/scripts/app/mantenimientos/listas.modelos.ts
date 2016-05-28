@@ -15,3 +15,9 @@ export interface ListaValor {
     id?: number;
     valor: string;
 }
+
+export interface BodegaResumen {
+    id?: number;
+    nombre: string;
+    direccion: string;
+}

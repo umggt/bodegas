@@ -12,16 +12,16 @@ export class ProductosServicio {
 
     constructor(private http: HttpServicio) { }
 
-    obtenerTodos(paginacion?: PaginacionParametros): Observable<PaginacionResultado<ProductoResumen>> {
+    public obtenerTodos(paginacion?: PaginacionParametros): Observable<PaginacionResultado<ProductoResumen>> {
         var params = this.http.params(paginacion);
         return this.http.get(this.url, { search: params }).map(x => x.json() as PaginacionResultado<ProductoResumen>);
     }
 
-    obtenerUnico(id: number): Observable<Producto> {
+    public obtenerUnico(id: number): Observable<Producto> {
         return this.http.get(this.url + id).map(x => x.json() as Producto);
     }
 
-    guardar(producto: Producto): Observable<Producto> {
+    public guardar(producto: Producto): Observable<Producto> {
         const body = JSON.stringify(producto);
         let url = this.url;
         let method = RequestMethod.Post;
@@ -34,5 +34,10 @@ export class ProductosServicio {
         }
 
         return this.http.request(url, { body: body, method: method }).map(x => x.json() as Producto);
+    }
+
+    public eliminar(productoId: number) {
+        let url = this.url + productoId;
+        return this.http.delete(url);
     }
 }

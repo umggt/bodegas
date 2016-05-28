@@ -47,7 +47,12 @@ namespace Bodegas.Repositorios
             //
             // por el momento es suficiente con lo siguiente:
 
-            var producto = await db.Productos.SingleAsync(x => x.Id == id);
+            var producto = await db.Productos.SingleOrDefaultAsync(x => x.Id == id);
+
+            if (producto == null)
+            {
+                throw new RegistroNoEncontradoException($"No existe ningún producto con el id {id}.");
+            }
 
             return new ProductoDetalle
             {

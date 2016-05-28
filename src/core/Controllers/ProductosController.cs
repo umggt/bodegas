@@ -62,5 +62,19 @@ namespace Bodegas.Controllers
                 return new HttpStatusCodeResult((int) HttpStatusCode.NotModified);
             }
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var eliminado = await productos.EliminarAsync(id);
+            if (eliminado)
+            {
+                return Ok();
+            }
+            else
+            {
+                return new HttpStatusCodeResult((int)HttpStatusCode.NotModified);
+            }
+        }
     }
 }

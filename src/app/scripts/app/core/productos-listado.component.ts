@@ -6,30 +6,32 @@ import { ProductoResumen } from "./productos.modelos"
 import { PaginacionResultado, Dictionary } from "../modelos"
 import { PaginaComponent } from "../pagina.component"
 import { PaginacionComponent } from "../paginacion.component"
+import { ErroresServicio } from "../errores.servicio"
 
 @Component({
     selector: 'productos-listado',
     templateUrl: 'app/core/productos-listado.template.html',
-    providers: [ProductosServicio],
+    providers: [ProductosServicio, ErroresServicio],
     directives: [ROUTER_DIRECTIVES, PaginaComponent, PaginacionComponent]
 })
 export class ProductosListadoComponent implements OnInit {
 
     private pagina: number = null;
-    productos: PaginacionResultado<ProductoResumen>;
-    ordenar: OrdenarServicio;
+    public productos: PaginacionResultado<ProductoResumen>;
+    public ordenar: OrdenarServicio;
+    public errores: string[];
 
-    constructor(private productosServicio: ProductosServicio) {
+    constructor(private productosServicio: ProductosServicio, private erroresServicio: ErroresServicio) {
         this.productos = {};
         this.ordenar = new OrdenarServicio();
         this.ordenar.alCambiarOrden.subscribe(this.cambiarOrden);
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.obtenerProductos();
     }
 
-    obtenerProductos(pagina?: number) {
+    private obtenerProductos(pagina?: number) {
         var ordenamiento = this.ordenar.campos;
         this.pagina = pagina;
         this.productosServicio.obtenerTodos({ pagina: pagina, ordenamiento: ordenamiento }).subscribe(x => {
@@ -37,11 +39,44 @@ export class ProductosListadoComponent implements OnInit {
         });
     }
 
-    cambiarPagina(pagina: number) {
+    public cambiarPagina(pagina: number) {
         this.obtenerProductos(pagina);
     }
 
-    cambiarOrden = (columna: string) => {
+    public cambiarOrden = (columna: string) => {
+        this.actualizarPaginaActual();
+    }
+
+    public eliminar(producto: ProductoResumen) {
+        if (!confirm(`¿Seguro que desea eliminar el producto ${producto.nombre}`)) {
+            return;
+        }
+        
+        this.productosServicio.eliminar(producto.id).subscribe(
+            this.eliminarSuccess,
+            this.eliminarError,
+            this.eliminarComplete
+        );
+    }
+
+    private eliminarSuccess = () => {
+        this.actualizarPaginaActual();
+    }
+
+    private eliminarError = (error: any) => {
+        if (this.erroresServicio.isNotModifiedResponse(error)) {
+            this.errores = ["Ningún producto fué eliminado."];
+        } else {
+            this.errores = this.erroresServicio.obtenerErrores(error);
+        }
+    }
+
+    private eliminarComplete = () => {
+        this.errores = [];
+    }
+
+    private actualizarPaginaActual() {
         this.obtenerProductos(this.pagina);
     }
+
 }
