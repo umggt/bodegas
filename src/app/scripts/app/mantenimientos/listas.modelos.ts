@@ -1,5 +1,4 @@
-﻿import { Dictionary } from "../modelos"
-
+﻿
 export interface ListaResumen {
     id: number;  
     nombre: string;
@@ -16,8 +15,3 @@ export interface ListaValor {
     valor: string;
 }
 
-export interface BodegaResumen {
-    id?: number;
-    nombre: string;
-    direccion: string;
-}
