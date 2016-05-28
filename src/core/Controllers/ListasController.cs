@@ -77,5 +77,19 @@ namespace Bodegas.Controllers
             var listaValor = await listas.CrearValorAsync(idLista, valor.Valor);          
             return Created("api/core/listas/" + idLista + "/valores/"+listaValor.Id, listaValor);
         }
+
+        [HttpDelete("{idLista}/valores/{idValor}")]
+        public async Task<IActionResult> Delete(int idLista, int idValor)
+        {
+            var eliminado = await listas.EliminarValorAsync(idLista, idValor);
+            if (eliminado)
+            {
+                return Ok();
+            }
+            else
+            {
+                return new HttpStatusCodeResult((int)HttpStatusCode.NotModified);
+            }
+        }
     }
 }
