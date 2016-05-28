@@ -110,8 +110,16 @@ export class ListasEditarComponent implements OnInit {
             });
     }
 
-    public eliminarValor(idValor) {
-        this.listasServicio.eliminarValor(idvalor);
+    public eliminarValor(idValor: number) {       
+        if (!confirm("Esta seguro de eliminar este valor?"))
+            return;
+
+        this.listasServicio.eliminarValor(this.lista.id, idValor).subscribe(x => {
+            for (var item of this.lista.valores) {
+                if (item.id == idValor)
+                    this.lista.valores.splice(this.lista.valores.indexOf(item), 1);
+            }
+        });
     }
 
 }

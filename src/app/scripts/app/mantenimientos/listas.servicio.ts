@@ -43,10 +43,9 @@ export class ListasServicio {
         return this.http.request(url, { body: body, method: method }).map(x => x.json() as ListaValor);
     }
 
-    eliminarValor(idLista: number, idValor: number) {
-        const body = JSON.stringify({ idLista: idLista, idValor: idValor });
-        let url = this.url + idLista + "/valores";
-        let method = RequestMethod.Delete;
-        return this.http.request(url, { body: body, method: method }).map(x => x.json() as ListaValor);
+    eliminarValor(idLista: number, idValor: number) {        
+        let url = this.url + idLista + "/valores/" + idValor;
+        console.log(url);
+        return this.http.delete(url);
     }
 }
