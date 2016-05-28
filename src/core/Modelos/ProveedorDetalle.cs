@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+using static Bodegas.Constantes.MensajesDeError;
+
+namespace Bodegas.Modelos
+{
+    public class ProveedorDetalle
+    {
+        public int Id { get; set; }
+        [Display(Name = "Nombre")]
+        [Required(ErrorMessage = RequiredMessage)]
+        [StringLength(400, ErrorMessage = StringLengthMessage)]
+        public string Nombre { get; set; }
+
+        public string Direccion { get; set; }
+
+        public string NombreDeContacto { get; set; }
+
+    }
+}
