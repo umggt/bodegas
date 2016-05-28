@@ -2,7 +2,7 @@
 import { ROUTER_DIRECTIVES } from "@angular/router-deprecated"
 import { ListasServicio } from "./listas.servicio"
 import { OrdenarServicio} from "../ordenar.servicio"
-import { ListaResumen } from "./modelos"
+import { ListaResumen } from "./listas.modelos"
 import { PaginacionResultado, Dictionary } from "../modelos"
 import { PaginaComponent } from "../pagina.component"
 import { PaginacionComponent } from "../paginacion.component"
