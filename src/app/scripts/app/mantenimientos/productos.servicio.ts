@@ -4,13 +4,15 @@ import { Headers, RequestMethod, URLSearchParams } from "@angular/http"
 import { ProductoResumen, Producto } from "./productos.modelos"
 import { PaginacionResultado, PaginacionParametros } from "../modelos"
 import { HttpServicio } from "../http.servicio"
+import { MarcasServicio } from "./marcas.servicio"
+import { UnidadesDeMedidaServicio } from "./unidades-de-medida.servicio"
 
 @Injectable()
 export class ProductosServicio {
 
     private url = "http://localhost:5002/api/core/productos/";
 
-    constructor(private http: HttpServicio) { }
+    constructor(private http: HttpServicio, private marcas: MarcasServicio, private unidadesDeMedida: UnidadesDeMedidaServicio) { }
 
     public obtenerTodos(paginacion?: PaginacionParametros): Observable<PaginacionResultado<ProductoResumen>> {
         var params = this.http.params(paginacion);
@@ -40,4 +42,13 @@ export class ProductosServicio {
         let url = this.url + productoId;
         return this.http.delete(url);
     }
+
+    public obtenerMarcas() {
+        return this.marcas.obtenerTodos();
+    }
+
+    public obtenerUnidadesDeMedida() {
+        return this.unidadesDeMedida.obtenerTodos();
+    }
+
 }

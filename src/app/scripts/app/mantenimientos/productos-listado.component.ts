@@ -7,11 +7,13 @@ import { PaginacionResultado, Dictionary } from "../modelos"
 import { PaginaComponent } from "../pagina.component"
 import { PaginacionComponent } from "../paginacion.component"
 import { ErroresServicio } from "../errores.servicio"
+import { MarcasServicio } from "./marcas.servicio"
+import { UnidadesDeMedidaServicio } from "./unidades-de-medida.servicio"
 
 @Component({
     selector: 'productos-listado',
-    templateUrl: 'app/core/productos-listado.template.html',
-    providers: [ProductosServicio, ErroresServicio],
+    templateUrl: 'app/mantenimientos/productos-listado.template.html',
+    providers: [ProductosServicio, ErroresServicio, MarcasServicio, UnidadesDeMedidaServicio],
     directives: [ROUTER_DIRECTIVES, PaginaComponent, PaginacionComponent]
 })
 export class ProductosListadoComponent implements OnInit {

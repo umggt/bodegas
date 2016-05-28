@@ -20,6 +20,9 @@ namespace Bodegas.Db
         private static void GenerarDatos(this BodegasContext context)
         {
             context
+                .GenerarListas()
+                .GenerarMarcas()
+                .GenerarUnidadesDeMedida()
                 .GenerarOpcionesDeMenu()
                 .GenerarUsuarios()
                 .GenerarRoles();

@@ -6,11 +6,16 @@ import { OrdenarServicio} from "../ordenar.servicio"
 import { Producto } from "./productos.modelos"
 import { PaginaComponent } from "../pagina.component"
 import { ErroresServicio } from "../errores.servicio"
+import { PaginacionResultado } from "../modelos"
+import { Marca } from "./marcas.modelos"
+import { UnidadDeMedida } from "./unidades-de-medida.modelos"
+import { MarcasServicio } from "./marcas.servicio"
+import { UnidadesDeMedidaServicio } from "./unidades-de-medida.servicio"
 
 @Component({
     selector: 'productos-editar',
-    templateUrl: 'app/core/productos-editar.template.html',
-    providers: [ProductosServicio, ErroresServicio],
+    templateUrl: 'app/mantenimientos/productos-editar.template.html',
+    providers: [ProductosServicio, ErroresServicio, MarcasServicio, UnidadesDeMedidaServicio],
     directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES, PaginaComponent]
 })
 export class ProductosEditarComponent implements OnInit {
@@ -23,6 +28,8 @@ export class ProductosEditarComponent implements OnInit {
     public mensaje: string;
     public alerta: string;
     public errores: string[];
+    public marcas: PaginacionResultado<Marca>;
+    public unidadesDeMedida: PaginacionResultado<UnidadDeMedida>;
 
     public constructor(
         private routeParams: RouteParams,
@@ -42,6 +49,8 @@ export class ProductosEditarComponent implements OnInit {
 
     public ngOnInit() {
         this.obtenerProducto();
+        this.obtenerMarcas();
+        this.obtenerUnidadesDeMedida();
     }
 
     public guardar() {
@@ -80,5 +89,20 @@ export class ProductosEditarComponent implements OnInit {
         }
     }
 
+    private obtenerMarcas() {
+        this.productosServicio.obtenerMarcas().subscribe(x => {
+            this.marcas = x;
+        });
+    }
+
+    private obtenerUnidadesDeMedida() {
+        this.productosServicio.obtenerUnidadesDeMedida().subscribe(x => {
+            this.unidadesDeMedida = x;
+        });
+    }
+
+    public toggle(item: any) {
+        item.asignado = !item.asignado;
+    }
 
 }
