@@ -18,6 +18,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc.Filters;
+using Bodegas.Middlewares;
 
 namespace Bodegas
 {
@@ -83,6 +84,9 @@ namespace Bodegas
                 app.CreateDatabaseDirectory(application.ApplicationBasePath);
                 app.MigrateDatabase();
             }
+
+            app.UseStatusCodePages();
+            app.UseMiddleware<ErrorHandlerMiddleware>();
 
             app.Map(new PathString("/api/core"), config =>
             {

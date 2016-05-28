@@ -23,7 +23,7 @@
     <div class="row">
         <div class="col-lg-12">
 
-            <form role="form" (ngSubmit)="guardar()" #frmUsuario="ngForm">
+            <form role="form" (ngSubmit)="guardar()" #frmUsuario="ngForm" novalidate>
                 <div class="form-group col-md-6" [class.has-error]="login.touched  && !login.valid">
                     <label class="control-label">Usuario:</label>
                     <input class="form-control" [(ngModel)]="usuario.login" placeholder="ej: fulano" required maxlength="150" [disabled]="!modoCreacion" ngControl="login" #login="ngForm">
