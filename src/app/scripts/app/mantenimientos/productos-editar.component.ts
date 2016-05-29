@@ -3,7 +3,7 @@ import { ROUTER_DIRECTIVES, RouteParams } from "@angular/router-deprecated"
 import { FORM_DIRECTIVES, CORE_DIRECTIVES } from "@angular/common"
 import { ProductosServicio } from "./productos.servicio"
 import { OrdenarServicio} from "../ordenar.servicio"
-import { Producto } from "./productos.modelos"
+import { Producto, Caracteristica, TipoCaracteristica } from "./productos.modelos"
 import { PaginaComponent } from "../pagina.component"
 import { ErroresServicio } from "../errores.servicio"
 import { PaginacionResultado } from "../modelos"
@@ -11,11 +11,15 @@ import { Marca } from "./marcas.modelos"
 import { UnidadDeMedida } from "./unidades-de-medida.modelos"
 import { MarcasServicio } from "./marcas.servicio"
 import { UnidadesDeMedidaServicio } from "./unidades-de-medida.servicio"
+import { ListaResumen } from "./listas.modelos"
+import { ListasServicio } from "./listas.servicio"
+
+declare var $: any;
 
 @Component({
     selector: 'productos-editar',
     templateUrl: 'app/mantenimientos/productos-editar.template.html',
-    providers: [ProductosServicio, ErroresServicio, MarcasServicio, UnidadesDeMedidaServicio],
+    providers: [ProductosServicio, ErroresServicio, MarcasServicio, UnidadesDeMedidaServicio, ListasServicio],
     directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES, PaginaComponent]
 })
 export class ProductosEditarComponent implements OnInit {
@@ -30,6 +34,11 @@ export class ProductosEditarComponent implements OnInit {
     public errores: string[];
     public marcas: PaginacionResultado<Marca>;
     public unidadesDeMedida: PaginacionResultado<UnidadDeMedida>;
+    public caracteristica: Caracteristica;
+    public tiposCaracteristica: TipoCaracteristica[];
+    public listas: ListaResumen[];
+    public esLista: boolean = false;
+    public esNumero: boolean = false;
 
     public constructor(
         private routeParams: RouteParams,
@@ -45,7 +54,6 @@ export class ProductosEditarComponent implements OnInit {
             this.modoCreacion = false;
         }
     }
-
 
     public ngOnInit() {
         this.obtenerProducto();
@@ -101,8 +109,67 @@ export class ProductosEditarComponent implements OnInit {
         });
     }
 
+    
+
     public toggle(item: any) {
         item.asignado = !item.asignado;
     }
 
+    public guardarCaracteristica() {
+        this.producto.caracteristicas = this.producto.caracteristicas || [];
+        this.producto.caracteristicas.push(this.caracteristica);
+        this.caracteristica = null;
+        $("#carcteristicas-modal").modal("hide");
+    }
+
+    public nuevaCaracteristica() {
+        this.caracteristica = {
+            nombre: null,
+            tipo: 0,
+            tipoNombre: "",
+            requerido: false,
+            listaId: null,
+            minimo: null,
+            maximo: null,
+            expresion: null
+        };
+
+        if (!this.tiposCaracteristica || !this.tiposCaracteristica.length) {
+            this.productosServicio.obtenerCaracteristicas().subscribe(x => {
+                this.tiposCaracteristica = x;
+                this.cambiarTipo(x[0].id.toString());
+            });
+        } else {
+            this.cambiarTipo(this.tiposCaracteristica[0].id.toString());
+        }
+
+        if (!this.listas || !this.listas.length) {
+            this.productosServicio.obtenerListas().subscribe(x => {
+                this.listas = x.elementos;
+                this.caracteristica.listaId = this.listas[0].id;
+            });
+        } else {
+            this.caracteristica.listaId = this.listas[0].id;
+        }
+
+        $("#carcteristicas-modal").modal("show");
+    }
+
+    public cambiarTipo(eventData: string) {
+        var tipo = parseInt(eventData, 10);
+        this.caracteristica.tipo = tipo;
+
+        for (let t of this.tiposCaracteristica) {
+            if (t.id === tipo) {
+                this.caracteristica.tipoNombre = t.nombre;
+                break;
+            }
+        }
+
+        this.esLista = tipo === 8 || tipo === 9;
+        this.esNumero = [0, 1, 2, 3, 4].indexOf(tipo) >= 0;
+        console.log(tipo);
+        console.log([this.esLista, this.esNumero]);
+    }
+    
 }
