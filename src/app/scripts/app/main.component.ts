@@ -11,7 +11,8 @@ import { ProductosListadoComponent } from "./core/productos-listado.component"
 import { ProductosEditarComponent } from "./core/productos-editar.component"
 import { ListasListadoComponent } from "./mantenimientos/listas-listado.component"
 import { ListasEditarComponent } from "./mantenimientos/listas-editar.component"
-
+import { ProveedoresListadoComponent } from "./mantenimientos/proveedores-listado.component"
+import {ProveedoresEditarComponent} from "./mantenimientos/proveedores-editar.component"
 @Component({
     selector: 'bodegas-main',
     templateUrl: 'app/main.template.html',
@@ -91,7 +92,24 @@ import { ListasEditarComponent } from "./mantenimientos/listas-editar.component"
         path: '/listas/:id',
         name: 'ListasEditar',
         component: ListasEditarComponent
-    }
+    },
+
+     {
+        path: '/proveedores',
+        name: 'ProveedoresListado',
+        component: ProveedoresListadoComponent
+    },
+     {
+         path: '/proveedores/nuevo',
+         name: 'ProveedoresCrear',
+         component: ProveedoresEditarComponent
+     },
+
+     {
+         path: '/proveedores/:id',
+         name: 'ProveedoresEditar',
+         component: ProveedoresEditarComponent
+     },
 ])
 export class MainComponent {
 

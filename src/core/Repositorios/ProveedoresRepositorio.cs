@@ -56,8 +56,8 @@ namespace Bodegas.Repositorios
         public async Task<int> CrearAsync(ProveedorDetalle proveedor, int usuarioId)
         {
             var nombre = proveedor.Nombre.Trim().ToLowerInvariant();
-            var nombreContacto = proveedor.NombreDeContacto.Trim().ToLowerInvariant();
-            var direccion = proveedor.Direccion.Trim().ToLowerInvariant();
+            var nombreContacto = proveedor.NombreDeContacto?.Trim()?.ToLowerInvariant();
+            var direccion = proveedor.Direccion?.Trim()?.ToLowerInvariant();
            
             if (await ExisteProveedor(nombre))
             {
