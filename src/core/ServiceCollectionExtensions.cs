@@ -16,6 +16,8 @@ namespace Bodegas
             services.AddTransient<RolesRepositorio>();
             services.AddTransient<ProductosRepositorio>();
             services.AddTransient<ListasRepositorio>();
+            services.AddTransient<BodegasRepositorio>();
+            services.AddTransient<ProveedoresRepositorio>();
             services.AddTransient<UnidadesDeMedidaRepositorio>();
             services.AddTransient<MarcasRepositorio>();
         }

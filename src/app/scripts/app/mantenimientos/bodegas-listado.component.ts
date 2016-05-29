@@ -1,47 +1,46 @@
 ﻿import { Component, OnInit } from "@angular/core"
 import { ROUTER_DIRECTIVES } from "@angular/router-deprecated"
-import { ListasServicio } from "./listas.servicio"
+import { BodegasServicio } from "./bodegas.servicio"
 import { OrdenarServicio} from "../ordenar.servicio"
-import { ListaResumen } from "./listas.modelos"
+import { BodegaResumen } from "./bodegas.modelos"
 import { PaginacionResultado, Dictionary } from "../modelos"
 import { PaginaComponent } from "../pagina.component"
 import { PaginacionComponent } from "../paginacion.component"
 
 @Component({
-    selector: 'listas-listado',
-    templateUrl: 'app/mantenimientos/listas-listado.template.html',
-    providers: [ListasServicio],
+    selector: 'bodegas-listado',
+    templateUrl: 'app/mantenimientos/bodegas-listado.template.html',
+    providers: [BodegasServicio],
     directives: [ROUTER_DIRECTIVES, PaginaComponent, PaginacionComponent]
 })
-export class ListasListadoComponent implements OnInit {
-
+export class BodegasListadoComponent implements OnInit {
     private pagina: number = null;
-    listas: PaginacionResultado<ListaResumen>;
+    bodegas: PaginacionResultado<BodegaResumen>;
     ordenar: OrdenarServicio;
 
-    constructor(private listasServicio: ListasServicio) {
-        this.listas = {};
+    constructor(private bodegasServicio: BodegasServicio) {
+        this.bodegas = {};
         this.ordenar = new OrdenarServicio();
         this.ordenar.alCambiarOrden.subscribe(this.cambiarOrden);
     }
 
     ngOnInit() {
-        this.obtenerListas();
+        this.obtenerBodegas();
     }
 
-    obtenerListas(pagina?: number, campo?: string) {
+    obtenerBodegas(pagina?: number, campo?: string) {
         var ordenamiento = this.ordenar.campos;
         this.pagina = pagina;
-        this.listasServicio.obtenerTodas({ pagina: pagina, ordenamiento: ordenamiento }).subscribe(x => {
-            this.listas = x;
-        });
+        this.bodegasServicio.obtenerTodas({ pagina: pagina, ordenamiento: ordenamiento }).subscribe(x => {
+            this.bodegas = x;
+        })
     }
-
     cambiarPagina(pagina: number) {
-        this.obtenerListas(pagina);
+        this.obtenerBodegas(pagina);
     }
 
     cambiarOrden = (columna: string) => {
-        this.obtenerListas(this.pagina);
+        this.obtenerBodegas(this.pagina);
     }
+
 }

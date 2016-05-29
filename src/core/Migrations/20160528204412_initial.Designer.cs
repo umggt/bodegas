@@ -8,8 +8,8 @@ using Bodegas.Db;
 namespace core.Migrations
 {
     [DbContext(typeof(BodegasContext))]
-    [Migration("20160526193100_MigrationInicial")]
-    partial class MigrationInicial
+    [Migration("20160528204412_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -163,8 +163,6 @@ namespace core.Migrations
                         .HasAnnotation("MaxLength", 100);
 
                     b.HasKey("Id");
-
-                    b.HasAlternateKey("Nombre");
                 });
 
             modelBuilder.Entity("Bodegas.Db.Entities.ListaValor", b =>
@@ -179,8 +177,6 @@ namespace core.Migrations
                         .HasAnnotation("MaxLength", 100);
 
                     b.HasKey("Id");
-
-                    b.HasAlternateKey("ListaId", "Valor");
                 });
 
             modelBuilder.Entity("Bodegas.Db.Entities.Marca", b =>

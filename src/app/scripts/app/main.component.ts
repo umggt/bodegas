@@ -1,7 +1,8 @@
 ﻿import { Component } from "@angular/core"
 import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from "@angular/router-deprecated"
 import { HTTP_BINDINGS, HTTP_PROVIDERS } from "@angular/http"
-import { BodegasListadoComponent } from "./core/bodegas-listado.component"
+import { BodegasListadoComponent } from "./mantenimientos/bodegas-listado.component"
+import { BodegasEditarComponent } from "./mantenimientos/bodegas-editar.component"
 import { NavegacionComponent } from "./core/navegacion.component"
 import { DashboardComponent } from "./core/dashboard.component"
 import { UsuariosListadoComponent } from "./seguridad/usuarios-listado.component"
@@ -9,7 +10,9 @@ import { UsuariosEditarComponent } from "./seguridad/usuarios-editar.component"
 import { ProductosListadoComponent } from "./mantenimientos/productos-listado.component"
 import { ProductosEditarComponent } from "./mantenimientos/productos-editar.component"
 import { ListasListadoComponent } from "./mantenimientos/listas-listado.component"
-
+import { ListasEditarComponent } from "./mantenimientos/listas-editar.component"
+import { ProveedoresListadoComponent } from "./mantenimientos/proveedores-listado.component"
+import {ProveedoresEditarComponent} from "./mantenimientos/proveedores-editar.component"
 @Component({
     selector: 'bodegas-main',
     templateUrl: 'app/main.template.html',
@@ -33,6 +36,18 @@ import { ListasListadoComponent } from "./mantenimientos/listas-listado.componen
         name: 'BodegasListado',
         component: BodegasListadoComponent
     },
+    {
+        path: '/bodegas/nuevo',
+        name: 'BodegasCrear',
+        component: BodegasEditarComponent
+    },
+
+    {
+        path: '/bodegas/:id',
+        name: 'BodegasEditar',
+        component: BodegasEditarComponent
+    },
+ 
     {
         path: '/usuarios',
         name: 'UsuariosListado',
@@ -67,7 +82,34 @@ import { ListasListadoComponent } from "./mantenimientos/listas-listado.componen
         path: '/listas',
         name: 'ListasListado',
         component: ListasListadoComponent
-    }
+    },
+    {
+        path: '/listas/nuevo',
+        name: 'ListasCrear',
+        component: ListasEditarComponent
+    },
+    {
+        path: '/listas/:id',
+        name: 'ListasEditar',
+        component: ListasEditarComponent
+    },
+
+     {
+        path: '/proveedores',
+        name: 'ProveedoresListado',
+        component: ProveedoresListadoComponent
+    },
+     {
+         path: '/proveedores/nuevo',
+         name: 'ProveedoresCrear',
+         component: ProveedoresEditarComponent
+     },
+
+     {
+         path: '/proveedores/:id',
+         name: 'ProveedoresEditar',
+         component: ProveedoresEditarComponent
+     },
 ])
 export class MainComponent {
 

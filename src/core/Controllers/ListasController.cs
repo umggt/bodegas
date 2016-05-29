@@ -26,5 +26,70 @@ namespace Bodegas.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{id}", Name = "GetLista")]
+        public async Task<IActionResult> GetSingle(int id)
+        {
+            var result = await listas.ObtenerUnicaAsync(id);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] ListaDetalle lista)
+        {
+            if (!ModelState.IsValid)
+            {
+                return HttpBadRequest(ModelState);
+            }
+
+            var listaId = await listas.CrearAsync(lista);
+            var result = await listas.ObtenerUnicaAsync(listaId);
+            return CreatedAtRoute("GetLista", new { id = listaId }, result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, [FromBody] ListaDetalle lista)
+        {
+            if (!ModelState.IsValid)
+            {
+                return HttpBadRequest(ModelState);
+            }
+
+            var modificado = await listas.EditarAsync(id, lista);
+            if (modificado)
+            {
+                var result = await listas.ObtenerUnicaAsync(id);
+                return Ok(result);
+            }
+            else
+            {
+                return new HttpStatusCodeResult((int)HttpStatusCode.NotModified);
+            }
+        }
+
+        [HttpPost ("{idLista}/valores")]
+        public async Task<IActionResult> Post(int idLista, [FromBody] ListaValorDetalle valor)
+        {
+            if (!ModelState.IsValid)
+            {
+                return HttpBadRequest(ModelState);
+            }
+
+            var listaValor = await listas.CrearValorAsync(idLista, valor.Valor);          
+            return Created("api/core/listas/" + idLista + "/valores/"+listaValor.Id, listaValor);
+        }
+
+        [HttpDelete("{idLista}/valores/{idValor}")]
+        public async Task<IActionResult> Delete(int idLista, int idValor)
+        {
+            var eliminado = await listas.EliminarValorAsync(idLista, idValor);
+            if (eliminado)
+            {
+                return Ok();
+            }
+            else
+            {
+                return new HttpStatusCodeResult((int)HttpStatusCode.NotModified);
+            }
+        }
     }
 }

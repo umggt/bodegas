@@ -1,47 +1,47 @@
 ﻿import { Component, OnInit } from "@angular/core"
 import { ROUTER_DIRECTIVES } from "@angular/router-deprecated"
-import { ListasServicio } from "./listas.servicio"
+import { ProveedoresServicio } from "./proveedores.servicio"
 import { OrdenarServicio} from "../ordenar.servicio"
-import { ListaResumen } from "./listas.modelos"
+import { ProveedorResumen } from "./proveedores.modelos"
 import { PaginacionResultado, Dictionary } from "../modelos"
 import { PaginaComponent } from "../pagina.component"
 import { PaginacionComponent } from "../paginacion.component"
 
 @Component({
-    selector: 'listas-listado',
-    templateUrl: 'app/mantenimientos/listas-listado.template.html',
-    providers: [ListasServicio],
+    selector: 'proveedores-listado',
+    templateUrl: 'app/mantenimientos/proveedores-listado.template.html',
+    providers: [ProveedoresServicio],
     directives: [ROUTER_DIRECTIVES, PaginaComponent, PaginacionComponent]
 })
-export class ListasListadoComponent implements OnInit {
 
+export class ProveedoresListadoComponent implements OnInit {
     private pagina: number = null;
-    listas: PaginacionResultado<ListaResumen>;
+    proveedores: PaginacionResultado<ProveedorResumen>;
     ordenar: OrdenarServicio;
 
-    constructor(private listasServicio: ListasServicio) {
-        this.listas = {};
+    constructor(private proveedoresServicio: ProveedoresServicio) {
+        this.proveedores = {};
         this.ordenar = new OrdenarServicio();
         this.ordenar.alCambiarOrden.subscribe(this.cambiarOrden);
     }
 
     ngOnInit() {
-        this.obtenerListas();
+        this.ObtenerProveedores();
     }
 
-    obtenerListas(pagina?: number, campo?: string) {
+    ObtenerProveedores(pagina?: number, campo?: string) {
         var ordenamiento = this.ordenar.campos;
         this.pagina = pagina;
-        this.listasServicio.obtenerTodas({ pagina: pagina, ordenamiento: ordenamiento }).subscribe(x => {
-            this.listas = x;
-        });
+        this.proveedoresServicio.obtenerTodos({ pagina: pagina, ordenamiento: ordenamiento }).subscribe(x => {
+            this.proveedores = x;
+        })
     }
-
     cambiarPagina(pagina: number) {
-        this.obtenerListas(pagina);
+        this.ObtenerProveedores(pagina);
     }
 
     cambiarOrden = (columna: string) => {
-        this.obtenerListas(this.pagina);
+        this.ObtenerProveedores(this.pagina);
     }
+
 }
