@@ -41,25 +41,32 @@ namespace Bodegas.Repositorios
 
         public async Task<ProductoDetalle> ObtenerUnicoAsync(int id)
         {
-            // para la implementación final, voy a necesitar varios includes para obtener el detalle del producto: 
-            //
-            //    var producto = await db.Productos.Include(x => x.Caracteristicas).Include(x => x.Marcas).ThenInclude(x => x.Marca).SingleAsync(x => x.Id == id);
-            //
-            // por el momento es suficiente con lo siguiente:
-
-            var producto = await db.Productos.SingleOrDefaultAsync(x => x.Id == id);
+            var producto = await db.Productos.Include(x => x.Caracteristicas).Include(x => x.Marcas).Include(x => x.UnidadesDeMedida).SingleOrDefaultAsync(x => x.Id == id);
 
             if (producto == null)
             {
                 throw new RegistroNoEncontradoException($"No existe ningún producto con el id {id}.");
             }
 
+
+
             return new ProductoDetalle
             {
                 Id = producto.Id,
                 Nombre = producto.Nombre,
-                Descripcion = producto.Descripcion
-                // TODO: Mapear el resto de propiedades.
+                Descripcion = producto.Descripcion,
+                Marcas = producto.Marcas.Select(x => x.MarcaId).ToArray(),
+                Unidades = producto.UnidadesDeMedida.Select(x => x.UnidadDeMedidaId).ToArray(),
+                Caracteristicas = producto.Caracteristicas.Select(x => new CaracteristicaDetalle {
+                    Id = x.Id,
+                    Nombre = x.Nombre,
+                    Tipo = (int) x.TipoCaracteristica,
+                    TipoNombre = x.TipoCaracteristica.ToString().SplitByUpperCase(),
+                    Requerido = x.Requerido,
+                    ListaId = x.ListaId,
+                    Minimo = x.Minimo,
+                    Maximo = x.Maximo
+                }).ToArray()
             };
         }
 
@@ -77,6 +84,11 @@ namespace Bodegas.Repositorios
                 Nombre = nombre,
                 Descripcion = descripcion
             };
+
+            if (producto.Marcas != null && producto.Marcas.Length > 0)
+            {
+
+            }
 
             db.Productos.Add(nuevoProducto);
 

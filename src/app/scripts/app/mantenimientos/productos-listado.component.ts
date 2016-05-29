@@ -9,11 +9,12 @@ import { PaginacionComponent } from "../paginacion.component"
 import { ErroresServicio } from "../errores.servicio"
 import { MarcasServicio } from "./marcas.servicio"
 import { UnidadesDeMedidaServicio } from "./unidades-de-medida.servicio"
+import { ListasServicio } from "./listas.servicio"
 
 @Component({
     selector: 'productos-listado',
     templateUrl: 'app/mantenimientos/productos-listado.template.html',
-    providers: [ProductosServicio, ErroresServicio, MarcasServicio, UnidadesDeMedidaServicio],
+    providers: [ProductosServicio, ErroresServicio, MarcasServicio, UnidadesDeMedidaServicio, ListasServicio],
     directives: [ROUTER_DIRECTIVES, PaginaComponent, PaginacionComponent]
 })
 export class ProductosListadoComponent implements OnInit {

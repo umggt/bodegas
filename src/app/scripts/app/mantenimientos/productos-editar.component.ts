@@ -168,8 +168,6 @@ export class ProductosEditarComponent implements OnInit {
 
         this.esLista = tipo === 8 || tipo === 9;
         this.esNumero = [0, 1, 2, 3, 4].indexOf(tipo) >= 0;
-        console.log(tipo);
-        console.log([this.esLista, this.esNumero]);
     }
     
 }
