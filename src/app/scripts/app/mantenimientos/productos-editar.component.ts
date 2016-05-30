@@ -39,6 +39,7 @@ export class ProductosEditarComponent implements OnInit {
     public listas: ListaResumen[];
     public esLista: boolean = false;
     public esNumero: boolean = false;
+    private caracteristicaEnEdicion: Caracteristica;
 
     public constructor(
         private routeParams: RouteParams,
@@ -172,8 +173,26 @@ export class ProductosEditarComponent implements OnInit {
 
     public guardarCaracteristica() {
         this.producto.caracteristicas = this.producto.caracteristicas || [];
-        this.producto.caracteristicas.push(this.caracteristica);
-        this.caracteristica = null;
+
+        if (!this.caracteristicaEnEdicion) {
+            this.producto.caracteristicas.push(this.caracteristica);
+            this.caracteristica = null;
+        } else {
+            let a = this.caracteristicaEnEdicion;
+            let b = this.caracteristica;
+
+            a.nombre = b.nombre;
+            a.tipo = b.tipo;
+            a.tipoNombre = b.tipoNombre;
+            a.listaId = b.listaId;
+            a.minimo = b.minimo;
+            a.maximo = b.maximo;
+            a.requerido = b.requerido;
+            a.expresion = b.expresion;
+
+            this.caracteristicaEnEdicion = null;
+            this.caracteristica = null;
+        }
         $("#carcteristicas-modal").modal("hide");
     }
 
@@ -188,7 +207,11 @@ export class ProductosEditarComponent implements OnInit {
             maximo: null,
             expresion: null
         };
+        this.caracteristicaEnEdicion = null;
+        this.abrirModalEdicionCaracteristica();
+    }
 
+    private abrirModalEdicionCaracteristica() {
         if (!this.tiposCaracteristica || !this.tiposCaracteristica.length) {
             this.productosServicio.obtenerCaracteristicas().subscribe(x => {
                 this.tiposCaracteristica = x;
@@ -224,5 +247,29 @@ export class ProductosEditarComponent implements OnInit {
         this.esLista = tipo === 8 || tipo === 9;
         this.esNumero = [0, 1, 2, 3, 4].indexOf(tipo) >= 0;
     }
-    
+
+    public eliminarCaracteristica(item: Caracteristica) {
+        if (!confirm(`¿seguro que desea eliminar la característica ${item.nombre}`)){
+            return;
+        }
+
+        var index = this.producto.caracteristicas.indexOf(item);
+        this.producto.caracteristicas.splice(index, 1);
+    }
+
+    public editarCaracteristica(item: Caracteristica) {
+        this.caracteristica = {
+            id: item.id,
+            tipo: item.tipo,
+            tipoNombre: item.tipoNombre,
+            nombre: item.nombre,
+            listaId: item.listaId,
+            minimo: item.minimo,
+            maximo: item.maximo,
+            requerido: item.requerido,
+            expresion: item.expresion
+        };
+        this.caracteristicaEnEdicion = item;
+        this.abrirModalEdicionCaracteristica();
+    }
 }
