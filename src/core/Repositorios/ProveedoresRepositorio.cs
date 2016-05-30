@@ -49,7 +49,8 @@ namespace Bodegas.Repositorios
                 Id = proveedor.Id,
                 Nombre = proveedor.Nombre,
                 NombreDeContacto = proveedor.NombreDeContacto,
-                Direccion = proveedor.Direccion
+                Direccion = proveedor.Direccion,
+                Telefonos = proveedor.Telefonos.Select(x => new ProveedorTelefonoDetalle { ProveedorId = x.ProveedorId, Telefono = x.Telefono }).ToList()
             };
         }
 
@@ -115,40 +116,51 @@ namespace Bodegas.Repositorios
             return filasAfectadas > 0;
         }
 
-        public async Task<bool> CrearTelefonos(int id, int[] telefonos)
+        private async Task<bool> ExisteTelefono(int idProveedor, long telefono)
         {
-            var proveedorAEditar = await db.Proveedores.Include(x => x.Telefonos).Include(x => x.Productos).SingleOrDefaultAsync(x => x.Id == id);
+            return await db.ProveedorTelefonos.AnyAsync(x => x.ProveedorId == idProveedor && x.Telefono == telefono);
+        }
 
-            if (proveedorAEditar == null)
+        public async Task<ProveedorTelefono> CrearTelefonoAsync(int idProveedor, long numero)
+        {
+            if (await ExisteTelefono(idProveedor, numero))
             {
-                throw new RegistroNoEncontradoException($"No existe el proveedor {id}");
+                throw new InvalidOperationException($"Ya existe el número de teléfono {numero} para el proveedor {idProveedor}");
             }
 
-            foreach (var item in proveedorAEditar.Telefonos)
+            var nuevoTelefono = new ProveedorTelefono
             {
-                proveedorAEditar.Telefonos.Remove(item);
-            }
+                ProveedorId = idProveedor,
+                Telefono = numero
+            };
 
-            foreach (var item in telefonos)
-            {
-                
-                var nuevoTelefonoProveedor = new ProveedorTelefono
-                {
-                    ProveedorId = id,
-                    Telefono = item
-                };
-                proveedorAEditar.Telefonos.Add(nuevoTelefonoProveedor);
-            }
+            db.ProveedorTelefonos.Add(nuevoTelefono);
 
             var filasAfectadas = await db.SaveChangesAsync();
             if (filasAfectadas > 0)
             {
-                return true;
+                return nuevoTelefono;
             }
-            else
-            {
-                return false;
-            }
+
+            return null;
+
         }
+
+        public async Task<bool> EliminarTelefonoAsync(int idProveedor, long telefono)
+        {
+            var telefonoAEliminar = await db.ProveedorTelefonos.SingleOrDefaultAsync(x => x.Telefono == telefono && x.ProveedorId == idProveedor);
+
+            if (telefonoAEliminar == null)
+            {
+                throw new RegistroNoEncontradoException($"No existe el teléfono {telefono}");
+            }
+
+            db.ProveedorTelefonos.Remove(telefonoAEliminar);
+
+            var filasAfectadas = await db.SaveChangesAsync();
+            return filasAfectadas > 0;
+        }
+
+
     }
 }

@@ -10,6 +10,7 @@
                         <th class="ordenable" (click)="ordenar.porCampo('id')" [ngClass]="ordenar.css('id')">Id <i></i></th>
                         <th class="ordenable" (click)="ordenar.porCampo('nombre')" [ngClass]="ordenar.css('nombre')">Nombre <i></i></th>
                         <th class="ordenable" (click)="ordenar.porCampo('nombreContacto')" [ngClass]="ordenar.css('nombreContacto')">Nombre de Contacto <i></i></th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -17,10 +18,13 @@
                         <td><a [routerLink]="['ProveedoresEditar', { id: proveedor.id }]">{{ proveedor.id }}</a></td>
                         <td>{{ proveedor.nombre }}</td>
                         <td>{{ proveedor.nombreContacto }}</td>
+                      
                     </tr>
                 </tbody>
             </table>
             <paginacion [resultado]="proveedores" (alCambiarPagina)="cambiarPagina($event)"></paginacion>
         </div>
     </div>
+
+  
 </pagina>

@@ -1,7 +1,7 @@
 ﻿import { Injectable } from "@angular/core"
 import { Observable } from 'rxjs/Observable'
 import { Headers, RequestMethod, URLSearchParams } from "@angular/http"
-import { ProveedorResumen, ProveedorDetalle } from "./proveedores.modelos"
+import { ProveedorResumen, ProveedorDetalle, ProveedorTelefono } from "./proveedores.modelos"
 import { PaginacionResultado, PaginacionParametros } from "../modelos"
 import { HttpServicio } from "../http.servicio"
 
@@ -36,5 +36,18 @@ export class ProveedoresServicio {
         }
 
         return this.http.request(url, { body: body, method: method }).map(x => x.json() as ProveedorDetalle);
+    }
+
+    guardarTelefono(telefono: number, idProveedor: number): Observable<ProveedorTelefono> {
+        const body = JSON.stringify({ telefono: telefono, idProveedor: idProveedor });
+        let url = this.url + idProveedor + "/telefonos";
+        let method = RequestMethod.Post;
+        return this.http.request(url, { body: body, method: method }).map(x => x.json() as ProveedorTelefono);
+    }
+
+    eliminarTelefono(idProveedor: number, telefono: number) {
+        let url = this.url + idProveedor + "/telefonos/" + telefono;
+        console.log(url);
+        return this.http.delete(url);
     }
 }

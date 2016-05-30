@@ -7,6 +7,7 @@ import { PaginacionResultado, Dictionary } from "../modelos"
 import { PaginaComponent } from "../pagina.component"
 import { PaginacionComponent } from "../paginacion.component"
 
+declare var $: any;
 @Component({
     selector: 'proveedores-listado',
     templateUrl: 'app/mantenimientos/proveedores-listado.template.html',
@@ -43,5 +44,8 @@ export class ProveedoresListadoComponent implements OnInit {
     cambiarOrden = (columna: string) => {
         this.ObtenerProveedores(this.pagina);
     }
+
+  
+
 
 }

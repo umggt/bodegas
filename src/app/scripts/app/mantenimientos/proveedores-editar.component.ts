@@ -8,7 +8,7 @@ import { PaginaComponent } from "../pagina.component"
 import { PaginacionComponent } from "../paginacion.component"
 import { ErroresServicio } from "../errores.servicio"
 
-
+declare var $: any;
 @Component({
     selector: 'proveedores-editar',
     templateUrl: 'app/mantenimientos/proveedores-editar.template.html',
@@ -24,7 +24,7 @@ export class ProveedoresEditarComponent implements OnInit {
     public mensaje: string;
     public alerta: string;
     public errores: string[];
-
+    private telefono: number;
     public constructor(
         private routeParams: RouteParams,
         private proveedoresServicio: ProveedoresServicio,
@@ -55,6 +55,8 @@ export class ProveedoresEditarComponent implements OnInit {
         if (!this.modoCreacion) {
             this.proveedoresServicio.obtenerUnico(this.proveedorId).subscribe(x => {
                 this.proveedor = x;
+                console.log("proveedor0");
+                console.log(this.proveedor);
             });
         }
     }
@@ -81,6 +83,45 @@ export class ProveedoresEditarComponent implements OnInit {
                     this.errores = this.erroresServicio.obtenerErrores(error);
                 }
             });
+    }
+
+    public openAgregarTelefono() {
+        this.telefono = null;
+        $("#myModal").modal("show");
+    }
+    public ocultar() {
+        if (this.modoCreacion) {
+            return true;
+        }
+        else {
+            return false
+        }
+    }
+
+    public guardarTelefono() {
+        this.guardando = true;
+        this.mensaje = null;
+        this.alerta = null;
+        this.errores = null;
+        console.log('entrada:' + this.telefono);
+        this.proveedoresServicio.guardarTelefono(this.telefono, this.proveedorId).subscribe(
+            telefono => {
+                console.log(this.proveedor);
+                this.proveedor.telefonos.push({ telefono: telefono.telefono });
+                $("#myModal").modal("hide");
+            });
+    }
+
+    public eliminarTelefono(telefono: number) {
+        if (!confirm("Esta seguro de eliminar este teléfono?"))
+            return;
+
+        this.proveedoresServicio.eliminarTelefono(this.proveedor.id, telefono).subscribe(x => {
+            for (var item of this.proveedor.telefonos) {
+                if (item.telefono == telefono)
+                    this.proveedor.telefonos.splice(this.proveedor.telefonos.indexOf(item), 1);
+            }
+        });
     }
 
 }

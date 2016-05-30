@@ -67,17 +67,23 @@ namespace Bodegas.Controllers
             }
         }
 
-        [HttpPost("{id}", Name = "PostTelefonos")]
-        public async Task<IActionResult> Post(int id, int[] telefonos)
+        [HttpPost("{idProveedor}/telefonos")]
+        public async Task<IActionResult> Post(int idProveedor, [FromBody] ProveedorTelefonoDetalle telefono)
         {
-            bool creado = false;
-
-            if (telefonos.Count() >= 1)
+            if (!ModelState.IsValid)
             {
-                 creado = await proveedores.CrearTelefonos(id, telefonos);
+                return HttpBadRequest(ModelState);
             }
 
-            if (creado)
+            var proveedorTelefono = await proveedores.CrearTelefonoAsync(idProveedor, telefono.Telefono);
+            return Created("api/core/proveedores/" + idProveedor + "/telefonos/" + proveedorTelefono.Telefono, proveedorTelefono);
+        }
+
+        [HttpDelete("{idProveedor}/telefonos/{telefono}")]
+        public async Task<IActionResult> Delete(int idProveedor, int telefono)
+        {
+            var eliminado = await proveedores.EliminarTelefonoAsync(idProveedor, telefono);
+            if (eliminado)
             {
                 return Ok();
             }
@@ -86,5 +92,7 @@ namespace Bodegas.Controllers
                 return new HttpStatusCodeResult((int)HttpStatusCode.NotModified);
             }
         }
+
+
     }
 }
