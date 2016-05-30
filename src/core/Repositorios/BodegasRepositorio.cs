@@ -93,7 +93,7 @@ namespace Bodegas.Repositorios
 
             if (bodegaAEditar == null)
             {
-                throw new RegistroNoEncontradoException($"No existe el usuario {id} ");
+                throw new RegistroNoEncontradoException($"No existe la bodega {id} ");
 
             }
 

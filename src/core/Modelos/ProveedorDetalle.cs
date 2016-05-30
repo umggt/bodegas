@@ -15,9 +15,14 @@ namespace Bodegas.Modelos
         [StringLength(400, ErrorMessage = StringLengthMessage)]
         public string Nombre { get; set; }
 
+        [Display(Name = "Direccion")]
+        [StringLength(1000, ErrorMessage = StringLengthMessage)]
         public string Direccion { get; set; }
 
+        [Display(Name = "Nombre de Contacto")]
+        [StringLength(1000, ErrorMessage = StringLengthMessage)]
         public string NombreDeContacto { get; set; }
 
+        public ICollection<ProveedorTelefonoDetalle> Telefonos { get; set; }
     }
 }

@@ -5,7 +5,7 @@ module Bodega {
         authority: "http://localhost:5001/auth",
         client_id: "bodegas_app",
         redirect_uri: window.location.protocol + "//" + window.location.host + "/",
-        post_logout_redirect_uri: window.location.protocol + "//" + window.location.host + "/",
+        post_logout_redirect_uri: window.location.protocol + "//" + window.location.host + "/logout.html",
         // these two will be done dynamically from the buttons clicked, but are
         // needed if you want to use the silent_renew
         response_type: "id_token token",

@@ -16,5 +16,9 @@ namespace Bodegas.Modelos
         [StringLength(5000, ErrorMessage = StringLengthMessage)]
         public string Descripcion { get; set; }
 
+        public CaracteristicaDetalle[] Caracteristicas { get; set; }
+
+        public int[] Marcas { get; set; }
+        public int[] Unidades { get; set; }
     }
 }

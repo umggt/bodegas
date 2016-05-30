@@ -1,4 +1,4 @@
-﻿<pagina titulo="Bodega" [subtitulo]="'(' + (bodega?.nombre || ( modoCreacion ? 'nueva' : '...')) + ')'">
+﻿<pagina titulo="Unidad de Medida" [subtitulo]="'(' + (unidadMedida?.nombre || ( modoCreacion ? 'nueva' : '...')) + ')'">
 
     <div *ngIf="errores && errores.length" class="alert alert-danger alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -23,20 +23,17 @@
     <div class="row">
         <div class="col-lg-12">
 
-            <form role="form" (ngSubmit)="guardar()" #frmBodega="ngForm" novalidate>
+            <form role="form" (ngSubmit)="guardar()" #frmUnidadDeMedida="ngForm" novalidate>
                 <div class="form-group col-md-6" [class.has-error]="nombre.touched  && !nombre.valid">
                     <label class="control-label">Nombre:</label>
-                    <input class="form-control" [(ngModel)]="bodega.nombre" placeholder="ej: bodega 1" required maxlength="2000" [disabled]="!modoCreacion" ngControl="nombre" #nombre="ngForm">
+                    <input class="form-control" [(ngModel)]="unidadMedida.nombre" placeholder="ej: litros" required maxlength="2000" [disabled]="!modoCreacion" ngControl="nombre" #nombre="ngForm">
                 </div>
-                <div class="form-group col-md-6" [class.has-error]="direccion.touched && !direccion.valid">
-                    <label class="control-label">Direcci&oacute;n</label>
-                    <input class="form-control" [(ngModel)]="bodega.direccion" placeholder="ej: 8va. calle 5-35 zona 10" required maxlength="2000"  ngControl="direccion" #direccion="ngForm">
-                </div>
-              
+
+
                 <div class="form-group">
                     <div class="col-sm-offset-7 col-sm-5 text-right">
-                        <a class="btn btn-default" [routerLink]="['BodegasListado']">Cancelar</a>
-                        <button type="submit" class="btn btn-primary" [disabled]="!frmBodega.form.valid || guardando">Guardar</button>
+                        <a class="btn btn-default" [routerLink]="['UnidadesDeMedidaListado']">Cancelar</a>
+                        <button type="submit" class="btn btn-primary" [disabled]="!frmUnidadDeMedida.form.valid || guardando">Guardar</button>
                     </div>
                 </div>
 

@@ -75,7 +75,7 @@ namespace Bodegas.Auth.Controllers
                     return Redirect("~/");
                 }
 
-                ModelState.AddModelError("", "Invalid username or password.");
+                ModelState.AddModelError("", "Usuario o contraseña incorrectos.");
             }
 
             var vm = new LoginViewModel(model);

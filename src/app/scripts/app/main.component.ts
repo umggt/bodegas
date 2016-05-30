@@ -7,10 +7,16 @@ import { NavegacionComponent } from "./core/navegacion.component"
 import { DashboardComponent } from "./core/dashboard.component"
 import { UsuariosListadoComponent } from "./seguridad/usuarios-listado.component"
 import { UsuariosEditarComponent } from "./seguridad/usuarios-editar.component"
-import { ProductosListadoComponent } from "./core/productos-listado.component"
-import { ProductosEditarComponent } from "./core/productos-editar.component"
+import { ProductosListadoComponent } from "./mantenimientos/productos-listado.component"
+import { ProductosEditarComponent } from "./mantenimientos/productos-editar.component"
 import { ListasListadoComponent } from "./mantenimientos/listas-listado.component"
 import { ListasEditarComponent } from "./mantenimientos/listas-editar.component"
+import { ProveedoresListadoComponent } from "./mantenimientos/proveedores-listado.component"
+import {ProveedoresEditarComponent} from "./mantenimientos/proveedores-editar.component"
+import { MarcasListadoComponent } from "./mantenimientos/marcas-listado.component"
+import {MarcasEditarComponent} from "./mantenimientos/marcas-editar.component"
+import {UnidadesDeMedidaListadoComponent } from "./mantenimientos/unidades-de-medida-listado.component"
+import {UnidadesDeMedidaEditarComponent} from "./mantenimientos/unidades-de-medida-editar.component"
 
 @Component({
     selector: 'bodegas-main',
@@ -91,7 +97,57 @@ import { ListasEditarComponent } from "./mantenimientos/listas-editar.component"
         path: '/listas/:id',
         name: 'ListasEditar',
         component: ListasEditarComponent
-    }
+    },
+
+     {
+        path: '/proveedores',
+        name: 'ProveedoresListado',
+        component: ProveedoresListadoComponent
+    },
+     {
+         path: '/proveedores/nuevo',
+         name: 'ProveedoresCrear',
+         component: ProveedoresEditarComponent
+     },
+
+     {
+         path: '/proveedores/:id',
+         name: 'ProveedoresEditar',
+         component: ProveedoresEditarComponent
+     },
+
+     {
+         path: '/marcas',
+         name: 'MarcasListado',
+         component: MarcasListadoComponent
+     },
+     {
+         path: '/marcas/nuevo',
+         name: 'MarcasCrear',
+         component: MarcasEditarComponent
+     },
+
+     {
+         path: '/marcas/:id',
+         name: 'MarcasEditar',
+         component: MarcasEditarComponent
+     },
+     {
+         path: '/unidadesDeMedida',
+         name: 'UnidadesDeMedidaListado',
+         component: UnidadesDeMedidaListadoComponent
+     },
+     {
+         path: '/unidadesDeMedida/nuevo',
+         name: 'UnidadesDeMedidaCrear',
+         component: UnidadesDeMedidaEditarComponent
+     },
+
+     {
+         path: '/unidadesDeMedida/:id',
+         name: 'UnidadesDeMedidaEditar',
+         component: UnidadesDeMedidaEditarComponent
+     },
 ])
 export class MainComponent {
 

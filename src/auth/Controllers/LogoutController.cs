@@ -4,6 +4,7 @@ using Bodegas.Auth.Models;
 using IdentityServer4.Core;
 using IdentityServer4.Core.Services;
 using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Authorization;
 
 namespace Bodegas.Auth.Controllers
 {
@@ -33,6 +34,16 @@ namespace Bodegas.Auth.Controllers
 
             var vm = new LoggedOutViewModel();
             return View("LoggedOut", vm);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("/bodegas/logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.Authentication.SignOutAsync(Constants.PrimaryAuthenticationType);
+            // set this so UI rendering sees an anonymous user
+            HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
+            return Redirect("http://localhost:5000/");
         }
     }
 }

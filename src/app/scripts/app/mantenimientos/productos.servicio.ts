@@ -1,16 +1,21 @@
 ﻿import { Injectable } from "@angular/core"
 import { Observable } from 'rxjs/Observable'
 import { Headers, RequestMethod, URLSearchParams } from "@angular/http"
-import { ProductoResumen, Producto } from "./productos.modelos"
+import { ProductoResumen, Producto, TipoCaracteristica } from "./productos.modelos"
 import { PaginacionResultado, PaginacionParametros } from "../modelos"
 import { HttpServicio } from "../http.servicio"
+import { MarcasServicio } from "./marcas.servicio"
+import { UnidadesDeMedidaServicio } from "./unidades-de-medida.servicio"
+import { ListasServicio } from "./listas.servicio"
 
 @Injectable()
 export class ProductosServicio {
 
     private url = "http://localhost:5002/api/core/productos/";
+    private urlCaracteristicas = "http://localhost:5002/api/core/tiposdecaracteristicas";
 
-    constructor(private http: HttpServicio) { }
+    constructor(private http: HttpServicio, private marcas: MarcasServicio, private unidadesDeMedida: UnidadesDeMedidaServicio, private listas: ListasServicio) {
+    }
 
     public obtenerTodos(paginacion?: PaginacionParametros): Observable<PaginacionResultado<ProductoResumen>> {
         var params = this.http.params(paginacion);
@@ -40,4 +45,21 @@ export class ProductosServicio {
         let url = this.url + productoId;
         return this.http.delete(url);
     }
+
+    public obtenerMarcas() {
+        return this.marcas.obtenerTodos();
+    }
+
+    public obtenerUnidadesDeMedida() {
+        return this.unidadesDeMedida.obtenerTodos();
+    }
+
+    public obtenerCaracteristicas() : Observable<TipoCaracteristica[]> {
+        return this.http.get(this.urlCaracteristicas).map(x => x.json() as TipoCaracteristica[]);
+    }
+
+    public obtenerListas() {
+        return this.listas.obtenerTodas();
+    }
+
 }

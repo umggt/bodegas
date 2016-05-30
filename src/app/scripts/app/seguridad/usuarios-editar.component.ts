@@ -195,13 +195,14 @@ export class UsuariosEditarComponent implements OnInit {
         var nombreCompletoOriginal = this.usuario.nombreCompleto;
         var nombresOriginales = this.usuario.nombres;
         var apellidosOriginales = this.usuario.apellidos;
-        var actualizar = nombreCompletoOriginal == `${nombresOriginales} ${apellidosOriginales}`.trim();
+        var actualizar = !nombreCompletoOriginal || nombreCompletoOriginal == `${nombresOriginales} ${apellidosOriginales}`;
 
-        this.usuario.nombres = nombres.trim();
-        this.usuario.apellidos = apellidos.trim();
+        this.usuario.nombres = nombres;
+        this.usuario.apellidos = apellidos;
 
         if (actualizar) {
-            this.usuario.nombreCompleto = `${nombres} ${apellidos}`.trim();
+            let nuevoNombreCompleto = `${nombres} ${apellidos}`;
+            this.usuario.nombreCompleto = nuevoNombreCompleto.trim() ? nuevoNombreCompleto : "";
         }
     }
 
