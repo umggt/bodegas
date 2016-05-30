@@ -17,4 +17,24 @@ export class MarcasServicio {
         return this.http.get(this.url, { search: params }).map(x => x.json() as PaginacionResultado<Marca>);
     }
 
+    obtenerUnica(id: number): Observable<Marca> {
+        return this.http.get(this.url + id).map(x => x.json() as Marca);
+    }
+
+    guardar(marca: Marca): Observable<Marca> {
+
+        const body = JSON.stringify(marca);
+        let url = this.url;
+        let method = RequestMethod.Post;
+
+        // Si la entidad tiene un Id, se hace un HTTP PUT a /api/core/entidades/id
+        // en lugar de un HTTP POST a /api/core/entidades/
+        if (marca.id) {
+            url = this.url + marca.id;
+            method = RequestMethod.Put;
+        }
+
+        return this.http.request(url, { body: body, method: method }).map(x => x.json() as Marca);
+    }
+
 }

@@ -13,6 +13,11 @@ import { ListasListadoComponent } from "./mantenimientos/listas-listado.componen
 import { ListasEditarComponent } from "./mantenimientos/listas-editar.component"
 import { ProveedoresListadoComponent } from "./mantenimientos/proveedores-listado.component"
 import {ProveedoresEditarComponent} from "./mantenimientos/proveedores-editar.component"
+import { MarcasListadoComponent } from "./mantenimientos/marcas-listado.component"
+import {MarcasEditarComponent} from "./mantenimientos/marcas-editar.component"
+import {UnidadesDeMedidaListadoComponent } from "./mantenimientos/unidades-de-medida-listado.component"
+import {UnidadesDeMedidaEditarComponent} from "./mantenimientos/unidades-de-medida-editar.component"
+
 @Component({
     selector: 'bodegas-main',
     templateUrl: 'app/main.template.html',
@@ -109,6 +114,39 @@ import {ProveedoresEditarComponent} from "./mantenimientos/proveedores-editar.co
          path: '/proveedores/:id',
          name: 'ProveedoresEditar',
          component: ProveedoresEditarComponent
+     },
+
+     {
+         path: '/marcas',
+         name: 'MarcasListado',
+         component: MarcasListadoComponent
+     },
+     {
+         path: '/marcas/nuevo',
+         name: 'MarcasCrear',
+         component: MarcasEditarComponent
+     },
+
+     {
+         path: '/marcas/:id',
+         name: 'MarcasEditar',
+         component: MarcasEditarComponent
+     },
+     {
+         path: '/unidadesDeMedida',
+         name: 'UnidadesDeMedidaListado',
+         component: UnidadesDeMedidaListadoComponent
+     },
+     {
+         path: '/unidadesDeMedida/nuevo',
+         name: 'UnidadesDeMedidaCrear',
+         component: UnidadesDeMedidaEditarComponent
+     },
+
+     {
+         path: '/unidadesDeMedida/:id',
+         name: 'UnidadesDeMedidaEditar',
+         component: UnidadesDeMedidaEditarComponent
      },
 ])
 export class MainComponent {

@@ -50,6 +50,16 @@ namespace Bodegas.Db.DefaultData
                     {
                         Titulo = "Proveedores",
                         Ruta = "ProveedoresListado"
+                    },
+                        new OpcionDeMenu
+                    {
+                        Titulo = "Marcas",
+                        Ruta = "MarcasListado"
+                    },
+                             new OpcionDeMenu
+                    {
+                        Titulo = "Unidades De Medida",
+                        Ruta = "UnidadesDeMedidaListado"
                     }
                 }
             };

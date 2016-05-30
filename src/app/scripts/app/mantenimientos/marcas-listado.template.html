@@ -1,0 +1,25 @@
+﻿<pagina titulo="Listado de Marcas">
+    <div class="row">
+        <div class="col-lg-12">
+
+            <a [routerLink]="['MarcasCrear']" class="btn btn-sm btn-success pull-right" style="margin-bottom: 4px;"><span class="hidden-xs">Nueva Marca</span> <i class="glyphicon glyphicon-plus"></i></a>
+
+            <table class="table table-data table-bordered table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th class="ordenable" (click)="ordenar.porCampo('id')" [ngClass]="ordenar.css('id')">Id <i></i></th>
+                        <th class="ordenable" (click)="ordenar.porCampo('nombre')" [ngClass]="ordenar.css('nombre')">Nombre <i></i></th>
+                       
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let marca of marcas.elementos">
+                        <td><a [routerLink]="['MarcasEditar', { id: marca.id }]">{{ marca.id }}</a></td>
+                        <td>{{ marca.nombre }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <paginacion [resultado]="marcas" (alCambiarPagina)="cambiarPagina($event)"></paginacion>
+        </div>
+    </div>
+</pagina>
