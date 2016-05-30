@@ -215,19 +215,21 @@ export class ProductosEditarComponent implements OnInit {
         if (!this.tiposCaracteristica || !this.tiposCaracteristica.length) {
             this.productosServicio.obtenerCaracteristicas().subscribe(x => {
                 this.tiposCaracteristica = x;
-                this.cambiarTipo(x[0].id.toString());
+                let tipoASeleccionar = this.caracteristica.tipo || x[0].id;
+                this.cambiarTipo(tipoASeleccionar.toString());
             });
         } else {
-            this.cambiarTipo(this.tiposCaracteristica[0].id.toString());
+            let tipoASeleccionar = this.caracteristica.tipo || this.tiposCaracteristica[0].id;
+            this.cambiarTipo(tipoASeleccionar.toString());
         }
 
         if (!this.listas || !this.listas.length) {
             this.productosServicio.obtenerListas().subscribe(x => {
                 this.listas = x.elementos;
-                this.caracteristica.listaId = this.listas[0].id;
+                this.caracteristica.listaId = this.caracteristica.listaId || this.listas[0].id;
             });
         } else {
-            this.caracteristica.listaId = this.listas[0].id;
+            this.caracteristica.listaId = this.caracteristica.listaId || this.listas[0].id;
         }
 
         $("#carcteristicas-modal").modal("show");

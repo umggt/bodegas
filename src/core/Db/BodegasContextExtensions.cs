@@ -23,6 +23,7 @@ namespace Bodegas.Db
                 .GenerarListas()
                 .GenerarMarcas()
                 .GenerarUnidadesDeMedida()
+                .GenerarProductos()
                 .GenerarOpcionesDeMenu()
                 .GenerarUsuarios()
                 .GenerarRoles();

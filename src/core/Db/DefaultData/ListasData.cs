@@ -37,6 +37,16 @@ namespace Bodegas.Db.DefaultData
                         new ListaValor { Valor = "Usado" },
                         new ListaValor { Valor = "Inservible" }
                     }
+                },
+                new Lista
+                {
+                    Nombre = "Sistemas Operativos",
+                    Valores = new []
+                    {
+                        new ListaValor { Valor = "Windows" },
+                        new ListaValor { Valor = "Linux" },
+                        new ListaValor { Valor = "OS X" }
+                    }
                 }
             });
 
