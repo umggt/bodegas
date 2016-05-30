@@ -6,8 +6,10 @@
 
 export interface Producto {
     id?: number;
-    nombre: string;
-    descripcion: string;
+    nombre?: string;
+    descripcion?: string;
+    marcas?: number[];
+    unidades?: number[];
     caracteristicas?: Caracteristica[]
 }
 

@@ -87,7 +87,32 @@ namespace Bodegas.Repositorios
 
             if (producto.Marcas != null && producto.Marcas.Length > 0)
             {
+                nuevoProducto.Marcas = producto.Marcas.Select(marcaId => new ProductoMarca {
+                    Producto = nuevoProducto,
+                    MarcaId = marcaId
+                }).ToList();
+            }
 
+            if (producto.Unidades != null && producto.Unidades.Length > 0)
+            {
+                nuevoProducto.UnidadesDeMedida = producto.Unidades.Select(unidadId => new ProductoUnidadDeMedida {
+                    Producto = nuevoProducto,
+                    UnidadDeMedidaId = unidadId
+                }).ToList();
+            }
+
+            if (producto.Caracteristicas != null && producto.Caracteristicas.Length > 0)
+            {
+                nuevoProducto.Caracteristicas = producto.Caracteristicas.Select(c => new ProductoCaracteristica {
+                    Producto = nuevoProducto,
+                    TipoCaracteristica = (ProductoTipoCaracteristica) c.Tipo,
+                    Nombre = c.Nombre,
+                    ListaId = c.ListaId,
+                    Minimo = c.Minimo,
+                    Maximo = c.Maximo,
+                    Requerido = c.Requerido,
+                    ExpresionDeValidacion = null
+                }).ToList();
             }
 
             db.Productos.Add(nuevoProducto);
@@ -105,7 +130,7 @@ namespace Bodegas.Repositorios
 
         public async Task<bool> EditarAsync(int id, ProductoDetalle producto)
         {
-            var productoAEditar = await db.Productos.SingleOrDefaultAsync(x => x.Id == id);
+            var productoAEditar = await db.Productos.Include(x => x.Caracteristicas).Include(x => x.Marcas).Include(x => x.UnidadesDeMedida).SingleOrDefaultAsync(x => x.Id == id);
 
             if (productoAEditar == null)
             {
@@ -120,7 +145,76 @@ namespace Bodegas.Repositorios
 
             productoAEditar.Nombre = nombre;
             productoAEditar.Descripcion = producto.Descripcion.Trim();
-                 
+
+            while (productoAEditar.Marcas.Count > 0)
+            {
+                productoAEditar.Marcas.Remove(productoAEditar.Marcas.First());
+            }
+
+            while(productoAEditar.UnidadesDeMedida.Count > 0)
+            {
+                productoAEditar.UnidadesDeMedida.Remove(productoAEditar.UnidadesDeMedida.First());
+            }
+
+            if (producto.Marcas != null)
+            {
+                foreach (var marcaId in producto.Marcas)
+                {
+                    productoAEditar.Marcas.Add(new ProductoMarca { Producto = productoAEditar, MarcaId = marcaId });
+                }
+            }
+
+            if (productoAEditar.UnidadesDeMedida != null)
+            {
+                foreach (var unidadId in producto.Unidades)
+                {
+                    productoAEditar.UnidadesDeMedida.Add(new ProductoUnidadDeMedida { Producto = productoAEditar, UnidadDeMedidaId = unidadId });
+                }
+            }
+
+            if (producto.Caracteristicas == null)
+            {
+                producto.Caracteristicas = new CaracteristicaDetalle[] { };
+            }
+
+            var caracteristicasNuevasIds = producto.Caracteristicas.Select(x => x.Id).ToArray();
+            var caracteristicasViejasIds = productoAEditar.Caracteristicas.Select(x => x.Id).ToArray();
+
+            var caracteristicasParaEliminar = productoAEditar.Caracteristicas.Where(x => !caracteristicasNuevasIds.Contains(x.Id)).ToArray();
+            foreach (var c in caracteristicasParaEliminar)
+            {
+                productoAEditar.Caracteristicas.Remove(c);
+            }
+
+            var caracteristicasParaInsertar = producto.Caracteristicas.Where(x => x.Id == 0).ToArray();
+            foreach (var c in caracteristicasParaInsertar)
+            {
+                productoAEditar.Caracteristicas.Add(new ProductoCaracteristica {
+                    Producto = productoAEditar,
+                    TipoCaracteristica = (ProductoTipoCaracteristica) c.Tipo,
+                    Nombre = c.Nombre,
+                    ListaId = c.ListaId,
+                    Minimo = c.Minimo,
+                    Maximo = c.Maximo,
+                    Requerido = c.Requerido,
+                    ExpresionDeValidacion = null
+                });
+            }
+
+            var caracteristicasParaModificar = productoAEditar.Caracteristicas.Where(x => caracteristicasNuevasIds.Contains(x.Id)).ToArray();
+            foreach (var c in caracteristicasParaModificar)
+            {
+                var nc = producto.Caracteristicas.First(x => x.Id == c.Id);
+
+                c.Nombre = nc.Nombre;
+                c.TipoCaracteristica = (ProductoTipoCaracteristica) nc.Tipo;
+                c.ListaId = nc.ListaId;
+                c.Minimo = nc.Minimo;
+                c.Maximo = nc.Maximo;
+                c.Requerido = nc.Requerido;
+                c.ExpresionDeValidacion = null;
+            }
+
             var filasAfectadas = await db.SaveChangesAsync();
             return filasAfectadas > 0;
         }
