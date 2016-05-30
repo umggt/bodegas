@@ -146,52 +146,69 @@ namespace Bodegas.Repositorios
             productoAEditar.Nombre = nombre;
             productoAEditar.Descripcion = producto.Descripcion.Trim();
 
-            while (productoAEditar.Marcas.Count > 0)
-            {
-                productoAEditar.Marcas.Remove(productoAEditar.Marcas.First());
-            }
+            ActualizarMarcas(producto, productoAEditar);
+            ActualizarUnidades(producto, productoAEditar);
+            ActualizarCaracteristicas(producto, productoAEditar);
 
-            while(productoAEditar.UnidadesDeMedida.Count > 0)
-            {
-                productoAEditar.UnidadesDeMedida.Remove(productoAEditar.UnidadesDeMedida.First());
-            }
+            var filasAfectadas = await db.SaveChangesAsync();
+            return filasAfectadas > 0;
+        }
 
-            if (producto.Marcas != null)
-            {
-                foreach (var marcaId in producto.Marcas)
-                {
-                    productoAEditar.Marcas.Add(new ProductoMarca { Producto = productoAEditar, MarcaId = marcaId });
-                }
-            }
-
-            if (productoAEditar.UnidadesDeMedida != null)
-            {
-                foreach (var unidadId in producto.Unidades)
-                {
-                    productoAEditar.UnidadesDeMedida.Add(new ProductoUnidadDeMedida { Producto = productoAEditar, UnidadDeMedidaId = unidadId });
-                }
-            }
-
-            if (producto.Caracteristicas == null)
-            {
-                producto.Caracteristicas = new CaracteristicaDetalle[] { };
-            }
-
+        private static void ActualizarCaracteristicas(ProductoDetalle producto, Producto productoAEditar)
+        {
+            producto.Caracteristicas = producto.Caracteristicas ?? new CaracteristicaDetalle[] { };
             var caracteristicasNuevasIds = producto.Caracteristicas.Select(x => x.Id).ToArray();
             var caracteristicasViejasIds = productoAEditar.Caracteristicas.Select(x => x.Id).ToArray();
+            EliminarCaracteristicasInexistentes(productoAEditar, caracteristicasNuevasIds);
+            AgregarCaracteristicasNuevas(producto, productoAEditar);
+            ModificarCaracteristicasExistentes(producto, productoAEditar, caracteristicasNuevasIds);
+        }
 
-            var caracteristicasParaEliminar = productoAEditar.Caracteristicas.Where(x => !caracteristicasNuevasIds.Contains(x.Id)).ToArray();
-            foreach (var c in caracteristicasParaEliminar)
+        private static void ActualizarUnidades(ProductoDetalle producto, Producto productoAEditar)
+        {
+            producto.Unidades = producto.Unidades ?? new int[] { };
+            var unidadesNuevas = producto.Unidades;
+            var unidadesOriginales = productoAEditar.UnidadesDeMedida.Select(x => x.UnidadDeMedidaId).ToArray();
+
+            EliminarUnidadesInexistentes(productoAEditar, unidadesNuevas);
+            AgregarUnidadesNuevas(productoAEditar, unidadesNuevas, unidadesOriginales);
+        }
+
+        private static void ActualizarMarcas(ProductoDetalle producto, Producto productoAEditar)
+        {
+            producto.Marcas = producto.Marcas ?? new int[] { };
+            var marcasNuevas = producto.Marcas;
+            var marcasOriginales = productoAEditar.Marcas.Select(x => x.MarcaId).ToArray();
+            EliminarMarcasInexistentes(productoAEditar, marcasNuevas);
+            AgregarMarcasNuevas(productoAEditar, marcasNuevas, marcasOriginales);
+        }
+
+        private static void ModificarCaracteristicasExistentes(ProductoDetalle producto, Producto productoAEditar, int[] caracteristicasNuevasIds)
+        {
+            var caracteristicasParaModificar = productoAEditar.Caracteristicas.Where(x => caracteristicasNuevasIds.Contains(x.Id)).ToArray();
+            foreach (var c in caracteristicasParaModificar)
             {
-                productoAEditar.Caracteristicas.Remove(c);
-            }
+                var nc = producto.Caracteristicas.First(x => x.Id == c.Id);
 
+                c.Nombre = nc.Nombre;
+                c.TipoCaracteristica = (ProductoTipoCaracteristica)nc.Tipo;
+                c.ListaId = nc.ListaId;
+                c.Minimo = nc.Minimo;
+                c.Maximo = nc.Maximo;
+                c.Requerido = nc.Requerido;
+                c.ExpresionDeValidacion = null;
+            }
+        }
+
+        private static void AgregarCaracteristicasNuevas(ProductoDetalle producto, Producto productoAEditar)
+        {
             var caracteristicasParaInsertar = producto.Caracteristicas.Where(x => x.Id == 0).ToArray();
             foreach (var c in caracteristicasParaInsertar)
             {
-                productoAEditar.Caracteristicas.Add(new ProductoCaracteristica {
+                productoAEditar.Caracteristicas.Add(new ProductoCaracteristica
+                {
                     Producto = productoAEditar,
-                    TipoCaracteristica = (ProductoTipoCaracteristica) c.Tipo,
+                    TipoCaracteristica = (ProductoTipoCaracteristica)c.Tipo,
                     Nombre = c.Nombre,
                     ListaId = c.ListaId,
                     Minimo = c.Minimo,
@@ -200,23 +217,59 @@ namespace Bodegas.Repositorios
                     ExpresionDeValidacion = null
                 });
             }
+        }
 
-            var caracteristicasParaModificar = productoAEditar.Caracteristicas.Where(x => caracteristicasNuevasIds.Contains(x.Id)).ToArray();
-            foreach (var c in caracteristicasParaModificar)
+        private static void EliminarCaracteristicasInexistentes(Producto productoAEditar, int[] caracteristicasNuevasIds)
+        {
+            var caracteristicasParaEliminar = productoAEditar.Caracteristicas.Where(x => !caracteristicasNuevasIds.Contains(x.Id)).ToArray();
+            foreach (var c in caracteristicasParaEliminar)
             {
-                var nc = producto.Caracteristicas.First(x => x.Id == c.Id);
-
-                c.Nombre = nc.Nombre;
-                c.TipoCaracteristica = (ProductoTipoCaracteristica) nc.Tipo;
-                c.ListaId = nc.ListaId;
-                c.Minimo = nc.Minimo;
-                c.Maximo = nc.Maximo;
-                c.Requerido = nc.Requerido;
-                c.ExpresionDeValidacion = null;
+                productoAEditar.Caracteristicas.Remove(c);
             }
+        }
 
-            var filasAfectadas = await db.SaveChangesAsync();
-            return filasAfectadas > 0;
+        private static void AgregarUnidadesNuevas(Producto productoAEditar, int[] unidadesNuevas, int[] unidadesOriginales)
+        {
+            var unidadesParaInsertar = unidadesNuevas.Where(x => !unidadesOriginales.Contains(x)).ToArray();
+            foreach (var uId in unidadesParaInsertar)
+            {
+                productoAEditar.UnidadesDeMedida.Add(new ProductoUnidadDeMedida
+                {
+                    Producto = productoAEditar,
+                    UnidadDeMedidaId = uId
+                });
+            }
+        }
+
+        private static void EliminarUnidadesInexistentes(Producto productoAEditar, int[] unidadesNuevas)
+        {
+            var unidadesParaEliminar = productoAEditar.UnidadesDeMedida.Where(x => !unidadesNuevas.Contains(x.UnidadDeMedidaId)).ToArray();
+            foreach (var u in unidadesParaEliminar)
+            {
+                productoAEditar.UnidadesDeMedida.Remove(u);
+            }
+        }
+
+        private static void AgregarMarcasNuevas(Producto productoAEditar, int[] marcasNuevas, int[] marcasOriginales)
+        {
+            var marcasParaInsertar = marcasNuevas.Where(x => !marcasOriginales.Contains(x)).ToArray();
+            foreach (var mId in marcasParaInsertar)
+            {
+                productoAEditar.Marcas.Add(new ProductoMarca
+                {
+                    Producto = productoAEditar,
+                    MarcaId = mId
+                });
+            }
+        }
+
+        private static void EliminarMarcasInexistentes(Producto productoAEditar, int[] marcasNuevas)
+        {
+            var marcasParaEliminar = productoAEditar.Marcas.Where(x => !marcasNuevas.Contains(x.MarcaId)).ToArray();
+            foreach (var m in marcasParaEliminar)
+            {
+                productoAEditar.Marcas.Remove(m);
+            }
         }
 
         public async Task<bool> EliminarAsync(int id)
