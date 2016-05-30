@@ -45,7 +45,13 @@ export class ListasServicio {
 
     eliminarValor(idLista: number, idValor: number) {        
         let url = this.url + idLista + "/valores/" + idValor;
-        console.log(url);
+        
+        return this.http.delete(url);
+    }
+
+    eliminarLista(idLista: number) {
+        let url = this.url + idLista;
+        
         return this.http.delete(url);
     }
 }

@@ -8,13 +8,23 @@
                 <thead>
                     <tr>
                         <th class="ordenable" (click)="ordenar.porCampo('id')" [ngClass]="ordenar.css('id')">Id <i></i></th>
-                        <th class="ordenable" (click)="ordenar.porCampo('nombre')" [ngClass]="ordenar.css('nombre')">Nombre <i></i></th>                      
+                        <th class="ordenable" (click)="ordenar.porCampo('nombre')" [ngClass]="ordenar.css('nombre')">Nombre <i></i></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let lista of listas.elementos">
                         <td><a [routerLink]="['ListasEditar', { id: lista.id }]">{{ lista.id }}</a></td>                       
                         <td>{{ lista.nombre }}</td>
+                        <td>
+                            <div style="text-align: right;">
+                                <div class="btn btn-group">
+                                    <button (click)="eliminarLista(lista.id)">
+                                        <span class="fa fa-trash"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>

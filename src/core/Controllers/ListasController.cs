@@ -91,5 +91,19 @@ namespace Bodegas.Controllers
                 return new HttpStatusCodeResult((int)HttpStatusCode.NotModified);
             }
         }
+
+        [HttpDelete("{idLista}")]
+        public async Task<IActionResult> DeleteLista(int idLista)
+        {
+            var eliminado = await listas.EliminarListaAsync(idLista);
+            if (eliminado)
+            {
+                return Ok();
+            }
+            else
+            {
+                return new HttpStatusCodeResult((int)HttpStatusCode.NotModified);
+            }
+        }
     }
 }

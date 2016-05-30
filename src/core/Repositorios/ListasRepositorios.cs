@@ -156,5 +156,20 @@ namespace Bodegas.Repositorios
             var filasAfectadas = await db.SaveChangesAsync();
             return filasAfectadas > 0;
         }
+
+        public async Task<bool> EliminarListaAsync(int idLista)
+        {
+            var listaAEliminar = await db.Listas.SingleOrDefaultAsync(x =>  x.Id == idLista);
+
+            if (listaAEliminar == null)
+            {
+                throw new RegistroNoEncontradoException($"No existe la lista {idLista}");
+            }
+
+            db.Listas.Remove(listaAEliminar);
+
+            var filasAfectadas = await db.SaveChangesAsync();
+            return filasAfectadas > 0;
+        }
     }
 }

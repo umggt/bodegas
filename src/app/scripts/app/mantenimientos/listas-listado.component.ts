@@ -44,4 +44,17 @@ export class ListasListadoComponent implements OnInit {
     cambiarOrden = (columna: string) => {
         this.obtenerListas(this.pagina);
     }
+
+    public eliminarLista(idLista : number)
+    {
+        if (!confirm("Esta seguro de eliminar esta lista?"))
+            return;
+
+        this.listasServicio.eliminarLista(idLista).subscribe(x => {
+            for (var item of this.listas.elementos) {
+                if (item.id == idLista)
+                    this.listas.elementos.splice(this.listas.elementos.indexOf(item), 1);
+            }
+        });
+    }
 }
