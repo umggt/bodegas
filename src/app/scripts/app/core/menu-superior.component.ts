@@ -6,4 +6,11 @@
 })
 export class MenuSuperiorComponent {
 
+    public logout() {
+        localStorage.removeItem("TokenManager.token");
+        window.location.href = "http://localhost:5001/auth/bodegas/logout";
+    }
+
+    public perfil() {
+    }
 }

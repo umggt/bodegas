@@ -26,28 +26,28 @@
             <form role="form" (ngSubmit)="guardar()" #frmUsuario="ngForm" novalidate>
                 <div class="form-group col-md-6" [class.has-error]="login.touched  && !login.valid">
                     <label class="control-label">Usuario:</label>
-                    <input class="form-control" [(ngModel)]="usuario.login" placeholder="ej: fulano" required maxlength="150" [disabled]="!modoCreacion" ngControl="login" #login="ngForm">
+                    <input class="form-control" [(ngModel)]="usuario.login" placeholder="nombre con el que iniciar&aacute; sesi&oacute;n el usuario" required maxlength="150" [disabled]="!modoCreacion" ngControl="login" #login="ngForm">
                 </div>
                 <div class="form-group col-md-6" [class.has-error]="email.touched && !email.valid">
                     <label class="control-label">Correo electr&oacute;nico</label>
-                    <input class="form-control" [(ngModel)]="usuario.correo" placeholder="ej: fulano@dominio.com" required maxlength="200" type="email" ngControl="email" #email="ngForm">
+                    <input class="form-control" [(ngModel)]="usuario.correo" placeholder="correo electr&oacute;nico para notificaciones" required maxlength="200" type="email" ngControl="email" #email="ngForm">
                 </div>
                 <div class="form-group col-md-6" [class.has-error]="nombres.touched && !nombres.valid">
                     <label class="control-label">Nombres</label>
-                    <input class="form-control" [ngModel]="usuario.nombres" (ngModelChange)="cambiarNombres($event)" placeholder="ej: Fulano" required maxlength="200" ngControl="nombres" #nombres="ngForm">
+                    <input class="form-control" [ngModel]="usuario.nombres" (ngModelChange)="cambiarNombres($event)" placeholder="Nombres del usuario" required maxlength="200" ngControl="nombres" #nombres="ngForm">
                 </div>
                 <div class="form-group col-md-6" [class.has-error]="apellidos.touched && !apellidos.valid">
                     <label class="control-label">Apellidos</label>
-                    <input class="form-control" [ngModel]="usuario.apellidos" (ngModelChange)="cambiarApellidos($event)" placeholder="ej: de Tal" maxlength="200" ngControl="apellidos" #apellidos="ngForm">
+                    <input class="form-control" [ngModel]="usuario.apellidos" (ngModelChange)="cambiarApellidos($event)" placeholder="Apellidos del usuario" maxlength="200" ngControl="apellidos" #apellidos="ngForm">
                 </div>
                 <div class="form-group col-md-12" [class.has-error]="nombreCompleto.touched && !nombreCompleto.valid">
                     <label class="control-label">Nombre completo</label>
-                    <input class="form-control" [(ngModel)]="usuario.nombreCompleto" placeholder="ej: Dr. Fulano de Tal" required maxlength="400" ngControl="nombreCompleto" #nombreCompleto="ngForm">
+                    <input class="form-control" [(ngModel)]="usuario.nombreCompleto" placeholder="Nombre a desplegar en reportes" required maxlength="400" ngControl="nombreCompleto" #nombreCompleto="ngForm">
                     <p class="help-block small">Este es el nombre que se mostrar&aacute; en su perfil y reportes.</p>
                 </div>
                 <div class="form-group col-md-12" [class.has-error]="sitioWeb.touched && !sitioWeb.valid">
                     <label class="control-label">Sitio Web</label>
-                    <input class="form-control" [(ngModel)]="usuario.sitioWeb" placeholder="ej: http://www.misitio.com" maxlength="200" type="url" ngControl="sitioWeb" #sitioWeb="ngForm">
+                    <input class="form-control" [(ngModel)]="usuario.sitioWeb" placeholder="ingrese una url, ejemplo: http://www.misitio.com" maxlength="200" type="url" ngControl="sitioWeb" #sitioWeb="ngForm">
                 </div>
 
                 <div class="form-group col-md-12">
