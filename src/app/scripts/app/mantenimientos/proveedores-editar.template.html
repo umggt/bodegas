@@ -1,4 +1,4 @@
-﻿<pagina titulo="Proveedor">
+﻿<pagina titulo="Proveedor" [subtitulo]="'(' + (proveedor?.nombre || ( modoCreacion ? 'nuevo' : '...')) + ')'">
 
     <div *ngIf="errores && errores.length" class="alert alert-danger alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -45,6 +45,68 @@
                 </div>
 
             </form>
+        </div>
+    </div>
+
+
+    <div class="row" [hidden]="ocultar()">
+        <h4>Tel&eacute;fonos del Proveedor:</h4>
+        <hr />
+        <div class="col-lg-6">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-center">Numero</th>
+                        <th>
+                            <div style="text-align: center;">
+                                <div class="btn btn-group">
+                                    <button (click)="openAgregarTelefono()" title="Agregar nuevo teléfono" class="btn btn-success">
+                                        <span class="fa fa-plus">Agregar Tel&eacute;fono</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody style="font-size: 9pt;">
+                    <tr *ngFor="let telefono of proveedor.telefonos">
+                        <td class="text-center">{{telefono.telefono}}</td>
+                        <td>
+                            <div style="text-align: right;">
+                                <div class="btn btn-group">
+                                    <button (click)="eliminarTelefono(telefono.telefono)">
+                                        <span class="fa fa-trash"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Ingrese un nuevo tel&eacute;fono</h4>
+                </div>
+                <div class="modal-body">
+                    <label class="control-label">N&uacute;mero:</label>
+
+                    <input type="number" class="form-control" placeholder="ingrese el numero de telefono" required maxlength="8" [(ngModel)]="telefono">
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" (click)="guardarTelefono()">Aceptar</button>
+                </div>
+            </div>
         </div>
     </div>
 </pagina>

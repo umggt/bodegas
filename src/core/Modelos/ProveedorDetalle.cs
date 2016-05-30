@@ -23,6 +23,6 @@ namespace Bodegas.Modelos
         [StringLength(1000, ErrorMessage = StringLengthMessage)]
         public string NombreDeContacto { get; set; }
 
-        public int[] Telefonos { get; set; }
+        public ICollection<ProveedorTelefonoDetalle> Telefonos { get; set; }
     }
 }

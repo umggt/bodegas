@@ -9,4 +9,10 @@ export interface ProveedorDetalle {
     nombre: string;
     nombreDeContacto: string;
     direccion: string;
+    telefonos?: ProveedorTelefono[];
+}
+
+export interface ProveedorTelefono {
+    idProveedor?: number;
+    telefono: number;
 }
