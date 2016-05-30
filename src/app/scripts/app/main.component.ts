@@ -142,12 +142,26 @@ import {UnidadesDeMedidaEditarComponent} from "./mantenimientos/unidades-de-medi
          name: 'UnidadesDeMedidaCrear',
          component: UnidadesDeMedidaEditarComponent
      },
-
      {
          path: '/unidadesDeMedida/:id',
          name: 'UnidadesDeMedidaEditar',
          component: UnidadesDeMedidaEditarComponent
      },
+     {
+         path: '/ingresos',
+         name: 'IngresosListado',
+         component: ProductosListadoComponent
+     },
+     {
+         path: '/egresos',
+         name: 'EgresosListado',
+         component: ProductosListadoComponent
+     },
+     {
+         path: '/traslados',
+         name: 'TrasladosListado',
+         component: ProductosListadoComponent
+     }
 ])
 export class MainComponent {
 
