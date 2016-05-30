@@ -50,7 +50,7 @@
 
                         <div role="tabpanel" class="tab-pane active" id="marcas">
                             <div class="row">
-                                <button type="button" *ngFor="let marca of marcas?.elementos" class="btn col-sm-3" style="border-radius: 0;" (click)="toggle(marca)" [ngClass]="{ 'btn-success': marca.asignado, 'btn-default': !marca.asignado }">
+                                <button type="button" *ngFor="let marca of marcas?.elementos" class="btn col-sm-3" style="border-radius: 0;" (click)="toggleMarca(marca)" [ngClass]="{ 'btn-success': marca.asignado, 'btn-default': !marca.asignado }">
                                     {{ marca.nombre }}
                                     <i class="glyphicon pull-right" [ngClass]="{ 'glyphicon-ok': marca.asignado, 'glyphicon-remove': !marca.asignado }"></i>
                                 </button>
@@ -59,7 +59,7 @@
 
                         <div role="tabpanel" class="tab-pane" id="unidades">
                             <div class="row">
-                                <button type="button" *ngFor="let unidad of unidadesDeMedida?.elementos" class="btn col-sm-3" style="border-radius: 0;" (click)="toggle(unidad)" [ngClass]="{ 'btn-success': unidad.asignado, 'btn-default': !unidad.asignado }">
+                                <button type="button" *ngFor="let unidad of unidadesDeMedida?.elementos" class="btn col-sm-3" style="border-radius: 0;" (click)="toggleUnidad(unidad)" [ngClass]="{ 'btn-success': unidad.asignado, 'btn-default': !unidad.asignado }">
                                     {{ unidad.nombre }}
                                     <i class="glyphicon pull-right" [ngClass]="{ 'glyphicon-ok': unidad.asignado, 'glyphicon-remove': !unidad.asignado }"></i>
                                 </button>

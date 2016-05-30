@@ -86,13 +86,13 @@ export class ProductosEditarComponent implements OnInit {
     }
 
     private obtenerProducto() {
-        this.producto = {
-            nombre: "",
-            descripcion: ""
-        }
+        this.producto = {}
+
         if (!this.modoCreacion) {
             this.productosServicio.obtenerUnico(this.productoId).subscribe(x => {
                 this.producto = x;
+                this.seleccionarMarcas();
+                this.seleccionarUnidades();
             });
         }
     }
@@ -100,19 +100,74 @@ export class ProductosEditarComponent implements OnInit {
     private obtenerMarcas() {
         this.productosServicio.obtenerMarcas().subscribe(x => {
             this.marcas = x;
+            this.seleccionarMarcas();
         });
     }
 
     private obtenerUnidadesDeMedida() {
         this.productosServicio.obtenerUnidadesDeMedida().subscribe(x => {
             this.unidadesDeMedida = x;
+            this.seleccionarUnidades();
         });
     }
 
-    
+    private seleccionarMarcas() {
+        if (!this.producto || !this.producto.marcas || !this.producto.marcas.length) {
+            return;
+        }
 
-    public toggle(item: any) {
+        if (!this.marcas || !this.marcas.elementos || !this.marcas.elementos.length) {
+            return;
+        }
+
+        for (let marca of this.marcas.elementos) {
+            marca.asignado = this.producto.marcas.indexOf(marca.id) !== -1;
+        }
+    }
+
+    private seleccionarUnidades() {
+        if (!this.producto || !this.producto.unidades || !this.producto.unidades.length) {
+            return;
+        }
+
+        if (!this.unidadesDeMedida || !this.unidadesDeMedida.elementos || !this.unidadesDeMedida.elementos.length) {
+            return;
+        }
+
+        for (let unidad of this.unidadesDeMedida.elementos) {
+            unidad.asignado = this.producto.unidades.indexOf(unidad.id) !== -1;
+        }
+    }
+
+    public toggleUnidad(item: UnidadDeMedida) {
         item.asignado = !item.asignado;
+
+        this.producto.unidades = this.producto.unidades || [];
+
+        var index = this.producto.unidades.indexOf(item.id);
+        var existe = index !== -1;
+
+        if (item.asignado && !existe) {
+            this.producto.unidades.push(item.id);
+        } else if (!item.asignado && existe) {
+            this.producto.unidades.splice(index, 1);
+        }
+    }
+
+    public toggleMarca(item: Marca) {
+        item.asignado = !item.asignado;
+
+        this.producto.marcas = this.producto.marcas || [];
+
+        var index = this.producto.marcas.indexOf(item.id);
+        var existe = index !== -1;
+
+        if (item.asignado && !existe) {
+            this.producto.marcas.push(item.id);
+        } else if (!item.asignado && existe) {
+            this.producto.marcas.splice(index, 1);
+        }
+
     }
 
     public guardarCaracteristica() {
