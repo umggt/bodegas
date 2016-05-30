@@ -70,17 +70,17 @@ namespace Bodegas.Db.DefaultData
                         Titulo = "Listas",
                         Ruta = "ListasListado"
                     },
-                      new OpcionDeMenu
+                    new OpcionDeMenu
                     {
                         Titulo = "Proveedores",
                         Ruta = "ProveedoresListado"
                     },
-                        new OpcionDeMenu
+                    new OpcionDeMenu
                     {
                         Titulo = "Marcas",
                         Ruta = "MarcasListado"
                     },
-                             new OpcionDeMenu
+                    new OpcionDeMenu
                     {
                         Titulo = "Unidades De Medida",
                         Ruta = "UnidadesDeMedidaListado"
