@@ -12,11 +12,12 @@ import { ProductosEditarComponent } from "./mantenimientos/productos-editar.comp
 import { ListasListadoComponent } from "./mantenimientos/listas-listado.component"
 import { ListasEditarComponent } from "./mantenimientos/listas-editar.component"
 import { ProveedoresListadoComponent } from "./mantenimientos/proveedores-listado.component"
-import {ProveedoresEditarComponent} from "./mantenimientos/proveedores-editar.component"
+import { ProveedoresEditarComponent } from "./mantenimientos/proveedores-editar.component"
 import { MarcasListadoComponent } from "./mantenimientos/marcas-listado.component"
-import {MarcasEditarComponent} from "./mantenimientos/marcas-editar.component"
-import {UnidadesDeMedidaListadoComponent } from "./mantenimientos/unidades-de-medida-listado.component"
-import {UnidadesDeMedidaEditarComponent} from "./mantenimientos/unidades-de-medida-editar.component"
+import { MarcasEditarComponent } from "./mantenimientos/marcas-editar.component"
+import { UnidadesDeMedidaListadoComponent } from "./mantenimientos/unidades-de-medida-listado.component"
+import { UnidadesDeMedidaEditarComponent } from "./mantenimientos/unidades-de-medida-editar.component"
+import { IngresosListadoComponent } from "./gestiones/ingresos-listado.component"
 
 @Component({
     selector: 'bodegas-main',
@@ -150,7 +151,7 @@ import {UnidadesDeMedidaEditarComponent} from "./mantenimientos/unidades-de-medi
      {
          path: '/ingresos',
          name: 'IngresosListado',
-         component: ProductosListadoComponent
+         component: IngresosListadoComponent
      },
      {
          path: '/egresos',
