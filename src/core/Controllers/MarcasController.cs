@@ -26,7 +26,6 @@ namespace Bodegas.Controllers
             return Ok(result);
         }
 
-
         [HttpGet("{id}", Name = "GetMarca")]
         public async Task<IActionResult> GetSingle(int id)
         {

@@ -31,6 +31,19 @@ namespace Bodegas.Repositorios
             return await query.OrdenarAsync(paginacion, x => x.Id);
         }
 
+        internal async Task<PaginacionResultado<MarcaResumen>> ObtenerPorProductoAsync(int productoId, PaginacionParametros paginacion)
+        {
+            var query = from q in db.ProductoMarcas
+                        where q.ProductoId == productoId
+                        select new MarcaResumen
+                        {
+                            Id = q.Marca.Id,
+                            Nombre = q.Marca.Nombre
+                        };
+
+            return await query.Distinct().OrdenarAsync(paginacion, x => x.Id);
+        }
+
         public async Task<MarcaResumen> ObtenerUnicaAsync(int id)
         {
             var marca = await db.Marcas.SingleAsync(x => x.Id == id);

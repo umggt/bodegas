@@ -31,13 +31,13 @@
                 <div class="form-group col-md-12">
                     <label class="control-label">Proveedor:</label>
                     <select class="form-control" [(ngModel)]="ingreso.proveedorId">
-                        <option *ngFor="let proveedor of proveedores.elementos" value="proveedor.id">{{proveedor.nombre}}</option>
+                        <option *ngFor="let proveedor of proveedores.elementos" [value]="proveedor.id">{{proveedor.nombre}}</option>
                     </select>
                 </div>
                 <div class="form-group col-md-12">
                     <label class="control-label">Bodega:</label>
                     <select class="form-control" [(ngModel)]="ingreso.bodegaId">
-                        <option *ngFor="let bodega of bodegas.elementos" value="bodega.id">{{bodega.nombre}}</option>
+                        <option *ngFor="let bodega of bodegas.elementos" [value]="bodega.id">{{bodega.nombre}}</option>
                     </select>
                 </div>
 
@@ -118,38 +118,38 @@
                             <div class="form-group col-md-12">
                                 <label class="control-label">Producto:</label>
                                 <select class="form-control" [ngModel]="producto.productoId" (ngModelChange)="cambiarProducto($event)">
-                                    <option *ngFor="let p of productos?.elementos" value="p.id">{{p.nombre}}</option>
+                                    <option *ngFor="let p of productos?.elementos" [value]="p.id">{{p.nombre}}</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
                                 <label class="control-label">Marca:</label>
-                                <select class="form-control" [(ngModel)]="producto.marcaId">
+                                <select class="form-control" [(ngModel)]="producto.marcaId" [disabled]="!producto.productoId">
                                     <option *ngFor="let marca of marcas?.elementos" [value]="marca.id">{{marca.nombre}}</option>
                                 </select>
                             </div>
                            <div class="form-group col-md-6">
                                 <label class="control-label">Unidad de medida:</label>
-                                <select class="form-control" [(ngModel)]="producto.unidadId">
+                                <select class="form-control" [(ngModel)]="producto.unidadId" [disabled]="!producto.productoId">
                                     <option *ngFor="let unidad of unidades?.elementos" [value]="unidad.id">{{unidad.nombre}}</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6" [class.has-error]="cantidad.touched  && !cantidad.valid">
                                 <label class="control-label">Cantidad:</label>
-                                <input class="form-control" type="number" [(ngModel)]="producto.cantidad" ngControl="cantidad" #cantidad="ngForm" required min="0" [disabled]="producto.unidadId" />
+                                <input class="form-control" type="number" [(ngModel)]="producto.cantidad" ngControl="cantidad" #cantidad="ngForm" required min="0" [disabled]="!producto.unidadId" />
                             </div>
                             <div class="form-group col-md-6" [class.has-error]="precio.touched  && !precio.valid">
                                 <label class="control-label">Precio:</label>
                                 <div class="input-group">
                                     <span class="input-group-addon">Q</span>
-                                    <input type="number" class="form-control" [(ngModel)]="producto.precio" ngControl="precio" #precio="ngForm" required min="0">
+                                    <input type="number" class="form-control" [(ngModel)]="producto.precio" ngControl="precio" #precio="ngForm" required min="0" [disabled]="!producto.productoId">
                                 </div>
                             </div>
                             <div class="form-group col-md-12" [class.has-error]="serie.touched  && !serie.valid">
                                 <label class="control-label">N&uacute;mero de serie:</label>
-                                <input class="form-control" type="text" [(ngModel)]="producto.serie" ngControl="serie" #serie="ngForm" maxlength="200" />
+                                <input class="form-control" type="text" [(ngModel)]="producto.serie" ngControl="serie" #serie="ngForm" maxlength="200" [disabled]="!producto.productoId" />
                             </div>
 
-                            <div *ngIf="producto.productoId" class="form-group col-md-6" *ngFor="let caracter of caracteristicas">
+                            <div *ngIf="producto.productoId && caracteristicas && caracteristicas.length" class="form-group col-md-6" *ngFor="let caracter of caracteristicas">
                                 <label class="control-label">{{caracter.nombre}}</label>
                                 <select class="form-control" [(ngModel)]="caracter.listaValorId" *ngIf="caracter.esLista">
                                     <option *ngFor="let valor of caracter.valores" [value]="valor.id">{{valor.valor}}</option>

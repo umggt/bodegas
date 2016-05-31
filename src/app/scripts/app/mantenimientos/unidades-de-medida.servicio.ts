@@ -17,6 +17,11 @@ export class UnidadesDeMedidaServicio {
         return this.http.get(this.url, { search: params }).map(x => x.json() as PaginacionResultado<UnidadDeMedida>);
     }
 
+    public obtenerPorProducto(productoId: number, paginacion?: PaginacionParametros): Observable<PaginacionResultado<UnidadDeMedida>> {
+        var params = this.http.params(paginacion);
+        return this.http.get(`http://localhost:5002/api/core/productos/${productoId}/unidades`, { search: params }).map(x => x.json() as PaginacionResultado<UnidadDeMedida>);
+    }
+
     obtenerUnica(id: number): Observable<UnidadDeMedida> {
         return this.http.get(this.url + id).map(x => x.json() as UnidadDeMedida);
     }

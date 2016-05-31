@@ -8,12 +8,21 @@ import { BodegaResumen } from "../mantenimientos/bodegas.modelos"
 import { ProductoResumen } from "../mantenimientos/productos.modelos"
 import { UnidadDeMedida } from "../mantenimientos/unidades-de-medida.modelos"
 import { Marca } from "../mantenimientos/marcas.modelos"
- 
+import { MarcasServicio } from "../mantenimientos/marcas.servicio"
+import { UnidadesDeMedidaServicio } from "../mantenimientos/unidades-de-medida.servicio"
+import { ListasServicio } from "../mantenimientos/listas.servicio"
+import { ErroresServicio } from "../errores.servicio"
+import { ProductosServicio } from "../mantenimientos/productos.servicio"
+import { IngresosServicio } from "./ingresos.servicio"
+import { ProveedoresServicio } from "../mantenimientos/proveedores.servicio"
+import { BodegasServicio } from "../mantenimientos/bodegas.servicio"
+
 declare var $: any;
 
 @Component({
     selector: 'ingresos-editar',
     templateUrl: 'app/gestiones/ingresos-editar.template.html',
+    providers: [ProductosServicio, ErroresServicio, MarcasServicio, UnidadesDeMedidaServicio, ListasServicio, IngresosServicio, ProveedoresServicio, BodegasServicio],
     directives: [ROUTER_DIRECTIVES, PaginaComponent]
 })
 export class IngresosEditarComponent implements OnInit {
@@ -33,7 +42,7 @@ export class IngresosEditarComponent implements OnInit {
     private datePicker: any;
     private productoEnEdicion: IngresoProducto;
 
-    constructor() {
+    constructor(private ingresosServicio: IngresosServicio) {
         this.ingreso = {
             fecha: new Date()
         };
@@ -49,6 +58,9 @@ export class IngresosEditarComponent implements OnInit {
         });
         this.datePicker = $('#input-fecha').data("DateTimePicker");
         this.datePicker.date(new Date());
+        this.obtenerProveedores();
+        this.obtenerBodegas();
+        this.obtenerProductos();
     }
 
     public guardar() {
@@ -82,21 +94,45 @@ export class IngresosEditarComponent implements OnInit {
     public cambiarProducto(event: string) {
         var productoId = parseInt(event, 10);
         this.producto.productoId = productoId;
-        this.caracteristicas = [];
+        //this.caracteristicas = [];
+        this.obtenerUnidades(productoId);
+        this.obtenerMarcas(productoId);
     }
 
     public guardarProducto() {
     }
 
     private obtenerProductos() {
+        this.ingresosServicio.obtenerProductos().subscribe(x => {
+            this.productos = x;
+        });
     }
 
-    private obtenerUnidades() {
+    private obtenerProveedores() {
+        this.ingresosServicio.obtenerProveedores().subscribe(x => {
+            this.proveedores = x;
+        });
     }
 
-    private obtenerMarcas() {
+    private obtenerBodegas() {
+        this.ingresosServicio.obtenerBodegas().subscribe(x => {
+            this.bodegas = x;
+        })
+    }
+
+    private obtenerUnidades(productoId: number) {
+        this.ingresosServicio.obtenerUnidades(productoId).subscribe(x => {
+            this.unidades = x;
+        });
+    }
+
+    private obtenerMarcas(productoId: number) {
+        this.ingresosServicio.obtenerMarcas(productoId).subscribe(x => {
+            this.marcas = x;
+        });
     }
 
     private obtenerCaracteristicas(productoId: number) {
+
     }
 }

@@ -30,6 +30,20 @@ namespace Bodegas.Repositorios
 
             return await query.OrdenarAsync(paginacion, x => x.Id);
         }
+
+        internal async Task<PaginacionResultado<UnidadDeMedidaResumen>> ObtenerPorProductoAsync(int productoId, PaginacionParametros paginacion)
+        {
+            var query = from p in db.ProductoUnidadesDeMedida
+                        where p.ProductoId == productoId
+                        select new UnidadDeMedidaResumen
+                        {
+                            Id = p.UnidadDeMedida.Id,
+                            Nombre = p.UnidadDeMedida.Nombre
+                        };
+
+            return await query.Distinct().OrdenarAsync(paginacion, x => x.Nombre);
+        }
+
         public async Task<UnidadDeMedidaResumen> ObtenerUnicaAsync(int id)
         {
             var unidadMedida = await db.UnidadesDeMedida.SingleAsync(x => x.Id == id);
