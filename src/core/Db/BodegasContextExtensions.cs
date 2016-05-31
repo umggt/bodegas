@@ -24,8 +24,10 @@ namespace Bodegas.Db
                 .GenerarMarcas()
                 .GenerarUnidadesDeMedida()
                 .GenerarProductos()
-                .GenerarOpcionesDeMenu()
                 .GenerarUsuarios()
+                .GenerarProveedores()
+                .GenerarBodegas()
+                .GenerarOpcionesDeMenu()
                 .GenerarRoles();
         }
     }
