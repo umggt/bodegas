@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Bodegas.Controllers
 {
+    [Route("[controller]")]
     public class EgresosController: Controller
     {
         private readonly EgresosRepositorio egresos;

@@ -26,26 +26,26 @@ export class EgresosListadoComponent implements OnInit {
     constructor(private egresosServicio: EgresosServicio, private erroresServicio: ErroresServicio) {
         this.egresos = {};
         this.ordenar = new OrdenarServicio();
-        //this.ordenar.alCambiarOrden.subscribe(this.cambiarOrden);
+        this.ordenar.alCambiarOrden.subscribe(this.cambiarOrden);
     }
 
     public ngOnInit() {
-        //this.obtenerEgresos();
+        this.obtenerEgresos();
     }
 
-    //private obtenerEgresos(pagina?: number, campo?: string) {
-    //    var ordenamiento = this.ordenar.campos;
-    //    this.pagina = pagina;
-    //    this.egresosServicio.obtenerTodos({ pagina: pagina, ordenamiento: ordenamiento }).subscribe(x => {
-    //        this.egresos = x;
-    //    });
-    //}
+    private obtenerEgresos(pagina?: number, campo?: string) {
+        var ordenamiento = this.ordenar.campos;
+        this.pagina = pagina;
+        this.egresosServicio.obtenerTodos({ pagina: pagina, ordenamiento: ordenamiento }).subscribe(x => {
+            this.egresos = x;
+        });
+    }
 
-    //cambiarPagina(pagina: number) {
-    //    this.obtenerEgresos(pagina);
-    //}
+    public cambiarPagina(pagina: number) {
+        this.obtenerEgresos(pagina);
+    }
 
-    //cambiarOrden = (columna: string) => {
-    //    this.obtenerEgresos(this.pagina);
-    //}
+    public cambiarOrden = (columna: string) => {
+        this.obtenerEgresos(this.pagina);
+    }
 }
