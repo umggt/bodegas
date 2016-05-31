@@ -8,7 +8,8 @@ export interface EgresoDetalle
 {
     id?: number;
     bodegaId?: number;
-    productos: Producto;
+    productos?: Producto[];
+    fecha?: Date;
 
 }
 
@@ -18,4 +19,5 @@ export interface Producto {
     descripcion?: string;
     unidadDeMedidaId?: number;
     cantidad?: number;
+    unidadDeMedidaNombre?: string;
 }
