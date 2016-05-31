@@ -28,7 +28,9 @@ export class IngresosEditarComponent implements OnInit {
     public unidades: PaginacionResultado<UnidadDeMedida>;
     public marcas: PaginacionResultado<Marca>;
     public caracteristicas: IngresoProductoCaracteristica[];
+    public fechaTxt: string;
 
+    private datePicker: any;
     private productoEnEdicion: IngresoProducto;
 
     constructor() {
@@ -40,11 +42,17 @@ export class IngresosEditarComponent implements OnInit {
     }
 
     public ngOnInit() {
-
+        $("#input-fecha").datetimepicker({
+            locale: 'es',
+            format: 'DD/MM/YYYY hh:mm a',
+            allowInputToggle: true
+        });
+        this.datePicker = $('#input-fecha').data("DateTimePicker");
+        this.datePicker.date(new Date());
     }
 
     public guardar() {
-
+        this.ingreso.fecha = this.datePicker.date().toDate();
     }
 
     public nuevoProducto() {
