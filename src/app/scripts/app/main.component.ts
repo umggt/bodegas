@@ -18,6 +18,7 @@ import { MarcasEditarComponent } from "./mantenimientos/marcas-editar.component"
 import { UnidadesDeMedidaListadoComponent } from "./mantenimientos/unidades-de-medida-listado.component"
 import { UnidadesDeMedidaEditarComponent } from "./mantenimientos/unidades-de-medida-editar.component"
 import { IngresosListadoComponent } from "./gestiones/ingresos-listado.component"
+import { IngresosEditarComponent } from "./gestiones/ingresos-editar.component"
 
 @Component({
     selector: 'bodegas-main',
@@ -152,6 +153,11 @@ import { IngresosListadoComponent } from "./gestiones/ingresos-listado.component
          path: '/ingresos',
          name: 'IngresosListado',
          component: IngresosListadoComponent
+     },
+     {
+        path: '/ingresos/nuevo',
+        name: 'IngresosCrear',
+        component: IngresosEditarComponent
      },
      {
          path: '/egresos',
