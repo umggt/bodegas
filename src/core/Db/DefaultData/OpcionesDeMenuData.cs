@@ -25,6 +25,30 @@ namespace Bodegas.Db.DefaultData
                 Ruta = "Dashboard"
             };
 
+            var opcionGestiones = new OpcionDeMenu
+            {
+                Titulo = "Gestiones",
+                Icono = "fa-cogs",
+                Opciones = new []
+                {
+                    new OpcionDeMenu
+                    {
+                        Titulo = "Ingresos",
+                        Ruta = "IngresosListado"
+                    },
+                    new OpcionDeMenu
+                    {
+                        Titulo = "Egresos",
+                        Ruta = "EgresosListado"
+                    },
+                    new OpcionDeMenu
+                    {
+                        Titulo = "Traslados",
+                        Ruta = "TrasladosListado"
+                    }
+                }
+            };
+
             var opcionManteminientos = new OpcionDeMenu
             {
                 Titulo = "Mantenimientos",
@@ -46,17 +70,17 @@ namespace Bodegas.Db.DefaultData
                         Titulo = "Listas",
                         Ruta = "ListasListado"
                     },
-                      new OpcionDeMenu
+                    new OpcionDeMenu
                     {
                         Titulo = "Proveedores",
                         Ruta = "ProveedoresListado"
                     },
-                        new OpcionDeMenu
+                    new OpcionDeMenu
                     {
                         Titulo = "Marcas",
                         Ruta = "MarcasListado"
                     },
-                             new OpcionDeMenu
+                    new OpcionDeMenu
                     {
                         Titulo = "Unidades De Medida",
                         Ruta = "UnidadesDeMedidaListado"
@@ -79,6 +103,7 @@ namespace Bodegas.Db.DefaultData
             };
 
             db.OpcionesDeMenu.Add(opcionDashboard);
+            db.OpcionesDeMenu.Add(opcionGestiones);
             db.OpcionesDeMenu.Add(opcionManteminientos);
             db.OpcionesDeMenu.Add(opcionSeguridad);
             db.SaveChanges();

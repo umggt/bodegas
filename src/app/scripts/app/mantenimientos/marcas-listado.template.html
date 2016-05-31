@@ -9,13 +9,22 @@
                     <tr>
                         <th class="ordenable" (click)="ordenar.porCampo('id')" [ngClass]="ordenar.css('id')">Id <i></i></th>
                         <th class="ordenable" (click)="ordenar.porCampo('nombre')" [ngClass]="ordenar.css('nombre')">Nombre <i></i></th>
-                       
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let marca of marcas.elementos">
                         <td><a [routerLink]="['MarcasEditar', { id: marca.id }]">{{ marca.id }}</a></td>
                         <td>{{ marca.nombre }}</td>
+                        <td>
+                            <div style="text-align: right;">
+                                <div class="btn btn-group">
+                                    <button (click)="eliminarMarca(marca.id)">
+                                        <span class="fa fa-trash"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>

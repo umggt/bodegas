@@ -31,6 +31,19 @@ namespace Bodegas.Repositorios
             return await query.OrdenarAsync(paginacion, x => x.Id);
         }
 
+        internal async Task<PaginacionResultado<MarcaResumen>> ObtenerPorProductoAsync(int productoId, PaginacionParametros paginacion)
+        {
+            var query = from q in db.ProductoMarcas
+                        where q.ProductoId == productoId
+                        select new MarcaResumen
+                        {
+                            Id = q.Marca.Id,
+                            Nombre = q.Marca.Nombre
+                        };
+
+            return await query.Distinct().OrdenarAsync(paginacion, x => x.Id);
+        }
+
         public async Task<MarcaResumen> ObtenerUnicaAsync(int id)
         {
             var marca = await db.Marcas.SingleAsync(x => x.Id == id);
@@ -89,6 +102,30 @@ namespace Bodegas.Repositorios
             var filasAfectas = await db.SaveChangesAsync();
             return filasAfectas > 0;
 
+        }
+
+        public async Task<bool> EliminarMarcaAsync(int id)
+        {
+            if (await ExisteMarcaAsignada(id))
+            {
+                throw new RegistroNoEncontradoException($"La marca {id} ya está asignada a un producto.");
+            }
+            var marcaAEliminar = await db.Marcas.SingleOrDefaultAsync(x => x.Id == id);
+
+            if (marcaAEliminar == null)
+            {
+                throw new RegistroNoEncontradoException($"No existe la marca {id}");
+            }
+
+            db.Marcas.Remove(marcaAEliminar);
+
+            var filasAfectadas = await db.SaveChangesAsync();
+            return filasAfectadas > 0;
+        }
+
+        private Task<bool> ExisteMarcaAsignada(int id)
+        {
+            return db.ProductoMarcas.AnyAsync(x => x.MarcaId == id);
         }
     }
 }

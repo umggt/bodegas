@@ -17,6 +17,11 @@ export class MarcasServicio {
         return this.http.get(this.url, { search: params }).map(x => x.json() as PaginacionResultado<Marca>);
     }
 
+    public obtenerPorProducto(productoId: number, paginacion?: PaginacionParametros): Observable<PaginacionResultado<Marca>> {
+        var params = this.http.params(paginacion);
+        return this.http.get(`http://localhost:5002/api/core/productos/${productoId}/marcas`, { search: params }).map(x => x.json() as PaginacionResultado<Marca>);
+    }
+
     obtenerUnica(id: number): Observable<Marca> {
         return this.http.get(this.url + id).map(x => x.json() as Marca);
     }
@@ -37,4 +42,9 @@ export class MarcasServicio {
         return this.http.request(url, { body: body, method: method }).map(x => x.json() as Marca);
     }
 
+    eliminarMarca(id: number) {
+        let url = this.url + id;
+
+        return this.http.delete(url);
+    }
 }

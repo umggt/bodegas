@@ -26,7 +26,6 @@ namespace Bodegas.Controllers
             return Ok(result);
         }
 
-
         [HttpGet("{id}", Name = "GetMarca")]
         public async Task<IActionResult> GetSingle(int id)
         {
@@ -68,6 +67,20 @@ namespace Bodegas.Controllers
                 return new HttpStatusCodeResult((int)HttpStatusCode.NotModified);
             }
 
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMarca(int id)
+        {
+            var eliminado = await marcas.EliminarMarcaAsync(id);
+            if (eliminado)
+            {
+                return Ok();
+            }
+            else
+            {
+                return new HttpStatusCodeResult((int)HttpStatusCode.NotModified);
+            }
         }
     }
 }

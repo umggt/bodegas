@@ -12,11 +12,15 @@ import { ProductosEditarComponent } from "./mantenimientos/productos-editar.comp
 import { ListasListadoComponent } from "./mantenimientos/listas-listado.component"
 import { ListasEditarComponent } from "./mantenimientos/listas-editar.component"
 import { ProveedoresListadoComponent } from "./mantenimientos/proveedores-listado.component"
-import {ProveedoresEditarComponent} from "./mantenimientos/proveedores-editar.component"
+import { ProveedoresEditarComponent } from "./mantenimientos/proveedores-editar.component"
 import { MarcasListadoComponent } from "./mantenimientos/marcas-listado.component"
-import {MarcasEditarComponent} from "./mantenimientos/marcas-editar.component"
-import {UnidadesDeMedidaListadoComponent } from "./mantenimientos/unidades-de-medida-listado.component"
-import {UnidadesDeMedidaEditarComponent} from "./mantenimientos/unidades-de-medida-editar.component"
+import { MarcasEditarComponent } from "./mantenimientos/marcas-editar.component"
+import { UnidadesDeMedidaListadoComponent } from "./mantenimientos/unidades-de-medida-listado.component"
+import { UnidadesDeMedidaEditarComponent } from "./mantenimientos/unidades-de-medida-editar.component"
+import { IngresosListadoComponent } from "./gestiones/ingresos-listado.component"
+import { IngresosEditarComponent } from "./gestiones/ingresos-editar.component"
+import { EgresosListadoComponent } from "./gestiones/egresos-listado.component"
+import { EgresosEditarComponent } from "./gestiones/egresos-editar.component"
 import { PerfilEditarComponent } from "./seguridad/perfil-editar.component"
 
 @Component({
@@ -143,16 +147,35 @@ import { PerfilEditarComponent } from "./seguridad/perfil-editar.component"
          name: 'UnidadesDeMedidaCrear',
          component: UnidadesDeMedidaEditarComponent
      },
-
      {
          path: '/unidadesDeMedida/:id',
          name: 'UnidadesDeMedidaEditar',
          component: UnidadesDeMedidaEditarComponent
-     }, 
+     },
      {
-         path: '/perfil',
-         name: 'PerfilEditar',
-         component: PerfilEditarComponent
+         path: '/ingresos',
+         name: 'IngresosListado',
+         component: IngresosListadoComponent
+     },
+     {
+        path: '/ingresos/nuevo',
+        name: 'IngresosCrear',
+        component: IngresosEditarComponent
+     },
+     {
+         path: '/egresos',
+         name: 'EgresosListado',
+         component: EgresosListadoComponent
+     },
+     {
+         path: '/egresos/nuevo',
+         name: 'EgresosCrear',
+         component: EgresosEditarComponent
+     },
+     {
+         path: '/traslados',
+         name: 'TrasladosListado',
+         component: ProductosListadoComponent
      }
 ])
 export class MainComponent {

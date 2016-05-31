@@ -30,6 +30,20 @@ namespace Bodegas.Repositorios
 
             return await query.OrdenarAsync(paginacion, x => x.Id);
         }
+
+        internal async Task<PaginacionResultado<UnidadDeMedidaResumen>> ObtenerPorProductoAsync(int productoId, PaginacionParametros paginacion)
+        {
+            var query = from p in db.ProductoUnidadesDeMedida
+                        where p.ProductoId == productoId
+                        select new UnidadDeMedidaResumen
+                        {
+                            Id = p.UnidadDeMedida.Id,
+                            Nombre = p.UnidadDeMedida.Nombre
+                        };
+
+            return await query.Distinct().OrdenarAsync(paginacion, x => x.Nombre);
+        }
+
         public async Task<UnidadDeMedidaResumen> ObtenerUnicaAsync(int id)
         {
             var unidadMedida = await db.UnidadesDeMedida.SingleAsync(x => x.Id == id);
@@ -88,6 +102,30 @@ namespace Bodegas.Repositorios
             var filasAfectas = await db.SaveChangesAsync();
             return filasAfectas > 0;
 
+        }
+
+        public async Task<bool> EliminarUnidadDeMedidaAsync(int id)
+        {
+            if (await ExisteUnidadDeMedidaAsignada(id))
+            {
+                throw new RegistroNoEncontradoException($"La unidad de medida {id} ya está asignada a un producto.");
+            }
+            var unidadDeMedidaAEliminar = await db.UnidadesDeMedida.SingleOrDefaultAsync(x => x.Id == id);
+
+            if (unidadDeMedidaAEliminar == null)
+            {
+                throw new RegistroNoEncontradoException($"No existe la unidad de medida {id}");
+            }
+
+            db.UnidadesDeMedida.Remove(unidadDeMedidaAEliminar);
+
+            var filasAfectadas = await db.SaveChangesAsync();
+            return filasAfectadas > 0;
+        }
+
+        private Task<bool> ExisteUnidadDeMedidaAsignada(int id)
+        {
+            return db.ProductoUnidadesDeMedida.AnyAsync(x => x.UnidadDeMedidaId == id);
         }
 
     }

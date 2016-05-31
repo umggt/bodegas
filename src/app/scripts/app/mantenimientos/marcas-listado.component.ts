@@ -43,4 +43,15 @@ export class MarcasListadoComponent implements OnInit {
         this.obtenerMarcas(this.pagina);
     }
 
+    public eliminarMarca(id: number) {
+        if (!confirm("Esta seguro de eliminar esta marca?"))
+            return;
+
+        this.marcasServicio.eliminarMarca(id).subscribe(x => {
+            for (var item of this.marcas.elementos) {
+                if (item.id == id)
+                    this.marcas.elementos.splice(this.marcas.elementos.indexOf(item), 1);
+            }
+        });
+    }
 }

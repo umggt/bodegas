@@ -43,4 +43,17 @@ export class UnidadesDeMedidaListadoComponent implements OnInit {
         this.obtenerUnidadesDeMedida(this.pagina);
     }
 
+    public eliminarUnidadDeMedida(id: number) {
+        if (!confirm("Esta seguro de eliminar esta unidad de medida?"))
+            return;
+
+        this.unidadesDeMedidaServicio.eliminarUnidadDeMedida(id).subscribe(x => {
+            for (var item of this.unidadesMedida.elementos) {
+                if (item.id == id)
+                    this.unidadesMedida.elementos.splice(this.unidadesMedida.elementos.indexOf(item), 1);
+            }
+         
+        });
+    }
+
 }
