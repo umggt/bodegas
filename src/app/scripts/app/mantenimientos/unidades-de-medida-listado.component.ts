@@ -52,6 +52,7 @@ export class UnidadesDeMedidaListadoComponent implements OnInit {
                 if (item.id == id)
                     this.unidadesMedida.elementos.splice(this.unidadesMedida.elementos.indexOf(item), 1);
             }
+         
         });
     }
 
