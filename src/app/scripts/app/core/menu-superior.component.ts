@@ -12,5 +12,6 @@ export class MenuSuperiorComponent {
     }
 
     public perfil() {
+        window.location.href = "http://localhost:5000/perfil";
     }
 }

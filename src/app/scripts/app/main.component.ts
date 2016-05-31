@@ -17,6 +17,7 @@ import { MarcasListadoComponent } from "./mantenimientos/marcas-listado.componen
 import {MarcasEditarComponent} from "./mantenimientos/marcas-editar.component"
 import {UnidadesDeMedidaListadoComponent } from "./mantenimientos/unidades-de-medida-listado.component"
 import {UnidadesDeMedidaEditarComponent} from "./mantenimientos/unidades-de-medida-editar.component"
+import { PerfilEditarComponent } from "./seguridad/perfil-editar.component"
 
 @Component({
     selector: 'bodegas-main',
@@ -147,7 +148,12 @@ import {UnidadesDeMedidaEditarComponent} from "./mantenimientos/unidades-de-medi
          path: '/unidadesDeMedida/:id',
          name: 'UnidadesDeMedidaEditar',
          component: UnidadesDeMedidaEditarComponent
-     },
+     }, 
+     {
+         path: '/perfil',
+         name: 'PerfilEditar',
+         component: PerfilEditarComponent
+     }
 ])
 export class MainComponent {
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Bodegas.Modelos;
 using Bodegas.Repositorios;
 using System.Net;
+using Bodegas.Criptografia;
 
 namespace Bodegas.Controllers
 {
@@ -28,7 +29,8 @@ namespace Bodegas.Controllers
 
         [HttpGet("{id}", Name = "GetUsuario")]
         public async Task<IActionResult> GetSingle(int id)
-        {
+        {            
+            id = id == 0 ? User.Id() : id;
             var result = await usuarios.ObtenerUnicoAsync(id);
             return Ok(result);
         }
@@ -54,6 +56,8 @@ namespace Bodegas.Controllers
                 return HttpBadRequest(ModelState);
             }
 
+            id = id == 0 ? User.Id() : id;
+
             var modificado = await usuarios.EditarAsync(id, usuario);
             if (modificado)
             {
@@ -65,5 +69,30 @@ namespace Bodegas.Controllers
                 return new HttpStatusCodeResult((int) HttpStatusCode.NotModified);
             }
         }
+
+        [HttpPut("perfil/")]
+        public async Task<IActionResult> PutContrasenia(Contrasenias claves)
+        {
+            if (!ModelState.IsValid)
+            {
+                return HttpBadRequest(ModelState);
+            }
+
+            var confirma = await usuarios.ConfirmarClaveActualsync(User.Id(),claves.Actual);
+
+            if (!confirma)
+                return Ok("La contraseña actual no es correcta");
+
+            var modificado = await usuarios.CambiarContraseniaAsync(User.Id(), claves);
+
+            if (modificado)
+            {                
+                return Ok();
+            }
+            else
+            {
+                return new HttpStatusCodeResult((int)HttpStatusCode.NotModified);
+            }
+        }       
     }
 }

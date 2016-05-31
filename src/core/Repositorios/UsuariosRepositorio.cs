@@ -7,6 +7,7 @@ using Bodegas.Modelos;
 using Microsoft.Data.Entity;
 using Bodegas.Db.Entities;
 using Bodegas.Exceptions;
+using Bodegas.Criptografia;
 using System.Linq.Expressions;
 
 namespace Bodegas.Repositorios
@@ -335,6 +336,27 @@ namespace Bodegas.Repositorios
             }
 
             return true;
+        }
+
+        public async Task<bool> ConfirmarClaveActualsync(int idUsuario, string actual)
+        {
+            var usuario = db.Usuarios.First(x => x.Id == idUsuario);
+            return actual.Comparar(usuario.Clave);           
+        }
+
+        public async Task<bool> CambiarContraseniaAsync(int idUsuario, Contrasenias claves) {
+
+            var usuario = db.Usuarios.First(x => x.Id == idUsuario);
+            
+            if (usuario == null)
+            {
+                throw new RegistroNoEncontradoException($"No existe usuario con el id: {idUsuario}");
+            }
+            usuario.Clave = claves.Actual.Encriptar();           
+
+            var filasAfectadas = await db.SaveChangesAsync();
+            return filasAfectadas > 0;
+            
         }
     }
 }

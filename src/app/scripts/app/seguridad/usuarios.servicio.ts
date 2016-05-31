@@ -1,7 +1,7 @@
 ﻿import { Injectable } from "@angular/core"
 import { Observable } from 'rxjs/Observable'
 import { Headers, RequestMethod, URLSearchParams } from "@angular/http"
-import { UsuarioResumen, Usuario } from "./modelos"
+import { UsuarioResumen, Usuario, Contrasenias } from "./modelos"
 import { PaginacionResultado, PaginacionParametros } from "../modelos"
 import { HttpServicio } from "../http.servicio"
 
@@ -17,8 +17,8 @@ export class UsuariosServicio {
         return this.http.get(this.url, { search: params }).map(x => x.json() as PaginacionResultado<UsuarioResumen>);
     }
 
-    obtenerUnico(id: number): Observable<Usuario> {
-        return this.http.get(this.url + id).map(x => x.json() as Usuario);
+    obtenerUnico(id: number): Observable<Usuario> {        
+        return this.http.get(this.url + id).map(x => x.json() as Usuario);        
     }
 
     guardar(usuario: Usuario): Observable<Usuario> {
@@ -34,6 +34,15 @@ export class UsuariosServicio {
         }
 
         return this.http.request(url, { body: body, method: method }).map(x => x.json() as Usuario);
+    }
+
+    cambiarContrasenia(claves: Contrasenias): Observable<Contrasenias>{
+        let url = this.url + 'perfil';
+        const body = JSON.stringify(claves);
+        let method = RequestMethod.Put;
+
+        
+        return this.http.request(url, { body: body, method: method }).map(x => x.json() as Contrasenias);
     }
 
     private handleError(error: any) {

@@ -1,0 +1,113 @@
+﻿<pagina titulo="Perfil" [subtitulo]="'(' + usuario?.nombreCompleto  + ')'">
+    <div class="row">
+        <div class="col-lg-12 text-right">
+            <a (click)="mostrarModal()">
+                <u class="control-label text-primary">Cambiar Contraseña </u>
+                <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+
+    <div *ngIf="errores && errores.length" class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Ocurri&oacute; un Error</strong>
+        <ul *ngIf="errores && errores.length">
+            <li *ngFor="let descripcionError of errores">
+                {{descripcionError}}
+            </li>
+        </ul>
+    </div>
+
+    <div *ngIf="mensaje" class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Acci&oacute;n Finalizada</strong> {{ mensaje }}
+    </div>
+
+    <div *ngIf="alerta" class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Acci&oacute;n Finalizada</strong> {{ alerta }}
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+
+            <form role="form" (ngSubmit)="guardar()" #frmUsuario="ngForm" novalidate>
+                <div class="form-group col-md-6" [class.has-error]="nombres.touched && !nombres.valid">
+                    <label class="control-label">Nombres</label>
+                    <input class="form-control" [ngModel]="usuario.nombres" (ngModelChange)="cambiarNombres($event)" placeholder="Nombres del usuario" required maxlength="200" ngControl="nombres" #nombres="ngForm">
+                </div>
+                <div class="form-group col-md-6" [class.has-error]="apellidos.touched && !apellidos.valid">
+                    <label class="control-label">Apellidos</label>
+                    <input class="form-control" [ngModel]="usuario.apellidos" (ngModelChange)="cambiarApellidos($event)" placeholder="Apellidos del usuario" maxlength="200" ngControl="apellidos" #apellidos="ngForm">
+                </div>
+                <div class="form-group col-md-6" [class.has-error]="nombreCompleto.touched && !nombreCompleto.valid">
+                    <label class="control-label">Nombre completo</label>
+                    <input class="form-control" [(ngModel)]="usuario.nombreCompleto" placeholder="Nombre a desplegar en reportes" required maxlength="400" ngControl="nombreCompleto" #nombreCompleto="ngForm">
+                    <p class="help-block small">Este es el nombre que se mostrar&aacute; en su perfil y reportes.</p>
+                </div>
+                <div class="form-group col-md-6" [class.has-error]="email.touched && !email.valid">
+                    <label class="control-label">Correo electr&oacute;nico</label>
+                    <input class="form-control" [(ngModel)]="usuario.correo" placeholder="correo electr&oacute;nico para notificaciones" required maxlength="200" type="email" ngControl="email" #email="ngForm">
+                </div>
+                <div class="form-group col-md-12" [class.has-error]="sitioWeb.touched && !sitioWeb.valid">
+                    <label class="control-label">Sitio Web</label>
+                    <input class="form-control" [(ngModel)]="usuario.sitioWeb" placeholder="ingrese una url, ejemplo: http://www.misitio.com" maxlength="200" type="url" ngControl="sitioWeb" #sitioWeb="ngForm">
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-7 col-sm-5 text-right">
+                        <a class="btn btn-default" (click)="cancelar()">Cancelar</a>
+                        <button type="submit" class="btn btn-primary" [disabled]="!frmUsuario.form.valid || guardando">Guardar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Cambio de contraseña</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!--<label class="control-label">Contraseña actual:</label>-->
+                            <input class="form-control" placeholder="Contraseña actual" required maxlength="100" [(ngModel)]="actual" type="password">
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top : 10px">
+                        <div class="col-lg-12">
+                            <!--<label class="control-label">Nueva contraseña:</label>-->
+                            <input class="form-control" placeholder="Nueva contraseña" required maxlength="100" [(ngModel)]="nueva" type="password">
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top : 10px">
+                        <div class="col-lg-12">
+                            <!--<label class="control-label">Confirmar contraseña:</label>-->
+                            <input class="form-control" placeholder="Confirmar contraseña" required maxlength="100" [(ngModel)]="confirma" type="password">
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding-top : 10px">
+                    <div class="col-lg-1">
+                    </div>
+                    <div class="col-lg-10">
+                        <div *ngIf="alertaContrasenia" class="alert alert-warning alert-dismissible text-center" role="alert">                            
+                            <strong>La contraseña nueva no coincide con la confirmación</strong> {{ alerta }}                            
+                        </div>
+                    </div>
+                    <div class="col-lg-1">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" (click)="cambiarContrasenia()">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</pagina>

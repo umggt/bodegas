@@ -24,3 +24,8 @@ export interface RolResumen {
     cantidadUsuarios: number;
     asignado?: boolean;
 }
+
+export interface Contrasenias {
+    actual?: string;
+    nueva?: string;
+}
