@@ -149,7 +149,7 @@
                                 <input class="form-control" type="text" [(ngModel)]="producto.serie" ngControl="serie" #serie="ngForm" maxlength="200" [disabled]="!producto.productoId" />
                             </div>
 
-                            <div *ngIf="producto.productoId && caracteristicas && caracteristicas.length" class="form-group col-md-6" *ngFor="let caracter of caracteristicas">
+                            <div *ngIf="producto.productoId && caracteristicas && caracteristicas.length" class="form-group col-md-6" [ngClass]="{ 'text-center': caracter && caracter.esBooleano }" style="min-height:70px" *ngFor="let caracter of caracteristicas">
                                 <label class="control-label">{{caracter?.nombre}}</label>
                                 <select class="form-control" [(ngModel)]="caracter.listaValorId" *ngIf="caracter?.esLista">
                                     <option *ngFor="let valor of caracter.valores" [value]="valor.id">{{valor.valor}}</option>

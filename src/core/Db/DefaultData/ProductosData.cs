@@ -16,9 +16,12 @@ namespace Bodegas.Db.DefaultData
             }
 
             var nombresDeMarcas = new[] { "HP", "Dell" };
-            var marcas = db.Marcas.Where(x => nombresDeMarcas.Contains(x.Nombre)).ToArray();
+            var nombresDeMarcas2 = new[] {"Lenovo", "Toshiba"};
 
-            if (!marcas.Any())
+            var marcas = db.Marcas.Where(x => nombresDeMarcas.Contains(x.Nombre)).ToArray();
+            var marcas2 = db.Marcas.Where(x => nombresDeMarcas2.Contains(x.Nombre)).ToArray();
+
+            if (!marcas.Any() || !marcas2.Any())
             {
                 return db;
             }
@@ -36,49 +39,92 @@ namespace Bodegas.Db.DefaultData
                 return db;
             }
 
-            db.Productos.Add(new Producto
+            db.Productos.AddRange(new[]
             {
-                Nombre = "Computadora portatil",
-                Descripcion = "Computadora personal portable",
-                Marcas = marcas.Select(x => new ProductoMarca
+                new Producto
                 {
-                    Marca = x
-                }).ToList(),
-                UnidadesDeMedida = new[] 
-                {
-                    new ProductoUnidadDeMedida
+                    Nombre = "Computadora portatil",
+                    Descripcion = "Computadora personal portable",
+                    Marcas = marcas2.Select(x => new ProductoMarca
                     {
-                        UnidadDeMedida = unidades
+                        Marca = x
+                    }).ToList(),
+                    UnidadesDeMedida = new[]
+                    {
+                        new ProductoUnidadDeMedida
+                        {
+                            UnidadDeMedida = unidades
+                        }
+                    },
+                    Caracteristicas = new[]
+                    {
+                        new ProductoCaracteristica
+                        {
+                            Nombre = "Sistema Operativo",
+                            TipoCaracteristica = ProductoTipoCaracteristica.SeleccionSimple,
+                            Lista = sistemasOperativos
+                        },
+                        new ProductoCaracteristica
+                        {
+                            Nombre = "Memoria (en GB)",
+                            TipoCaracteristica = ProductoTipoCaracteristica.NumeroDecimalPositivo,
+                            Minimo = 0,
+                            Requerido = true
+                        },
+                        new ProductoCaracteristica
+                        {
+                            Nombre = "Disco Duro (en GB)",
+                            TipoCaracteristica = ProductoTipoCaracteristica.NumeroDecimalPositivo,
+                            Minimo = 0,
+                            Requerido = true
+                        },
+                        new ProductoCaracteristica
+                        {
+                            Nombre = "Procesador (en GHz)",
+                            TipoCaracteristica = ProductoTipoCaracteristica.NumeroDecimalPositivo,
+                            Minimo = 0,
+                            Requerido = true
+                        }
                     }
                 },
-                Caracteristicas = new[]
+                new Producto
                 {
-                    new ProductoCaracteristica
+                    Nombre = "Computadora de escritorio",
+                    Descripcion = "Estación de trabajo",
+                    Marcas = marcas.Select(x => new ProductoMarca
                     {
-                        Nombre = "Sistema Operativo",
-                        TipoCaracteristica = ProductoTipoCaracteristica.SeleccionSimple,
-                        Lista = sistemasOperativos
+                        Marca = x
+                    }).ToList(),
+                    UnidadesDeMedida = new[]
+                    {
+                        new ProductoUnidadDeMedida
+                        {
+                            UnidadDeMedida = unidades
+                        }
                     },
-                    new ProductoCaracteristica
+                    Caracteristicas = new[]
                     {
-                        Nombre = "Memoria (en GB)",
-                        TipoCaracteristica = ProductoTipoCaracteristica.NumeroDecimalPositivo,
-                        Minimo = 0,
-                        Requerido = true
-                    },
-                    new ProductoCaracteristica
-                    {
-                        Nombre = "Disco Duro (en GB)",
-                        TipoCaracteristica = ProductoTipoCaracteristica.NumeroDecimalPositivo,
-                        Minimo = 0,
-                        Requerido = true
-                    },
-                    new ProductoCaracteristica
-                    {
-                        Nombre = "Procesador (en GHz)",
-                        TipoCaracteristica = ProductoTipoCaracteristica.NumeroDecimalPositivo,
-                        Minimo = 0,
-                        Requerido = true
+                        new ProductoCaracteristica
+                        {
+                            Nombre = "Sistema Operativo",
+                            TipoCaracteristica = ProductoTipoCaracteristica.SeleccionSimple,
+                            Lista = sistemasOperativos
+                        },
+                        new ProductoCaracteristica
+                        {
+                            Nombre = "Tiene Monitor",
+                            TipoCaracteristica = ProductoTipoCaracteristica.Booleano
+                        },
+                        new ProductoCaracteristica
+                        {
+                            Nombre = "Tiene Teclado",
+                            TipoCaracteristica = ProductoTipoCaracteristica.Booleano
+                        },
+                        new ProductoCaracteristica
+                        {
+                            Nombre = "Color",
+                            TipoCaracteristica = ProductoTipoCaracteristica.TextoCorto
+                        }
                     }
                 }
             });
