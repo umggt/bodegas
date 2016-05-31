@@ -18,6 +18,7 @@ import { MarcasEditarComponent } from "./mantenimientos/marcas-editar.component"
 import { UnidadesDeMedidaListadoComponent } from "./mantenimientos/unidades-de-medida-listado.component"
 import { UnidadesDeMedidaEditarComponent } from "./mantenimientos/unidades-de-medida-editar.component"
 import { IngresosListadoComponent } from "./gestiones/ingresos-listado.component"
+import { IngresosEditarComponent } from "./gestiones/ingresos-editar.component"
 import { EgresosListadoComponent } from "./gestiones/egresos-listado.component"
 
 @Component({
@@ -153,6 +154,11 @@ import { EgresosListadoComponent } from "./gestiones/egresos-listado.component"
          path: '/ingresos',
          name: 'IngresosListado',
          component: IngresosListadoComponent
+     },
+     {
+        path: '/ingresos/nuevo',
+        name: 'IngresosCrear',
+        component: IngresosEditarComponent
      },
      {
          path: '/egresos',
