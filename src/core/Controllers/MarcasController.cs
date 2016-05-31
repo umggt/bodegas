@@ -69,5 +69,19 @@ namespace Bodegas.Controllers
             }
 
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMarca(int id)
+        {
+            var eliminado = await marcas.EliminarMarcaAsync(id);
+            if (eliminado)
+            {
+                return Ok();
+            }
+            else
+            {
+                return new HttpStatusCodeResult((int)HttpStatusCode.NotModified);
+            }
+        }
     }
 }

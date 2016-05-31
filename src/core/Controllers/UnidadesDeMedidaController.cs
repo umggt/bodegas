@@ -68,5 +68,19 @@ namespace Bodegas.Controllers
             }
 
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUnidadDeMedida(int id)
+        {
+            var eliminado = await unidadesDeMedida.EliminarUnidadDeMedidaAsync(id);
+            if (eliminado)
+            {
+                return Ok();
+            }
+            else
+            {
+                return new HttpStatusCodeResult((int)HttpStatusCode.NotModified);
+            }
+        }
     }
 }

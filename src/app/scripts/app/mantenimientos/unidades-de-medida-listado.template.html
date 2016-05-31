@@ -9,13 +9,22 @@
                     <tr>
                         <th class="ordenable" (click)="ordenar.porCampo('id')" [ngClass]="ordenar.css('id')">Id <i></i></th>
                         <th class="ordenable" (click)="ordenar.porCampo('nombre')" [ngClass]="ordenar.css('nombre')">Nombre <i></i></th>
-                        
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let ua of unidadesMedida.elementos">
                         <td><a [routerLink]="['UnidadesDeMedidaEditar', { id: ua.id }]">{{ ua.id }}</a></td>
                         <td>{{ ua.nombre }}</td>
+                        <td>
+                            <div style="text-align: right;">
+                                <div class="btn btn-group">
+                                    <button (click)="eliminarUnidadDeMedida(ua.id)">
+                                        <span class="fa fa-trash"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
