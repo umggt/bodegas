@@ -20,7 +20,7 @@ import { UnidadesDeMedidaEditarComponent } from "./mantenimientos/unidades-de-me
 import { IngresosListadoComponent } from "./gestiones/ingresos-listado.component"
 import { IngresosEditarComponent } from "./gestiones/ingresos-editar.component"
 import { EgresosListadoComponent } from "./gestiones/egresos-listado.component"
-
+import { EgresosEditarComponent } from "./gestiones/egresos-editar.component"
 @Component({
     selector: 'bodegas-main',
     templateUrl: 'app/main.template.html',
@@ -164,6 +164,11 @@ import { EgresosListadoComponent } from "./gestiones/egresos-listado.component"
          path: '/egresos',
          name: 'EgresosListado',
          component: EgresosListadoComponent
+     },
+     {
+         path: '/egresos/nuevo',
+         name: 'EgresosCrear',
+         component: EgresosEditarComponent
      },
      {
          path: '/traslados',
