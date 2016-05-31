@@ -338,21 +338,28 @@ namespace Bodegas.Repositorios
             return true;
         }
 
-        public async Task<bool> ConfirmarClaveActualsync(int idUsuario, string actual)
+        public async Task<bool> ConfirmarClaveActualAsync(int idUsuario, string actual)
         {
-            var usuario = db.Usuarios.First(x => x.Id == idUsuario);
-            return actual.Comparar(usuario.Clave);           
+            var usuario = await db.Usuarios.FirstOrDefaultAsync(x => x.Id == idUsuario);
+
+            if (usuario == null)
+            {
+                throw new RegistroNoEncontradoException($"No existe usuario con el id: {idUsuario}");
+            }
+
+            return actual.Comparar(usuario.Clave);
         }
 
-        public async Task<bool> CambiarContraseniaAsync(int idUsuario, Contrasenias claves) {
+        public async Task<bool> CambiarContraseniaAsync(int idUsuario, string nuevaClave) {
 
-            var usuario = db.Usuarios.First(x => x.Id == idUsuario);
+            var usuario = await db.Usuarios.FirstOrDefaultAsync(x => x.Id == idUsuario);
             
             if (usuario == null)
             {
                 throw new RegistroNoEncontradoException($"No existe usuario con el id: {idUsuario}");
             }
-            usuario.Clave = claves.Actual.Encriptar();           
+
+            usuario.Clave = nuevaClave.Encriptar();           
 
             var filasAfectadas = await db.SaveChangesAsync();
             return filasAfectadas > 0;

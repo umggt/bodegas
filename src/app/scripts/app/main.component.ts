@@ -176,7 +176,12 @@ import { PerfilEditarComponent } from "./seguridad/perfil-editar.component"
          path: '/traslados',
          name: 'TrasladosListado',
          component: ProductosListadoComponent
-     }
+     },
+    {
+        path: '/perfil',
+        name: 'Perfil',
+        component: PerfilEditarComponent
+    }
 ])
 export class MainComponent {
 

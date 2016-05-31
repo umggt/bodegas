@@ -38,11 +38,7 @@ export class UsuariosServicio {
 
     cambiarContrasenia(claves: Contrasenias): Observable<Contrasenias>{
         let url = this.url + 'perfil';
-        const body = JSON.stringify(claves);
-        let method = RequestMethod.Put;
-
-        
-        return this.http.request(url, { body: body, method: method }).map(x => x.json() as Contrasenias);
+        return this.http.put(url, claves);
     }
 
     private handleError(error: any) {

@@ -1,8 +1,10 @@
 ﻿import { Component } from "@angular/core"
+import { ROUTER_DIRECTIVES } from "@angular/router-deprecated"
 
 @Component({
     selector: 'menu-superior',
-    templateUrl: 'app/core/menu-superior.template.html'
+    templateUrl: 'app/core/menu-superior.template.html',
+    directives: [ROUTER_DIRECTIVES]
 })
 export class MenuSuperiorComponent {
 
@@ -11,7 +13,4 @@ export class MenuSuperiorComponent {
         window.location.href = "http://localhost:5001/auth/bodegas/logout";
     }
 
-    public perfil() {
-        window.location.href = "http://localhost:5000/perfil";
-    }
 }

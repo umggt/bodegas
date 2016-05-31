@@ -70,20 +70,22 @@ namespace Bodegas.Controllers
             }
         }
 
-        [HttpPut("perfil/")]
-        public async Task<IActionResult> PutContrasenia(Contrasenias claves)
+        [HttpPut("perfil")]
+        public async Task<IActionResult> PutContrasenia([FromBody] Contrasenias claves)
         {
             if (!ModelState.IsValid)
             {
                 return HttpBadRequest(ModelState);
             }
 
-            var confirma = await usuarios.ConfirmarClaveActualsync(User.Id(),claves.Actual);
+            var confirma = await usuarios.ConfirmarClaveActualAsync(User.Id(), claves.Actual);
 
             if (!confirma)
-                return Ok("La contraseña actual no es correcta");
+            {
+                return HttpBadRequest(new { errores = new[] { "La contraseña actual no es correcta" } });
+            }
 
-            var modificado = await usuarios.CambiarContraseniaAsync(User.Id(), claves);
+            var modificado = await usuarios.CambiarContraseniaAsync(User.Id(), claves.Nueva);
 
             if (modificado)
             {                

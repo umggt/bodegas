@@ -29,6 +29,7 @@ export class PerfilEditarComponent implements OnInit {
     mensaje: string;
     alerta: string;
     errores: string[];
+    erroresModal: string[];
     private actual: string;
     private nueva: string;
     private confirma: string;
@@ -167,7 +168,15 @@ export class PerfilEditarComponent implements OnInit {
         let resultado: string;
         
         if(this.actual && this.nueva)
-            this.usuariosServicio.cambiarContrasenia(claves).subscribe( x=> resultado = x.nueva );
+            this.usuariosServicio.cambiarContrasenia(claves).subscribe(
+                success => {
+                    this.mensaje = "Contraseña modificada correctamente";
+                    $("#myModal").modal("hide");
+                },
+                error => {
+                    this.erroresModal = this.erroresServicio.obtenerErrores(error);
+                }
+            );
 
     }
 }

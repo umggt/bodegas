@@ -1,8 +1,8 @@
 ﻿<pagina titulo="Perfil" [subtitulo]="'(' + usuario?.nombreCompleto  + ')'">
     <div class="row">
         <div class="col-lg-12 text-right">
-            <a (click)="mostrarModal()">
-                <u class="control-label text-primary">Cambiar Contraseña </u>
+            <a (click)="mostrarModal()" class="btn btn-warning">
+                Cambiar Contraseña
                 <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
             </a>
         </div>
@@ -55,7 +55,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-7 col-sm-5 text-right">
-                        <a class="btn btn-default" (click)="cancelar()">Cancelar</a>
+                        <a class="btn btn-default" [routerLink]="['Dashboard']">Cancelar</a>
                         <button type="submit" class="btn btn-primary" [disabled]="!frmUsuario.form.valid || guardando">Guardar</button>
                     </div>
                 </div>
@@ -73,19 +73,30 @@
                     <h4 class="modal-title" id="myModalLabel">Cambio de contraseña</h4>
                 </div>
                 <div class="modal-body">
+
+                    <div *ngIf="erroresModal && erroresModal.length" class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>Ocurri&oacute; un Error</strong>
+                        <ul *ngIf="erroresModal && erroresModal.length">
+                            <li *ngFor="let error of erroresModal">
+                                {{error}}
+                            </li>
+                        </ul>
+                    </div>
+
                     <div class="row">
                         <div class="col-lg-12">
                             <!--<label class="control-label">Contraseña actual:</label>-->
                             <input class="form-control" placeholder="Contraseña actual" required maxlength="100" [(ngModel)]="actual" type="password">
                         </div>
                     </div>
-                    <div class="row" style="padding-top : 10px">
+                    <div class="row" style="padding-top: 10px">
                         <div class="col-lg-12">
                             <!--<label class="control-label">Nueva contraseña:</label>-->
                             <input class="form-control" placeholder="Nueva contraseña" required maxlength="100" [(ngModel)]="nueva" type="password">
                         </div>
                     </div>
-                    <div class="row" style="padding-top : 10px">
+                    <div class="row" style="padding-top: 10px">
                         <div class="col-lg-12">
                             <!--<label class="control-label">Confirmar contraseña:</label>-->
                             <input class="form-control" placeholder="Confirmar contraseña" required maxlength="100" [(ngModel)]="confirma" type="password">
