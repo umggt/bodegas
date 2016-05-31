@@ -37,5 +37,9 @@ export class UnidadesDeMedidaServicio {
         return this.http.request(url, { body: body, method: method }).map(x => x.json() as UnidadDeMedida);
     }
 
+    eliminarUnidadDeMedida(id: number) {
+        let url = this.url + id;
 
+        return this.http.delete(url);
+    }
 }

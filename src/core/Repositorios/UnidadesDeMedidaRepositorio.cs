@@ -90,5 +90,29 @@ namespace Bodegas.Repositorios
 
         }
 
+        public async Task<bool> EliminarUnidadDeMedidaAsync(int id)
+        {
+            if (await ExisteUnidadDeMedidaAsignada(id))
+            {
+                throw new RegistroNoEncontradoException($"La unidad de medida {id} ya está asignada a un producto.");
+            }
+            var unidadDeMedidaAEliminar = await db.UnidadesDeMedida.SingleOrDefaultAsync(x => x.Id == id);
+
+            if (unidadDeMedidaAEliminar == null)
+            {
+                throw new RegistroNoEncontradoException($"No existe la unidad de medida {id}");
+            }
+
+            db.UnidadesDeMedida.Remove(unidadDeMedidaAEliminar);
+
+            var filasAfectadas = await db.SaveChangesAsync();
+            return filasAfectadas > 0;
+        }
+
+        private Task<bool> ExisteUnidadDeMedidaAsignada(int id)
+        {
+            return db.ProductoUnidadesDeMedida.AnyAsync(x => x.UnidadDeMedidaId == id);
+        }
+
     }
 }

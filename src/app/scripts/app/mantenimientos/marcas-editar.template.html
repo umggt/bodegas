@@ -26,7 +26,7 @@
             <form role="form" (ngSubmit)="guardar()" #frmMarca="ngForm" novalidate>
                 <div class="form-group col-md-6" [class.has-error]="nombre.touched  && !nombre.valid">
                     <label class="control-label">Nombre:</label>
-                    <input class="form-control" [(ngModel)]="marca.nombre" placeholder="ej: marca X" required maxlength="2000" [disabled]="!modoCreacion" ngControl="nombre" #nombre="ngForm">
+                    <input class="form-control" [(ngModel)]="marca.nombre" placeholder="ej: marca X" required maxlength="2000"  ngControl="nombre" #nombre="ngForm">
                 </div>
              
 

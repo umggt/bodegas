@@ -37,4 +37,9 @@ export class MarcasServicio {
         return this.http.request(url, { body: body, method: method }).map(x => x.json() as Marca);
     }
 
+    eliminarMarca(id: number) {
+        let url = this.url + id;
+
+        return this.http.delete(url);
+    }
 }
