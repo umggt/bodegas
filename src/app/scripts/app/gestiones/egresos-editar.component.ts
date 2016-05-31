@@ -44,7 +44,7 @@ export class EgresosEditarComponent implements OnInit {
     private routeParams: RouteParams,
     private egresosServicio: EgresosServicio,
     private erroresServicio: ErroresServicio,
-    private marcasServicio: MarcasServicio, private bodegasServicio: BodegasServicio, private productosServicio: ProductosServicio) {
+    private marcasServicio: MarcasServicio, private bodegasServicio: BodegasServicio, private productosServicio: ProductosServicio, private unidadesServicio: UnidadesDeMedidaServicio) {
         this.egreso = {
             fecha: new Date()
         };
@@ -68,6 +68,7 @@ export class EgresosEditarComponent implements OnInit {
         this.datePicker = $('#input-fecha').data("DateTimePicker");
         this.datePicker.date(new Date());
         this.obtenerBodegas();
+        this.obtenerProductos();
     }
 
     public guardar() {
@@ -83,8 +84,10 @@ export class EgresosEditarComponent implements OnInit {
 
     public editarProducto(producto: Producto) {
         this.producto = {
-            nombre: producto.nombre,
-            unidadDeMedidaNombre: producto.unidadDeMedidaNombre,
+            productoId: producto.productoId,
+            productoNombre: producto.productoNombre,
+            unidadId: producto.unidadId,
+            unidadNombre: producto.unidadNombre,
             cantidad: producto.cantidad
         };
         this.productoEnEdicion = producto;
@@ -92,35 +95,86 @@ export class EgresosEditarComponent implements OnInit {
     }
 
     public eliminarProducto(producto: Producto) {
-        if (!confirm(`¿seguro que desea eliminar el producto ${producto.nombre}?`)) {
+        if (!confirm(`¿seguro que desea eliminar el producto ${producto.productoNombre}?`)) {
             return;
         }
     }
 
     public cambiarProducto(event: string) {
         var productoId = parseInt(event, 10);
-        this.producto.id = productoId;
+        this.producto.productoId = productoId;
+        this.producto.productoNombre = this.obtenerProductoNombre(productoId);
+
+        this.obtenerUnidades(productoId);
+    }
+
+    public cambiarUnidad(event: string) {
+        var unidadId = parseInt(event, 10);
+        this.producto.unidadId = unidadId;
+        this.producto.unidadNombre = this.obtenerUnidadNombre(unidadId);
+    }
+
+    private obtenerProductoNombre(productoId: number) : string {
+        for (let p of this.productos.elementos) {
+            if (p.id === productoId) {
+                return p.nombre;
+            }
+        }
+
+        return null;
     }
 
     public guardarProducto() {
+
+        this.egreso.productos = this.egreso.productos || [];
+
+        if (this.productoEnEdicion != null) {
+            var p = this.productoEnEdicion;
+            var pp = this.producto;
+
+            p.productoId = pp.productoId;
+            p.productoNombre = pp.productoNombre;
+            p.unidadId = pp.unidadId;
+            p.unidadNombre = pp.unidadNombre;
+            p.cantidad = pp.cantidad;
+
+        } else {
+            this.egreso.productos.push(this.producto);
+        }
+
+        this.productoEnEdicion = null;
+        this.producto = null;
+
+        $("#producto-modal").modal("hide");
     }
 
-    private obtenerProductos(pagina?: number, campo?: string) {
-        this.pagina = pagina;
-        this.productosServicio.obtenerTodos({ pagina: pagina }).subscribe(x => {
+    private obtenerProductos() {
+        this.productosServicio.obtenerTodos().subscribe(x => {
             this.productos = x;
-        })
+        });
     }
 
-    private obtenerUnidades() {
+    private obtenerUnidades(productoId: number) {
+        this.unidadesServicio.obtenerPorProducto(productoId).subscribe(x => {
+            this.unidades = x;
+        });
     }
 
-    obtenerBodegas(pagina?: number, campo?: string) {
-       
-        this.pagina = pagina;
-        this.bodegasServicio.obtenerTodas({ pagina: pagina}).subscribe(x => {
+    private obtenerUnidadNombre(unidadId: number) {
+        for (let u of this.unidades.elementos) {
+            if (u.id === unidadId) {
+                return u.nombre;
+            }
+        }
+
+        return null;
+    }
+
+    private obtenerBodegas() {
+
+        this.bodegasServicio.obtenerTodas().subscribe(x => {
             this.bodegas = x;
-        })
+        });
     }
 
     

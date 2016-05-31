@@ -32,7 +32,7 @@
                 <div class="form-group col-md-12">
                     <label class="control-label">Bodega:</label>
                     <select class="form-control" [(ngModel)]="egreso.bodegaId">
-                        <option *ngFor="let bodega of bodegas.elementos" value="bodega.id">{{bodega.nombre}}</option>
+                        <option *ngFor="let bodega of bodegas.elementos" [value]="bodega.id">{{bodega.nombre}}</option>
                     </select>
                 </div>
 
@@ -55,7 +55,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let producto of egreso.productos">
-                                <td>{{producto.nombre}}</td>
+                                <td>{{producto.productoNombre}}</td>
                                 <td>{{producto.unidadNombre}}</td>
                                 <td>{{producto.cantidad}}</td>
                                 <td class="text-center">
@@ -113,19 +113,19 @@
                             <div class="form-group col-md-12">
                                 <label class="control-label">Producto:</label>
                                 <select class="form-control" [ngModel]="producto.productoId" (ngModelChange)="cambiarProducto($event)">
-                                    <option *ngFor="let p of productos?.elementos" value="p.id">{{p.nombre}}</option>
+                                    <option *ngFor="let p of productos?.elementos" [value]="p.id">{{p.nombre}}</option>
                                 </select>
                             </div>
                           
                             <div class="form-group col-md-6">
                                 <label class="control-label">Unidad de medida:</label>
-                                <select class="form-control" [(ngModel)]="producto.unidadId">
+                                <select class="form-control" [ngModel]="producto.unidadId" (ngModelChange)="cambiarUnidad($event)">
                                     <option *ngFor="let unidad of unidades?.elementos" [value]="unidad.id">{{unidad.nombre}}</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6" [class.has-error]="cantidad.touched  && !cantidad.valid">
                                 <label class="control-label">Cantidad:</label>
-                                <input class="form-control" type="number" [(ngModel)]="producto.cantidad" ngControl="cantidad" #cantidad="ngForm" required min="0" [disabled]="producto.unidadId" />
+                                <input class="form-control" type="number" [(ngModel)]="producto.cantidad" ngControl="cantidad" #cantidad="ngForm" required min="0" [disabled]="!producto.unidadId" />
                             </div>
                           
 

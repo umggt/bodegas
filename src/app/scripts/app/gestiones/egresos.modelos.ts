@@ -14,10 +14,9 @@ export interface EgresoDetalle
 }
 
 export interface Producto {
-    id?: number;
-    nombre?: string;
-    descripcion?: string;
-    unidadDeMedidaId?: number;
+    productoId?: number;
+    productoNombre?: string;
+    unidadId?: number;
+    unidadNombre?: string;
     cantidad?: number;
-    unidadDeMedidaNombre?: string;
 }
