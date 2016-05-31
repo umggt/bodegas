@@ -28,15 +28,15 @@
                         </span>
                     </div>
                 </div>
-                <div class="form-group col-md-12">
+                <div class="form-group col-md-12" [class.has-error]="ctlProveedor.touched && !ctlProveedor.valid">
                     <label class="control-label">Proveedor:</label>
-                    <select class="form-control" [(ngModel)]="ingreso.proveedorId">
+                    <select class="form-control" [(ngModel)]="ingreso.proveedorId" required ngControl="ctlProveedor" #ctlProveedor="ngForm">
                         <option *ngFor="let proveedor of proveedores.elementos" [value]="proveedor.id">{{proveedor.nombre}}</option>
                     </select>
                 </div>
-                <div class="form-group col-md-12">
+                <div class="form-group col-md-12" [class.has-error]="ctrlBodega.touched && !ctrlBodega.valid">
                     <label class="control-label">Bodega:</label>
-                    <select class="form-control" [(ngModel)]="ingreso.bodegaId">
+                    <select class="form-control" [(ngModel)]="ingreso.bodegaId" required ngControl="ctrlBodega" #ctrlBodega="ngForm">
                         <option *ngFor="let bodega of bodegas.elementos" [value]="bodega.id">{{bodega.nombre}}</option>
                     </select>
                 </div>
@@ -129,7 +129,7 @@
                             </div>
                            <div class="form-group col-md-6">
                                 <label class="control-label">Unidad de medida:</label>
-                                <select class="form-control" [(ngModel)]="producto.unidadId" [disabled]="!producto.productoId">
+                                <select class="form-control" [ngModel]="producto.unidadId" (ngModelChange)="cambiarUnidad($event)" [disabled]="!producto.productoId">
                                     <option *ngFor="let unidad of unidades?.elementos" [value]="unidad.id">{{unidad.nombre}}</option>
                                 </select>
                             </div>

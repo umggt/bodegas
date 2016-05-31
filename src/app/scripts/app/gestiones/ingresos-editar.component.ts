@@ -38,11 +38,12 @@ export class IngresosEditarComponent implements OnInit {
     public marcas: PaginacionResultado<Marca>;
     public caracteristicas: IngresoProductoCaracteristica[];
     public fechaTxt: string;
+    public guardando: boolean;
 
     private datePicker: any;
     private productoEnEdicion: IngresoProducto;
 
-    constructor(private ingresosServicio: IngresosServicio) {
+    constructor(private ingresosServicio: IngresosServicio, private erroresServicio: ErroresServicio) {
         this.ingreso = {
             fecha: new Date()
         };
@@ -64,7 +65,18 @@ export class IngresosEditarComponent implements OnInit {
     }
 
     public guardar() {
-        this.ingreso.fecha = this.datePicker.date().toDate();
+        this.ingreso.fecha = this.datePicker.date().toDate() || new Date();
+
+        this.guardando = true;
+        this.ingresosServicio.guardar(this.ingreso).subscribe(
+            ingreso => {
+                this.mensaje = "El ingreso se guardó correctamente";
+                this.datePicker.date(ingreso.fecha);
+            },
+            error => {
+                this.errores = this.erroresServicio.obtenerErrores(error);
+                this.guardando = false;
+            });
     }
 
     public nuevoProducto() {
@@ -75,34 +87,115 @@ export class IngresosEditarComponent implements OnInit {
     }
 
     public editarProducto(producto: IngresoProducto) {
-        this.producto = this.deepCopy(producto);
-        
+        this.producto = this.crearCopia(producto);
+
         this.productoEnEdicion = producto;
         this.caracteristicas = [];
         this.seleccionarProducto();
         $("#producto-modal").modal("show");
     }
 
+    private crearCopia(producto: IngresoProducto) {
+        var copia: IngresoProducto = {
+            productoId: producto.productoId,
+            unidadId: producto.unidadId,
+            nombre: producto.nombre,
+            unidadNombre: producto.nombre,
+            marcaId: producto.marcaId,
+            serie: producto.serie,
+            precio: producto.precio,
+            cantidad: producto.cantidad,
+            caracteristicas: []
+        };
+
+
+        if (producto.caracteristicas && producto.caracteristicas.length) {
+            let caracteristicas = copia.caracteristicas;
+            for (let c of producto.caracteristicas) {
+
+                var ccopia: IngresoProductoCaracteristica = {
+                    id: c.id,
+                    nombre: c.nombre,
+                    valor: c.valor,
+                    listaValorId: c.listaValorId,
+                    valores: [],
+                    requerido: c.requerido,
+                    minimo: c.minimo,
+                    maximo: c.maximo,
+                    esBooleano: c.esBooleano,
+                    esLista: c.esLista,
+                    esMoneda: c.esMoneda,
+                    esNumero: c.esNumero,
+                    esTextoCorto: c.esTextoCorto,
+                    esTextoLargo: c.esTextoLargo
+                };
+
+                caracteristicas.push(ccopia);
+
+                if (c.valores && c.valores.length) {
+                    for (let v of c.valores) {
+                        ccopia.valores.push({ id: v.id, valor: v.valor });
+                    }
+                }
+
+            }
+        }
+
+        return copia;
+    }
+
     public eliminarProducto(producto: IngresoProducto) {
         if (!confirm(`¿seguro que desea eliminar el producto ${producto.nombre}?`)) {
             return;
         }
+
+        var productos = this.ingreso.productos;
+        var index = productos.indexOf(producto);
+        productos.splice(index, 1);
     }
 
     public cambiarProducto(event: string) {
         var productoId = parseInt(event, 10);
         this.producto.productoId = productoId;
+        this.producto.nombre = this.obtenerProductoNombre(productoId);
         this.obtenerUnidades(productoId);
         this.obtenerMarcas(productoId);
         this.obtenerCaracteristicas(productoId);
+    }
+
+    public cambiarUnidad(event: string) {
+        var unidadId = parseInt(event, 10);
+        this.producto.unidadId = unidadId;
+        this.producto.unidadNombre = this.obtenerUnidadNombre(unidadId);
+    }
+
+    private obtenerProductoNombre(productoId: number) {
+        for (let p of this.productos.elementos) {
+            if (p.id === productoId) return p.nombre;
+        }
+
+        return null;
+    }
+
+    private obtenerUnidadNombre(unidadId: number) {
+        for (let u of this.unidades.elementos) {
+            if (u.id === unidadId) return u.nombre;
+        }
+
+        return null;
     }
 
     public guardarProducto() {
         this.ingreso.productos = this.ingreso.productos || [];
         if (this.productoEnEdicion != null) {
             let index = this.ingreso.productos.indexOf(this.productoEnEdicion);
-            this.ingreso.productos[index] = this.deepCopy(this.producto);
+
+            var producto = this.crearCopia(this.producto);
+            producto.caracteristicas = this.caracteristicas;
+
+            this.ingreso.productos[index] = producto;
         } else {
+            this.producto.caracteristicas = this.caracteristicas;
             this.ingreso.productos.push(this.producto);
         }
 
@@ -170,28 +263,11 @@ export class IngresosEditarComponent implements OnInit {
                         c.valor = pc.valor;
                     }
                     c.listaValorId = pc.listaValorId;
-                    return;
+                    break;
                 }
             }
         }
 
     }
-
-    private deepCopy(obj: Object | Object[]) {
-        if (Object.prototype.toString.call(obj) === '[object Array]') {
-            let out = Array, i = 0, len = (obj as Object[]).length;
-            for (; i < len; i++) {
-                out[i] = arguments.callee(obj[i]);
-            }
-            return out;
-        }
-        if (typeof obj === 'object') {
-            let out = {}, i: any;
-            for (i in obj) {
-                out[i] = arguments.callee(obj[i]);
-            }
-            return out;
-        }
-        return obj;
-    }
+   
 }

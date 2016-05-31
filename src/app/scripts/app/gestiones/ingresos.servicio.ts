@@ -1,7 +1,7 @@
 ﻿import { Injectable } from "@angular/core"
 import { Observable } from 'rxjs/Observable'
 import { HttpServicio } from "../http.servicio"
-import { IngresoProductoCaracteristica } from "./ingresos.modelos"
+import { IngresoDetalle, IngresoProductoCaracteristica } from "./ingresos.modelos"
 import { ProductosServicio } from "../mantenimientos/productos.servicio"
 import { MarcasServicio } from "../mantenimientos/marcas.servicio"
 import { UnidadesDeMedidaServicio } from "../mantenimientos/unidades-de-medida.servicio"
@@ -11,6 +11,8 @@ import { BodegasServicio } from "../mantenimientos/bodegas.servicio"
 
 @Injectable()
 export class IngresosServicio {
+
+    private url = "http://localhost:5002/api/core/ingresos/";
 
     constructor(private http: HttpServicio, private productos: ProductosServicio, private marcas: MarcasServicio, private unidadesDeMedida: UnidadesDeMedidaServicio, private listas: ListasServicio, private proveedores: ProveedoresServicio, private bodegas: BodegasServicio) {
     }
@@ -38,5 +40,10 @@ export class IngresosServicio {
     public obtenerCaracteristicas(productoId: number): Observable<IngresoProductoCaracteristica[]> {
         let url = `http://localhost:5002/api/core/productos/${productoId}/caracteristicas`;
         return this.http.get(url).map(x => x.json() as IngresoProductoCaracteristica[]);
+    }
+
+    public guardar(ingreso: IngresoDetalle) : Observable<IngresoDetalle> {
+        const body = JSON.stringify(ingreso);
+        return this.http.post(this.url, { body: body }).map(x => x.json() as IngresoDetalle);
     }
 }
