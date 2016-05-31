@@ -150,23 +150,23 @@
                             </div>
 
                             <div *ngIf="producto.productoId && caracteristicas && caracteristicas.length" class="form-group col-md-6" *ngFor="let caracter of caracteristicas">
-                                <label class="control-label">{{caracter.nombre}}</label>
-                                <select class="form-control" [(ngModel)]="caracter.listaValorId" *ngIf="caracter.esLista">
+                                <label class="control-label">{{caracter?.nombre}}</label>
+                                <select class="form-control" [(ngModel)]="caracter.listaValorId" *ngIf="caracter?.esLista">
                                     <option *ngFor="let valor of caracter.valores" [value]="valor.id">{{valor.valor}}</option>
                                 </select>
-                                <input class="form-control" type="number" [(ngModel)]="caracter.valor" [min]="caracter.minimo" [max]="caracter.maximo" required *ngIf="caracter.esNumero && caracter.requerido" />
-                                <input class="form-control" type="number" [(ngModel)]="caracter.valor" [min]="caracter.minimo" [max]="caracter.maximo" *ngIf="caracter.esNumero && !caracter.requerido" />
-                                <div class="input-group" *ngIf="caracter.esMoneda">
+                                <input class="form-control" type="number" [(ngModel)]="caracter.valor" [min]="caracter.minimo" [max]="caracter.maximo" required *ngIf="caracter?.esNumero && caracter.requerido" />
+                                <input class="form-control" type="number" [(ngModel)]="caracter.valor" [min]="caracter.minimo" [max]="caracter.maximo" *ngIf="caracter?.esNumero && !caracter.requerido" />
+                                <div class="input-group" *ngIf="caracter?.esMoneda">
                                     <span class="input-group-addon">Q</span>
-                                    <input type="number" class="form-control" [(ngModel)]="caracter.valor" required min="0" *ngIf="caracter.requerido">
-                                    <input type="number" class="form-control" [(ngModel)]="caracter.valor" min="0" *ngIf="!caracter.requerido">
+                                    <input type="number" class="form-control" [(ngModel)]="caracter.valor" required min="0" *ngIf="caracter?.requerido">
+                                    <input type="number" class="form-control" [(ngModel)]="caracter.valor" min="0" *ngIf="!caracter?.requerido">
                                 </div>
-                                <input class="form-control" type="text" [(ngModel)]="caracter.valor" required *ngIf="caracter.esTextoCorto && caracter.requerido" />
-                                <input class="form-control" type="text" [(ngModel)]="caracter.valor" *ngIf="caracter.esTextoCorto && !caracter.requerido" />
-                                <textarea class="form-control" [(ngModel)]="caracter.valor" required *ngIf="caracter.esTextoLargo && caracter.requerido"></textarea>
-                                <textarea class="form-control" [(ngModel)]="caracter.valor" *ngIf="caracter.esTextoLargo && !caracter.requerido"></textarea>
+                                <input class="form-control" type="text" [(ngModel)]="caracter.valor" required *ngIf="caracter?.esTextoCorto && caracter.requerido" />
+                                <input class="form-control" type="text" [(ngModel)]="caracter.valor" *ngIf="caracter?.esTextoCorto && !caracter.requerido" />
+                                <textarea class="form-control" [(ngModel)]="caracter.valor" required *ngIf="caracter?.esTextoLargo && caracter.requerido"></textarea>
+                                <textarea class="form-control" [(ngModel)]="caracter.valor" *ngIf="caracter?.esTextoLargo && !caracter.requerido"></textarea>
                                 <div class="checkbox">
-                                    <input type="checkbox" [(ngModel)]="caracter.valor" *ngIf="caracter.esBooleano" />
+                                    <input type="checkbox" [(ngModel)]="caracter.valor" *ngIf="caracter?.esBooleano" />
                                 </div>
                             </div>
                             

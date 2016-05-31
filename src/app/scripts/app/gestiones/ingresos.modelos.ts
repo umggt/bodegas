@@ -19,9 +19,11 @@ export interface IngresoProducto {
     precio?: number;
     marcaId?: number;
     serie?: string;
+    caracteristicas?: IngresoProductoCaracteristica[]
 }
 
 export interface IngresoProductoCaracteristica {
+    id: number;
     nombre: string;
     listaValorId: number;
     esLista: boolean;

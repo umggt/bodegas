@@ -75,13 +75,11 @@ export class IngresosEditarComponent implements OnInit {
     }
 
     public editarProducto(producto: IngresoProducto) {
-        this.producto = {
-            nombre: producto.nombre,
-            unidadNombre: producto.unidadNombre,
-            cantidad: producto.cantidad
-        };
+        this.producto = this.deepCopy(producto);
+        
         this.productoEnEdicion = producto;
         this.caracteristicas = [];
+        this.seleccionarProducto();
         $("#producto-modal").modal("show");
     }
 
@@ -94,17 +92,29 @@ export class IngresosEditarComponent implements OnInit {
     public cambiarProducto(event: string) {
         var productoId = parseInt(event, 10);
         this.producto.productoId = productoId;
-        //this.caracteristicas = [];
         this.obtenerUnidades(productoId);
         this.obtenerMarcas(productoId);
+        this.obtenerCaracteristicas(productoId);
     }
 
     public guardarProducto() {
+        this.ingreso.productos = this.ingreso.productos || [];
+        if (this.productoEnEdicion != null) {
+            let index = this.ingreso.productos.indexOf(this.productoEnEdicion);
+            this.ingreso.productos[index] = this.deepCopy(this.producto);
+        } else {
+            this.ingreso.productos.push(this.producto);
+        }
+
+        this.productoEnEdicion = null;
+        this.producto = null;
+        $("#producto-modal").modal("hide");
     }
 
     private obtenerProductos() {
         this.ingresosServicio.obtenerProductos().subscribe(x => {
             this.productos = x;
+            this.seleccionarProducto();
         });
     }
 
@@ -133,6 +143,55 @@ export class IngresosEditarComponent implements OnInit {
     }
 
     private obtenerCaracteristicas(productoId: number) {
+        this.ingresosServicio.obtenerCaracteristicas(productoId).subscribe(x => {
+            this.caracteristicas = x;
+            this.seleccionarCaracteristicas();
+        });
+    }
 
+    private seleccionarProducto() {
+        if (!this.producto || !this.producto.productoId) return;
+        if (!this.productos || !this.productos.elementos || !this.productos.elementos.length) return;
+        this.cambiarProducto(this.producto.productoId.toString());
+    }
+    
+    private seleccionarCaracteristicas() {
+        if (!this.producto || !this.producto.caracteristicas || !this.producto.caracteristicas.length) return;
+        if (!this.caracteristicas || !this.caracteristicas.length) return;
+
+        for (let pc of this.producto.caracteristicas) {
+            for (let c of this.caracteristicas) {
+                if (pc.id === c.id) {
+                    if (pc.esBooleano) {
+                        c.valor = new Boolean(pc.valor);
+                    } else if (pc.esNumero) {
+                        c.valor = parseFloat(pc.valor);
+                    } else {
+                        c.valor = pc.valor;
+                    }
+                    c.listaValorId = pc.listaValorId;
+                    return;
+                }
+            }
+        }
+
+    }
+
+    private deepCopy(obj: Object | Object[]) {
+        if (Object.prototype.toString.call(obj) === '[object Array]') {
+            let out = Array, i = 0, len = (obj as Object[]).length;
+            for (; i < len; i++) {
+                out[i] = arguments.callee(obj[i]);
+            }
+            return out;
+        }
+        if (typeof obj === 'object') {
+            let out = {}, i: any;
+            for (i in obj) {
+                out[i] = arguments.callee(obj[i]);
+            }
+            return out;
+        }
+        return obj;
     }
 }

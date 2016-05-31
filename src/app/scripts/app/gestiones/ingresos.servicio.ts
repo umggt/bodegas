@@ -1,6 +1,7 @@
 ﻿import { Injectable } from "@angular/core"
 import { Observable } from 'rxjs/Observable'
 import { HttpServicio } from "../http.servicio"
+import { IngresoProductoCaracteristica } from "./ingresos.modelos"
 import { ProductosServicio } from "../mantenimientos/productos.servicio"
 import { MarcasServicio } from "../mantenimientos/marcas.servicio"
 import { UnidadesDeMedidaServicio } from "../mantenimientos/unidades-de-medida.servicio"
@@ -32,5 +33,10 @@ export class IngresosServicio {
 
     public obtenerBodegas() {
         return this.bodegas.obtenerTodas();
+    }
+
+    public obtenerCaracteristicas(productoId: number): Observable<IngresoProductoCaracteristica[]> {
+        let url = `http://localhost:5002/api/core/productos/${productoId}/caracteristicas`;
+        return this.http.get(url).map(x => x.json() as IngresoProductoCaracteristica[]);
     }
 }
