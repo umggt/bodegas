@@ -50,4 +50,8 @@ export class EgresosListadoComponent implements OnInit {
     public cambiarOrden = (columna: string) => {
         this.obtenerEgresos(this.pagina);
     }
+
+    public fecha(fechaStr: string) {
+        return new Date(fechaStr);
+    }
 }
