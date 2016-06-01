@@ -98,7 +98,7 @@ namespace Bodegas.Repositorios
                 NombreCompleto = usuario.NombreCompleto.Trim(),
                 Correo = correo,
                 SitioWeb = usuario.SitioWeb?.Trim().ToLowerInvariant(),
-                Activo = false,
+                Activo = true,
                 CorreoVerificado = false,
                 Clave = usuario.Clave.Encriptar()
             };
