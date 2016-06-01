@@ -14,7 +14,7 @@ namespace Bodegas.Db.Mappings
         {
             builder.Entity<IngresoProducto>(ingresoProducto =>
             {
-                ingresoProducto.HasAlternateKey(x => x.NumeroDeSerie);
+                //ingresoProducto.HasAlternateKey(x => x.NumeroDeSerie);
 
                 ingresoProducto.HasOne(x => x.Ingreso)
                     .WithMany(x => x.Productos)

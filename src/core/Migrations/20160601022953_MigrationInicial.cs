@@ -4,7 +4,7 @@ using Microsoft.Data.Entity.Migrations;
 
 namespace core.Migrations
 {
-    public partial class initial : Migration
+    public partial class MigrationInicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -66,7 +66,6 @@ namespace core.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Permiso", x => x.Id);
-                    table.UniqueConstraint("AK_Permiso_Nombre", x => x.Nombre);
                 });
             migrationBuilder.CreateTable(
                 name: "Producto",
@@ -92,7 +91,6 @@ namespace core.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Rol", x => x.Id);
-                    table.UniqueConstraint("AK_Rol_Nombre", x => x.Nombre);
                 });
             migrationBuilder.CreateTable(
                 name: "UnidadDeMedida",
@@ -125,7 +123,6 @@ namespace core.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Usuario", x => x.Id);
-                    table.UniqueConstraint("AK_Usuario_Login", x => x.Login);
                 });
             migrationBuilder.CreateTable(
                 name: "ListaValor",
@@ -157,7 +154,6 @@ namespace core.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Existencia", x => x.Id);
-                    table.UniqueConstraint("AK_Existencia_ProductoId", x => x.ProductoId);
                     table.ForeignKey(
                         name: "FK_Existencia_Producto_ProductoId",
                         column: x => x.ProductoId,
@@ -281,7 +277,6 @@ namespace core.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Bodega", x => x.Id);
-                    table.UniqueConstraint("AK_Bodega_Nombre", x => x.Nombre);
                     table.ForeignKey(
                         name: "FK_Bodega_Usuario_UsuarioCreacionId",
                         column: x => x.UsuarioCreacionId,
@@ -374,16 +369,23 @@ namespace core.Migrations
                 {
                     ExistenciaId = table.Column<int>(nullable: false),
                     UnidadDeMedidaId = table.Column<int>(nullable: false),
+                    MarcaId = table.Column<int>(nullable: false),
                     Cantidad = table.Column<decimal>(nullable: false),
                     FechaModificacion = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExistenciaCantidad", x => new { x.ExistenciaId, x.UnidadDeMedidaId });
+                    table.PrimaryKey("PK_ExistenciaCantidad", x => new { x.ExistenciaId, x.UnidadDeMedidaId, x.MarcaId });
                     table.ForeignKey(
                         name: "FK_ExistenciaCantidad_Existencia_ExistenciaId",
                         column: x => x.ExistenciaId,
                         principalTable: "Existencia",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ExistenciaCantidad_Marca_MarcaId",
+                        column: x => x.MarcaId,
+                        principalTable: "Marca",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -542,7 +544,6 @@ namespace core.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_IngresoProducto", x => x.Id);
-                    table.UniqueConstraint("AK_IngresoProducto_NumeroDeSerie", x => x.NumeroDeSerie);
                     table.ForeignKey(
                         name: "FK_IngresoProducto_Ingreso_IngresoId",
                         column: x => x.IngresoId,

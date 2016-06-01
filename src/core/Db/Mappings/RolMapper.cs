@@ -11,7 +11,9 @@ namespace Bodegas.Db.Mappings
     {
         internal static ModelBuilder MapearRol(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Rol>(rol => rol.HasAlternateKey(r => r.Nombre));
+            modelBuilder.Entity<Rol>(rol => {
+                //rol.HasAlternateKey(r => r.Nombre);
+            });
             return modelBuilder;
         }
     }

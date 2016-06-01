@@ -14,11 +14,17 @@ namespace Bodegas.Db.Mappings
         {
             modelBuilder.Entity<Existencia>(existencia =>
             {
-                existencia.HasAlternateKey(x => x.ProductoId);
+                //existencia.HasAlternateKey(x => x.ProductoId);
 
                 existencia.HasOne(x => x.Producto)
                     .WithMany()
                     .HasForeignKey(e => e.ProductoId)
+                    .HasPrincipalKey(x => x.Id)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                existencia.HasMany(x => x.Cantidades)
+                    .WithOne(x => x.Existencia)
+                    .HasForeignKey(x => x.ExistenciaId)
                     .HasPrincipalKey(x => x.Id)
                     .OnDelete(DeleteBehavior.Cascade);
             });

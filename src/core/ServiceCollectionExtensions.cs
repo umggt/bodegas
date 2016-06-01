@@ -22,6 +22,7 @@ namespace Bodegas
             services.AddTransient<MarcasRepositorio>();
             services.AddTransient<CaracteristicasRepositorio>();
             services.AddTransient<EgresosRepositorio>();
+            services.AddTransient<IngresosRepositorio>();
         }
 
     }

@@ -10,5 +10,6 @@ namespace Bodegas.Db.Entities
         public int Id { get; set; }
         public int ProductoId { get; set; }
         public Producto Producto { get; set; }
+        public ICollection<ExistenciaCantidad> Cantidades { get; set; }
     }
 }

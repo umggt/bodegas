@@ -11,7 +11,7 @@ namespace Bodegas.Repositorios
     internal static class RepositoriosExtensiones
     {
         
-        internal static async Task<PaginacionResultado<T>> OrdenarAsync<T>(this IQueryable<T> query, PaginacionParametros paginacion, Expression<Func<T, object>> defaultOrder = null, OrdenMapping<T> orderMapping = null)
+        internal static async Task<PaginacionResultado<T>> OrdenarAsync<T>(this IQueryable<T> query, PaginacionParametros paginacion, Expression<Func<T, object>> defaultOrder = null, OrdenMapping<T> orderMapping = null, bool orderByDefaultDesc = false)
         {
             IOrderedQueryable<T> orderedQuery = null;
 
@@ -37,7 +37,7 @@ namespace Bodegas.Repositorios
 
             if (orderedQuery == null)
             {
-                orderedQuery = query.OrderBy(defaultOrder);
+                orderedQuery = orderByDefaultDesc ? query.OrderByDescending(defaultOrder) : query.OrderBy(defaultOrder);
             }
 
             if (paginacion.ElementosPorPagina < 1 || paginacion.ElementosPorPagina > 100)

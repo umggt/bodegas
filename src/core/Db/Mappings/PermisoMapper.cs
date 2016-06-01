@@ -11,7 +11,9 @@ namespace Bodegas.Db.Mappings
     {
         internal static ModelBuilder MapearPermiso(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Permiso>(permiso => permiso.HasAlternateKey(p => p.Nombre));
+            modelBuilder.Entity<Permiso>(permiso => {
+                //permiso.HasAlternateKey(p => p.Nombre);
+            });
             return modelBuilder;
         }
 

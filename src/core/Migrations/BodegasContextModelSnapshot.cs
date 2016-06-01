@@ -36,8 +36,6 @@ namespace core.Migrations
                     b.Property<int>("UsuarioModificaId");
 
                     b.HasKey("Id");
-
-                    b.HasAlternateKey("Nombre");
                 });
 
             modelBuilder.Entity("Bodegas.Db.Entities.Egreso", b =>
@@ -78,8 +76,6 @@ namespace core.Migrations
                     b.Property<int>("ProductoId");
 
                     b.HasKey("Id");
-
-                    b.HasAlternateKey("ProductoId");
                 });
 
             modelBuilder.Entity("Bodegas.Db.Entities.ExistenciaCantidad", b =>
@@ -88,11 +84,13 @@ namespace core.Migrations
 
                     b.Property<int>("UnidadDeMedidaId");
 
+                    b.Property<int>("MarcaId");
+
                     b.Property<decimal>("Cantidad");
 
                     b.Property<DateTime>("FechaModificacion");
 
-                    b.HasKey("ExistenciaId", "UnidadDeMedidaId");
+                    b.HasKey("ExistenciaId", "UnidadDeMedidaId", "MarcaId");
                 });
 
             modelBuilder.Entity("Bodegas.Db.Entities.Ingreso", b =>
@@ -132,8 +130,6 @@ namespace core.Migrations
                     b.Property<int>("UnidadDeMedidaId");
 
                     b.HasKey("Id");
-
-                    b.HasAlternateKey("NumeroDeSerie");
                 });
 
             modelBuilder.Entity("Bodegas.Db.Entities.IngresoProductoCaracteristica", b =>
@@ -228,8 +224,6 @@ namespace core.Migrations
                         .HasAnnotation("MaxLength", 100);
 
                     b.HasKey("Id");
-
-                    b.HasAlternateKey("Nombre");
                 });
 
             modelBuilder.Entity("Bodegas.Db.Entities.Producto", b =>
@@ -345,8 +339,6 @@ namespace core.Migrations
                         .HasAnnotation("MaxLength", 100);
 
                     b.HasKey("Id");
-
-                    b.HasAlternateKey("Nombre");
                 });
 
             modelBuilder.Entity("Bodegas.Db.Entities.RolPermiso", b =>
@@ -406,8 +398,6 @@ namespace core.Migrations
                         .HasAnnotation("MaxLength", 200);
 
                     b.HasKey("Id");
-
-                    b.HasAlternateKey("Login");
                 });
 
             modelBuilder.Entity("Bodegas.Db.Entities.UsuarioAtributo", b =>
@@ -488,6 +478,10 @@ namespace core.Migrations
                     b.HasOne("Bodegas.Db.Entities.Existencia")
                         .WithMany()
                         .HasForeignKey("ExistenciaId");
+
+                    b.HasOne("Bodegas.Db.Entities.Marca")
+                        .WithMany()
+                        .HasForeignKey("MarcaId");
 
                     b.HasOne("Bodegas.Db.Entities.UnidadDeMedida")
                         .WithMany()

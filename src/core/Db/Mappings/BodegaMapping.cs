@@ -16,7 +16,7 @@ namespace Bodegas.Db.Mappings
             {
                 // Crear un unique constraint sobre la propiedad nombre
                 // para prevenir bodegas con el mismo nombre.
-                bodega.HasAlternateKey(u => u.Nombre);
+                //bodega.HasAlternateKey(u => u.Nombre);
 
                 bodega.HasOne(b => b.UsuarioCreacion).WithMany().HasPrincipalKey(u => u.Id).HasForeignKey(b => b.UsuarioCreacionId).OnDelete(DeleteBehavior.Restrict);
                 bodega.HasOne(b => b.UsuarioModifica).WithMany().HasForeignKey(u => u.Id).HasForeignKey(b => b.UsuarioModificaId).OnDelete(DeleteBehavior.Restrict);

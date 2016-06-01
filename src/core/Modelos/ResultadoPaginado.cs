@@ -14,7 +14,7 @@ namespace Bodegas.Modelos
         public int ElementosPorPagina { get; set; }
         public int? PaginaAnterior { get; set; }
         public int? PaginaSiguiente { get; set; }
-        public IEnumerable<int> Paginas { get; set; }
-        public IEnumerable<T> Elementos { get; set; }
+        public int[] Paginas { get; set; }
+        public T[] Elementos { get; set; }
     }
 }

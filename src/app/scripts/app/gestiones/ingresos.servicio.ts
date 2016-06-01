@@ -1,13 +1,14 @@
 ﻿import { Injectable } from "@angular/core"
 import { Observable } from 'rxjs/Observable'
 import { HttpServicio } from "../http.servicio"
-import { IngresoDetalle, IngresoProductoCaracteristica } from "./ingresos.modelos"
+import { IngresoDetalle, IngresoProductoCaracteristica, IngresoResumen } from "./ingresos.modelos"
 import { ProductosServicio } from "../mantenimientos/productos.servicio"
 import { MarcasServicio } from "../mantenimientos/marcas.servicio"
 import { UnidadesDeMedidaServicio } from "../mantenimientos/unidades-de-medida.servicio"
 import { ListasServicio } from "../mantenimientos/listas.servicio"
 import { ProveedoresServicio } from "../mantenimientos/proveedores.servicio"
 import { BodegasServicio } from "../mantenimientos/bodegas.servicio"
+import { PaginacionResultado, PaginacionParametros } from "../modelos"
 
 @Injectable()
 export class IngresosServicio {
@@ -43,7 +44,11 @@ export class IngresosServicio {
     }
 
     public guardar(ingreso: IngresoDetalle) : Observable<IngresoDetalle> {
-        const body = JSON.stringify(ingreso);
-        return this.http.post(this.url, { body: body }).map(x => x.json() as IngresoDetalle);
+        return this.http.post(this.url, ingreso).map(x => x.json() as IngresoDetalle);
+    }
+
+    public obtenerTodos(paginacion?: PaginacionParametros): Observable<PaginacionResultado<IngresoResumen>> {
+        var params = this.http.params(paginacion);
+        return this.http.get(this.url, { search: params }).map(x => x.json() as PaginacionResultado<IngresoResumen>);
     }
 }

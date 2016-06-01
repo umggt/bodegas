@@ -14,7 +14,7 @@ namespace Bodegas.Db.Mappings
         {
             modelBuilder.Entity<Usuario>(usuario =>
             {
-                usuario.HasAlternateKey(u => u.Login);
+                //usuario.HasAlternateKey(u => u.Login);
 
                 // Un usuario tiene muchos atributos,
                 // y un atributo tiene un usuario.

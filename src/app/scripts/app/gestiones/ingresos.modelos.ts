@@ -5,8 +5,10 @@ export interface IngresoResumen {
 }
 
 export interface IngresoDetalle {
+    id?: number;
     fecha: Date;
     proveedorId?: number;
+    bodegaId?: number;
     productos?: IngresoProducto[];
 }
 

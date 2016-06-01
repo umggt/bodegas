@@ -15,10 +15,10 @@ namespace Bodegas.Db.Mappings
 
             modelBuilder.Entity<ExistenciaCantidad>(existenciaCantidad =>
             {
-                existenciaCantidad.HasKey(x => new {x.ExistenciaId, x.UnidadDeMedidaId});
+                existenciaCantidad.HasKey(x => new {x.ExistenciaId, x.UnidadDeMedidaId, x.MarcaId});
 
                 existenciaCantidad.HasOne(x => x.Existencia)
-                    .WithMany()
+                    .WithMany(x => x.Cantidades)
                     .HasForeignKey(ec => ec.ExistenciaId)
                     .HasPrincipalKey(e => e.Id)
                     .OnDelete(DeleteBehavior.Cascade);
@@ -28,6 +28,12 @@ namespace Bodegas.Db.Mappings
                     .HasForeignKey(ec => ec.UnidadDeMedidaId)
                     .HasPrincipalKey(u => u.Id)
                     .OnDelete(DeleteBehavior.Restrict);
+
+                existenciaCantidad.HasOne(x => x.Marca)
+                    .WithMany()
+                    .HasForeignKey(x => x.MarcaId)
+                    .HasPrincipalKey(x => x.Id)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             return modelBuilder;

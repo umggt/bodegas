@@ -13,6 +13,9 @@ namespace Bodegas.Db.Entities
         public int UnidadDeMedidaId { get; set; }
         public UnidadDeMedida UnidadDeMedida { get; set; }
 
+        public int MarcaId { get; set; }
+        public Marca Marca { get; set; }
+
         public decimal Cantidad { get; set; }
 
         public DateTime FechaModificacion { get; set; }
