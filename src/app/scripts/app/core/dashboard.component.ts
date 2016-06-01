@@ -27,7 +27,7 @@ export class DashboardComponent implements OnInit {
             this.resumen = x;
         });
         this.dashboardServicio.obtenerIngresosVsEgresos().subscribe(x => {
-            Morris.Line({
+            var grafica = Morris.Line({
                 element: 'ingresos-vs-egresos',
                 data: x,
                 xkey: 'fecha',
@@ -42,6 +42,12 @@ export class DashboardComponent implements OnInit {
                     mes = mes.length == 1 ? `0${mes}` : mes;
                     return `${dia}/${mes}/${anio}`;
                 }
+            });
+
+            // TODO: cambiar el modo de suscribirse al evento resize para poder eliminar
+            //       la suscripcion cuando el componente DashboardComponent es desechado
+            $(window).resize(() => {
+                grafica.redraw();
             });
         })
     }
