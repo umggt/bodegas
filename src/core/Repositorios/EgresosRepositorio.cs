@@ -68,14 +68,90 @@ namespace Bodegas.Repositorios
 
         public async Task<int> CrearAsync(EgresoDetalle egreso, int usuarioId)
         {
-           
-        
+            if (egreso == null)
+            {
+                throw new ArgumentNullException(nameof(egreso));
+            }
+
+            if (egreso.Productos == null || egreso.Productos.Count() == 0)
+            {
+                throw new InvalidOperationException("No puede crear un egreso sin productos.");
+            }
+            var tieneProductosRepetidos = egreso.Productos.GroupBy(x => new { x.ProductoId, x.MarcaId, x.UnidadDeMedidaId }).Where(x => x.Count() > 1).Any();
+
+            if (tieneProductosRepetidos)
+            {
+                throw new InvalidOperationException("Un egreso no puede tener un producto repetido con la misma marca y unidad de medida (debe crear dos egresos distintos)");
+            }
+
+            var hayProductosSinCantidad = egreso.Productos.Any(x => x.Cantidad <= 0);
+
+            if (hayProductosSinCantidad)
+            {
+                throw new InvalidOperationException("Un egreso no puede contener productos con valores menores o iguales a cero");
+            }
+
+            var existeBodega = await db.Bodegas.AnyAsync(x => x.Id == egreso.BodegaId);
+            if (!existeBodega)
+            {
+                throw new InvalidOperationException($"No existe una bodega con id {egreso.BodegaId}");
+            }
+
+            var productosIds = egreso.Productos.Select(x => x.ProductoId).Distinct().ToArray();
+            var cantidadDeProductos = await db.Productos.CountAsync(x => productosIds.Contains(x.Id));
+            var existenTodosLosProductos = cantidadDeProductos == productosIds.Length;
+            if (!existenTodosLosProductos)
+            {
+                throw new InvalidOperationException("Al menos uno de los productos indicados no existe");
+            }
+            var marcasParaLosProductosTask = db.ProductoMarcas.Where(x => productosIds.Contains(x.ProductoId)).ToArrayAsync();
+            var unidadesParaLosProductosTask = db.ProductoUnidadesDeMedida.Where(x => productosIds.Contains(x.ProductoId)).ToArrayAsync();
+
+            var marcasParaLosProductos = await marcasParaLosProductosTask;
+            var unidadesParaLosProductos = await unidadesParaLosProductosTask;
+
+
+            foreach (var item in egreso.Productos)
+            {
+                if (!marcasParaLosProductos.Any(x => x.MarcaId == item.MarcaId && x.ProductoId == item.ProductoId))
+                {
+                    throw new InvalidOperationException($"No existe una marca con id {item.MarcaId} o no está asignada al producto con id {item.ProductoId}");
+                }
+                if (!unidadesParaLosProductos.Any(x => x.UnidadDeMedidaId == item.UnidadDeMedidaId && x.ProductoId == item.ProductoId))
+                {
+                    throw new InvalidOperationException($"No existe una unidad de medida con id {item.UnidadDeMedidaId} o no está asignada al producto con id {item.ProductoId}");
+                }
+
+            }
+
+            if (egreso.Fecha == default(DateTime))
+            {
+                egreso.Fecha = DateTime.UtcNow;
+            }
+            //var nuevoEgreso = new Egreso
+            //{
+            //    BodegaId = egreso.BodegaId,
+            //    Fecha = egreso.Fecha,
+            //    UsuarioId = usuarioId
+            //};
+
             var nuevoEgreso = new Egreso
             {
+                Fecha = egreso.Fecha.ToUniversalTime(),
+                UsuarioId = usuarioId,
                 BodegaId = egreso.BodegaId,
-                Fecha = egreso.Fecha,
-                UsuarioId = usuarioId
+                Productos = egreso.Productos.Select(producto => new EgresoProducto
+                {
+                    ProductoId = producto.ProductoId,
+                    MarcaId = producto.MarcaId,
+                    UnidadDeMedidaId = producto.UnidadDeMedidaId,
+                    Cantidad = producto.cantidad,
+                }).ToArray()
             };
+
+            db.Egresos.Add(nuevoEgreso);
+
+            var existencias = await db.Existencias.Include(x => x.Cantidades).Where(x => productosIds.Contains(x.ProductoId)).ToListAsync();
 
             if (egreso.Productos != null && egreso.Productos.Count() > 0)
             {
@@ -88,18 +164,46 @@ namespace Bodegas.Repositorios
                 }).ToList();
             }
 
-          
+
             db.Egresos.Add(nuevoEgreso);
 
-            var filasAfectadas = await db.SaveChangesAsync();
-            if (filasAfectadas > 0)
+
+            foreach (var item in egreso.Productos)
             {
-                return nuevoEgreso.Id;
+                var productoId = item.ProductoId;
+                var nuevaCantidad = item.Cantidad;
+                var marcaId = item.MarcaId;
+                var unidadId = item.UnidadDeMedidaId;
+                var existencia = existencias.FirstOrDefault(x => x.ProductoId == productoId);
+                if (existencia == null)
+                {
+                    throw new InvalidOperationException($"No hay existencias suficientes para el producto {item.ProductoId}");
+                }
+                else
+                {
+                    var cantidad = existencia.Cantidades.FirstOrDefault(x => x.UnidadDeMedidaId == unidadId && x.MarcaId == marcaId);
+                    if (cantidad == null)
+                    {
+                        throw new InvalidOperationException($"No hay existencias suficientes para el producto {item.ProductoId}");
+                    }
+                    else
+                    {
+                        if (cantidad.Cantidad < nuevaCantidad)
+                        {
+                            throw new InvalidOperationException($"La cantidad que se desea sacar del producto {item.ProductoId} es mayor a la cantidad disponible");
+                        }
+                        else
+                        {
+                            cantidad.Cantidad -= nuevaCantidad;
+                        }
+                    }
+
+                }
             }
-            else
-            {
-                return -1;
-            }
+
+            await db.SaveChangesAsync();
+            return nuevoEgreso.Id;
+
         }
 
 

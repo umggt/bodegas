@@ -19,4 +19,5 @@ export interface Producto {
     unidadId?: number;
     unidadNombre?: string;
     cantidad?: number;
+    marcaId?: number;
 }

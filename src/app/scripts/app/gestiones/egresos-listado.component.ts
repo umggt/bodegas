@@ -8,11 +8,13 @@ import { PaginaComponent } from "../pagina.component"
 import { PaginacionComponent } from "../paginacion.component"
 import { ErroresServicio } from "../errores.servicio"
 import { UnidadesDeMedidaServicio } from "../mantenimientos/unidades-de-medida.servicio"
+import { MarcasServicio } from "../mantenimientos/marcas.servicio"
+
 
 @Component({
     selector: 'egresos-listado',
     templateUrl: 'app/gestiones/egresos-listado.template.html',
-    providers: [EgresosServicio, ErroresServicio, UnidadesDeMedidaServicio],
+    providers: [EgresosServicio, ErroresServicio, UnidadesDeMedidaServicio, MarcasServicio],
     directives: [ROUTER_DIRECTIVES, PaginaComponent, PaginacionComponent]
 })
 
