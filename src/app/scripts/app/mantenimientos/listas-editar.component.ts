@@ -67,7 +67,7 @@ export class ListasEditarComponent implements OnInit {
 
         this.listasServicio.guardar(this.lista).subscribe(
             lista => {
-                this.lista = lista.id;
+                this.listaId = lista.id;
                 this.modoCreacion = false;
                 this.lista = lista;
                 this.guardando = false;
