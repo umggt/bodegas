@@ -60,8 +60,8 @@ namespace Bodegas.Repositorios
                     EgresoId = x.Id,
                     ProductoId = x.ProductoId,
                     UnidadDeMedida = x.UnidadDeMedida.Nombre,
-                    UnidadDeMedidaId = x.UnidadDeMedidaId,
-                    cantidad = x.Cantidad
+                    UnidadId = x.UnidadDeMedidaId,
+                    Cantidad = x.Cantidad
                 }).ToArray()
             };
         }
@@ -77,7 +77,7 @@ namespace Bodegas.Repositorios
             {
                 throw new InvalidOperationException("No puede crear un egreso sin productos.");
             }
-            var tieneProductosRepetidos = egreso.Productos.GroupBy(x => new { x.ProductoId, x.MarcaId, x.UnidadDeMedidaId }).Where(x => x.Count() > 1).Any();
+            var tieneProductosRepetidos = egreso.Productos.GroupBy(x => new { x.ProductoId, x.MarcaId, x.UnidadId }).Where(x => x.Count() > 1).Any();
 
             if (tieneProductosRepetidos)
             {
@@ -117,9 +117,9 @@ namespace Bodegas.Repositorios
                 {
                     throw new InvalidOperationException($"No existe una marca con id {item.MarcaId} o no está asignada al producto con id {item.ProductoId}");
                 }
-                if (!unidadesParaLosProductos.Any(x => x.UnidadDeMedidaId == item.UnidadDeMedidaId && x.ProductoId == item.ProductoId))
+                if (!unidadesParaLosProductos.Any(x => x.UnidadDeMedidaId == item.UnidadId && x.ProductoId == item.ProductoId))
                 {
-                    throw new InvalidOperationException($"No existe una unidad de medida con id {item.UnidadDeMedidaId} o no está asignada al producto con id {item.ProductoId}");
+                    throw new InvalidOperationException($"No existe una unidad de medida con id {item.UnidadId} o no está asignada al producto con id {item.ProductoId}");
                 }
 
             }
@@ -144,8 +144,8 @@ namespace Bodegas.Repositorios
                 {
                     ProductoId = producto.ProductoId,
                     MarcaId = producto.MarcaId,
-                    UnidadDeMedidaId = producto.UnidadDeMedidaId,
-                    Cantidad = producto.cantidad,
+                    UnidadDeMedidaId = producto.UnidadId,
+                    Cantidad = producto.Cantidad,
                 }).ToArray()
             };
 
@@ -159,8 +159,8 @@ namespace Bodegas.Repositorios
                 {
                     Egreso = nuevoEgreso,
                     ProductoId = productoId.ProductoId,
-                    UnidadDeMedidaId = productoId.UnidadDeMedidaId,
-                    Cantidad = productoId.cantidad
+                    UnidadDeMedidaId = productoId.UnidadId,
+                    Cantidad = productoId.Cantidad
                 }).ToList();
             }
 
@@ -173,7 +173,7 @@ namespace Bodegas.Repositorios
                 var productoId = item.ProductoId;
                 var nuevaCantidad = item.Cantidad;
                 var marcaId = item.MarcaId;
-                var unidadId = item.UnidadDeMedidaId;
+                var unidadId = item.UnidadId;
                 var existencia = existencias.FirstOrDefault(x => x.ProductoId == productoId);
                 if (existencia == null)
                 {

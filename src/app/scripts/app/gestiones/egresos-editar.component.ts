@@ -73,7 +73,7 @@ export class EgresosEditarComponent implements OnInit {
 
     public guardar() {
         this.egreso.fecha = this.datePicker.date().toDate();
-
+        console.log("egreso")
         console.log(this.egreso);
         this.guardando = true;
         this.egresosServicio.guardar(this.egreso).subscribe(
