@@ -44,5 +44,20 @@ namespace Bodegas.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("ingresos-vs-egresos")]
+        public async Task<IActionResult> GetIngresosVsEgresos()
+        {
+            var ingresosTask = db.IngresoProductos.Select(x => new { x.Id, x.Ingreso.Fecha, Ingresos = x.Cantidad, Egresos = 0m }).ToArrayAsync();
+            var egresosTask = db.EgresoProductos.Select(x => new { x.Id, x.Egreso.Fecha, Ingresos = 0m, Egresos = x.Cantidad }).ToArrayAsync();
+
+            var ingresos = await ingresosTask;
+            var egresos = await egresosTask;
+            var todos = ingresos.Union(egresos).GroupBy(x => x.Fecha).Select(x => new { Fecha = x.Key, Ingresos = x.Sum(y => y.Ingresos), Egresos = x.Sum(y => y.Egresos) });
+
+            var result = todos.ToArray();
+
+            return Ok(result);
+        }
     }
 }

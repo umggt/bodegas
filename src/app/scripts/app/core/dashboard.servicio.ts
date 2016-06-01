@@ -16,4 +16,8 @@ export class DashboardServicio {
     public obtenerResumen(): Observable<Resumen> {
         return this.http.get(this.url + 'resumen').map(x => x.json() as Resumen);
     }
+
+    public obtenerIngresosVsEgresos(): Observable<any> {
+        return this.http.get(this.url + 'ingresos-vs-egresos').map(x => x.json());
+    }
 }
