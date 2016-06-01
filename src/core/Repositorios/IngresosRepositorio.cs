@@ -237,6 +237,11 @@ namespace Bodegas.Repositorios
                 
             }
 
+
+            // NOTA: muchas de las validaciones anteriores podrían implementarse como DataAnnotations
+            //       para que puedan ser utilizadas por otros controllers y delegar esas tareas de 
+            //       validación al motor de MVC por medio de atributos en los modelos.
+
             if (ingreso.Fecha == default(DateTime))
             {
                 ingreso.Fecha = DateTime.UtcNow;
@@ -303,6 +308,10 @@ namespace Bodegas.Repositorios
                             UnidadDeMedidaId = unidadId
                         };
                         existencia.Cantidades.Add(cantidad);
+                    }
+                    else
+                    {
+                        cantidad.Cantidad += nuevaCantidad;
                     }
                 }
             }
