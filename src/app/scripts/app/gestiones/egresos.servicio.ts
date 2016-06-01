@@ -5,6 +5,7 @@ import { EgresoResumen, EgresoDetalle } from "./egresos.modelos"
 import { PaginacionResultado, PaginacionParametros } from "../modelos"
 import { HttpServicio } from "../http.servicio"
 import { UnidadesDeMedidaServicio } from "../mantenimientos/unidades-de-medida.servicio"
+import { MarcasServicio } from "../mantenimientos/marcas.servicio"
 
 
 @Injectable()
@@ -13,7 +14,7 @@ export class EgresosServicio {
     private url = "http://localhost:5002/api/core/egresos/";
     
 
-    constructor(private http: HttpServicio, private unidadesDeMedida: UnidadesDeMedidaServicio) {
+    constructor(private http: HttpServicio, private unidadesDeMedida: UnidadesDeMedidaServicio, private marcasServicio: MarcasServicio) {
     }
 
     public obtenerTodos(paginacion?: PaginacionParametros): Observable<PaginacionResultado<EgresoResumen>> {
@@ -41,8 +42,9 @@ export class EgresosServicio {
     }
 
 
-    public obtenerUnidadesDeMedida() {
-        return this.unidadesDeMedida.obtenerTodos();
+
+    public obtenerMarcas(productoId: number) {
+        return this.marcasServicio.obtenerPorProducto(productoId);
     }
 
 }

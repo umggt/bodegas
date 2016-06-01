@@ -38,7 +38,7 @@ export class EgresosEditarComponent implements OnInit {
     public modoCreacion: boolean;
     private datePicker: any;
     private productoEnEdicion: Producto;
-
+    public guardando: boolean;
     constructor(
        
     private routeParams: RouteParams,
@@ -73,6 +73,18 @@ export class EgresosEditarComponent implements OnInit {
 
     public guardar() {
         this.egreso.fecha = this.datePicker.date().toDate();
+
+        console.log(this.egreso);
+        this.guardando = true;
+        this.egresosServicio.guardar(this.egreso).subscribe(
+            egreso => {
+                this.mensaje = "El egreso se guardó correctamente";
+                this.datePicker.date(egreso.fecha);
+            },
+            error => {
+                this.errores = this.erroresServicio.obtenerErrores(error);
+                this.guardando = false;
+            });
     }
 
     public nuevoProducto() {
@@ -83,28 +95,43 @@ export class EgresosEditarComponent implements OnInit {
     }
 
     public editarProducto(producto: Producto) {
-        this.producto = {
-            productoId: producto.productoId,
-            productoNombre: producto.productoNombre,
-            unidadId: producto.unidadId,
-            unidadNombre: producto.unidadNombre,
-            cantidad: producto.cantidad
-        };
+        this.producto = this.crearCopia(producto);
         this.productoEnEdicion = producto;
+        this.seleccionarProducto();
         $("#producto-modal").modal("show");
     }
 
+    private crearCopia(producto: Producto) {
+        var copia: Producto = {
+            productoId: producto.productoId,
+            unidadId: producto.unidadId,
+            marcaId: producto.marcaId,
+            cantidad: producto.cantidad
+        };
+
+        return copia;
+    }
+
+    private seleccionarProducto() {
+        if (!this.producto || !this.producto.productoId) return;
+        if (!this.productos || !this.productos.elementos || !this.productos.elementos.length) return;
+        this.cambiarProducto(this.producto.productoId.toString());
+    }
     public eliminarProducto(producto: Producto) {
         if (!confirm(`¿seguro que desea eliminar el producto ${producto.productoNombre}?`)) {
             return;
         }
+
+        var productos = this.egreso.productos;
+        var index = productos.indexOf(producto);
+        productos.splice(index, 1);
     }
 
     public cambiarProducto(event: string) {
         var productoId = parseInt(event, 10);
         this.producto.productoId = productoId;
         this.producto.productoNombre = this.obtenerProductoNombre(productoId);
-
+        this.obtenerMarcas(productoId);
         this.obtenerUnidades(productoId);
     }
 
@@ -127,18 +154,15 @@ export class EgresosEditarComponent implements OnInit {
     public guardarProducto() {
 
         this.egreso.productos = this.egreso.productos || [];
-
         if (this.productoEnEdicion != null) {
-            var p = this.productoEnEdicion;
-            var pp = this.producto;
+            let index = this.egreso.productos.indexOf(this.productoEnEdicion);
 
-            p.productoId = pp.productoId;
-            p.productoNombre = pp.productoNombre;
-            p.unidadId = pp.unidadId;
-            p.unidadNombre = pp.unidadNombre;
-            p.cantidad = pp.cantidad;
+            var producto = this.crearCopia(this.producto);
+            
 
+            this.egreso.productos[index] = producto;
         } else {
+          
             this.egreso.productos.push(this.producto);
         }
 
@@ -151,6 +175,7 @@ export class EgresosEditarComponent implements OnInit {
     private obtenerProductos() {
         this.productosServicio.obtenerTodos().subscribe(x => {
             this.productos = x;
+            this.seleccionarProducto();
         });
     }
 
@@ -177,7 +202,11 @@ export class EgresosEditarComponent implements OnInit {
         });
     }
 
-    
+    private obtenerMarcas(productoId: number) {
+        this.egresosServicio.obtenerMarcas(productoId).subscribe(x => {
+            this.marcas = x;
+        });
+    }
 
     private obtenerCaracteristicas(productoId: number) {
     }
