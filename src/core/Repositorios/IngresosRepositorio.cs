@@ -283,7 +283,7 @@ namespace Bodegas.Repositorios
                     existencia = new Existencia
                     {
                         ProductoId = productoId,
-                        Cantidades = new[] {
+                        Cantidades = new List<ExistenciaCantidad> {
                             new ExistenciaCantidad {
                                 Cantidad = nuevaCantidad,
                                 FechaModificacion = DateTime.UtcNow,
