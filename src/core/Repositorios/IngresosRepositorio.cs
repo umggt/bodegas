@@ -255,7 +255,7 @@ namespace Bodegas.Repositorios
                     Cantidad = producto.Cantidad,
                     Precio = producto.Precio,
                     NumeroDeSerie = producto.Serie,
-                    Caracteristicas = producto.Caracteristicas.Select(caracteristica => new IngresoProductoCaracteristica {
+                    Caracteristicas = producto.Caracteristicas?.Select(caracteristica => new IngresoProductoCaracteristica {
                         CaracteristicaId = caracteristica.Id,
                         ListaValorId = caracteristica.ListaValorId,
                         Valor = caracteristica.Valor

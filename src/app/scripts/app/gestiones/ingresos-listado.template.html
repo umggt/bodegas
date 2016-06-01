@@ -27,7 +27,7 @@
                     <template ngFor let-ingreso [ngForOf]="ingresos.elementos">
                         <tr (click)="ingreso.expandido = !ingreso.expandido">
                             <td class="text-center"><i class="fa" [ngClass]="{ 'fa-caret-down': ingreso.expandido, 'fa-caret-right': !ingreso.expandido }"></i></td>
-                            <td><a href="#">{{ fecha(ingreso.fecha) | date }}</a></td>
+                            <td>{{ fecha(ingreso.fecha) | date }}</td>
                             <td>{{ ingreso.bodega }}</td>
                             <td>{{ ingreso.proveedor }}</td>
                         </tr>

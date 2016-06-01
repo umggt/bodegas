@@ -25,7 +25,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let egreso of egresos.elementos">
-                        <td><a href="#">{{ egreso.id }}</a></td>
+                        <td>{{ egreso.id }}</td>
                         <td>{{ egreso.bodega }}</td>
                         <td>{{ fecha(egreso.fecha) | date }}</td>
                     </tr>

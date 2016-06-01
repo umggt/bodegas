@@ -22,6 +22,7 @@ import { IngresosEditarComponent } from "./gestiones/ingresos-editar.component"
 import { EgresosListadoComponent } from "./gestiones/egresos-listado.component"
 import { EgresosEditarComponent } from "./gestiones/egresos-editar.component"
 import { PerfilEditarComponent } from "./seguridad/perfil-editar.component"
+import { TrasladosEditarComponent } from "./gestiones/traslados-editar.component"
 
 @Component({
     selector: 'bodegas-main',
@@ -175,13 +176,13 @@ import { PerfilEditarComponent } from "./seguridad/perfil-editar.component"
      {
          path: '/traslados',
          name: 'TrasladosListado',
-         component: ProductosListadoComponent
+         component: TrasladosEditarComponent
      },
     {
         path: '/perfil',
         name: 'Perfil',
         component: PerfilEditarComponent
-    }
+     }
 ])
 export class MainComponent {
 

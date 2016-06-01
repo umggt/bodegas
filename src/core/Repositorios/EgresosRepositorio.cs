@@ -64,7 +64,7 @@ namespace Bodegas.Repositorios
             };
         }
 
-        public async Task<int> CrearAsync(EgresoDetalle egreso, int usuarioId)
+        public async Task<int> CrearAsync(int usuarioId, EgresoDetalle egreso)
         {
             if (egreso == null)
             {
@@ -123,12 +123,6 @@ namespace Bodegas.Repositorios
             {
                 egreso.Fecha = DateTime.UtcNow;
             }
-            //var nuevoEgreso = new Egreso
-            //{
-            //    BodegaId = egreso.BodegaId,
-            //    Fecha = egreso.Fecha,
-            //    UsuarioId = usuarioId
-            //};
 
             var nuevoEgreso = new Egreso
             {

@@ -40,7 +40,7 @@ namespace Bodegas.Controllers
                 return HttpBadRequest(ModelState);
             }
             var usuarioId = User.Id();
-            var egresoId = await egresos.CrearAsync(egreso, usuarioId);
+            var egresoId = await egresos.CrearAsync(usuarioId, egreso);
             var result = await egresos.ObtenerUnicoAsync(egresoId);
             return CreatedAtRoute("GetEgreso", new { id = egresoId }, result);
         }

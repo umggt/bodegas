@@ -1,0 +1,155 @@
+﻿<pagina titulo="Traslados" subtitulo="Nuevo">
+
+    <div *ngIf="errores?.length" class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Ocurri&oacute; un Error</strong>
+        <ul>
+            <li *ngFor="let error of errores">
+                {{error}}
+            </li>
+        </ul>
+    </div>
+
+    <div *ngIf="mensaje" class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Acci&oacute;n Finalizada</strong> {{ mensaje }}
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+
+            <form role="form" (ngSubmit)="guardar()" #frmTraslado="ngForm" novalidate>
+                <div class="form-group col-md-12">
+                    <label class="control-label">Fecha:</label>
+                    <div class="input-group" id="input-fecha">
+                        <input class="form-control">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="control-label">Bodega Origen:</label>
+                    <select class="form-control" [(ngModel)]="traslado.bodegaOrigenId">
+                        <option *ngFor="let bodega of bodegas.elementos" [value]="bodega.id">{{bodega.nombre}}</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="control-label">Bodega Destino:</label>
+                    <select class="form-control" [(ngModel)]="traslado.bodegaDestinoId">
+                        <option *ngFor="let bodega of bodegas.elementos" [value]="bodega.id">{{bodega.nombre}}</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-12">
+
+                    <label class="control-label">Productos</label>
+                    <button type="button" class="btn btn-sm btn-success pull-right" style="margin-bottom: 4px;" (click)="nuevoProducto()">
+                        <span class="hidden-xs">Agregar Producto</span>
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </button>
+
+                    <table class="table table-data table-bordered table-striped table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Unidad de medida</th>
+                                <th>Cantidad</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let producto of traslado.productos">
+                                <td>{{producto.productoNombre}}</td>
+                                <td>{{producto.unidadNombre}}</td>
+                                <td>{{producto.cantidad}}</td>
+                                <td class="text-center">
+                                    <div class="btn-group btn-group-xs hidden-xs">
+                                        <button type="button" class="btn btn-default" (click)="editarProducto(producto)">
+                                            <span class="sr-only">Editar</span>
+                                            <i class="glyphicon glyphicon-pencil"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-default" (click)="eliminarProducto(producto)">
+                                            <span class="sr-only">Eliminar</span>
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                        </button>
+                                    </div>
+                                    <div class="btn-group visible-xs">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Opciones <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" style="right: 0; left: inherit">
+                                            <li><a class="pointer" (click)="editarProducto(producto)">Editar</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a class="pointer" (click)="eliminarProducto(producto)">Eliminar</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-7 col-sm-5 text-right">
+                        <a class="btn btn-default" (click)="nuevo()">Nuevo</a>
+                        <button type="submit" class="btn btn-primary" [disabled]="!frmTraslado.form.valid || guardando">Guardar</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <div class="modal fade" id="producto-modal" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document" *ngIf="producto">
+            <div class="modal-content modal-lg">
+                <form role="form" (ngSubmit)="guardarProducto()" #frmProducto="ngForm" novalidate>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="modal-label">Ingrese el detalle del producto</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label class="control-label">Producto:</label>
+                                <select class="form-control" [ngModel]="producto.productoId" (ngModelChange)="cambiarProducto($event)">
+                                    <option *ngFor="let p of productos?.elementos" [value]="p.id">{{p.nombre}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label">Marca:</label>
+                                <select class="form-control" [(ngModel)]="producto.marcaId" [disabled]="!producto.productoId">
+                                    <option *ngFor="let marca of marcas?.elementos" [value]="marca.id">{{marca.nombre}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label">Unidad de medida:</label>
+                                <select class="form-control" [ngModel]="producto.unidadId" (ngModelChange)="cambiarUnidad($event)">
+                                    <option *ngFor="let unidad of unidades?.elementos" [value]="unidad.id">{{unidad.nombre}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6" [class.has-error]="cantidad.touched  && !cantidad.valid">
+                                <label class="control-label">Cantidad:</label>
+                                <input class="form-control" type="number" [(ngModel)]="producto.cantidad" ngControl="cantidad" #cantidad="ngForm" required min="0" [disabled]="!producto.unidadId" />
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="!frmProducto.form.valid">Aceptar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</pagina>
