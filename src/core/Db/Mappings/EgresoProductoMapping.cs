@@ -36,6 +36,12 @@ namespace Bodegas.Db.Mappings
                     .HasForeignKey(e => e.UnidadDeMedidaId)
                     .OnDelete(DeleteBehavior.Restrict);
 
+                egresoProducto.HasOne(x => x.Marca)
+                    .WithMany()
+                    .HasPrincipalKey(x => x.Id)
+                    .HasForeignKey(x => x.MarcaId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
             });
 
             return modelBuilder;

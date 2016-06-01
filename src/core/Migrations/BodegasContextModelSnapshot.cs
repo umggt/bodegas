@@ -61,6 +61,8 @@ namespace core.Migrations
 
                     b.Property<int>("EgresoId");
 
+                    b.Property<int>("MarcaId");
+
                     b.Property<int>("ProductoId");
 
                     b.Property<int>("UnidadDeMedidaId");
@@ -456,6 +458,10 @@ namespace core.Migrations
                     b.HasOne("Bodegas.Db.Entities.Egreso")
                         .WithMany()
                         .HasForeignKey("EgresoId");
+
+                    b.HasOne("Bodegas.Db.Entities.Marca")
+                        .WithMany()
+                        .HasForeignKey("MarcaId");
 
                     b.HasOne("Bodegas.Db.Entities.Producto")
                         .WithMany()

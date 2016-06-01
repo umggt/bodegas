@@ -502,6 +502,7 @@ namespace core.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Cantidad = table.Column<decimal>(nullable: false),
                     EgresoId = table.Column<int>(nullable: false),
+                    MarcaId = table.Column<int>(nullable: false),
                     ProductoId = table.Column<int>(nullable: false),
                     UnidadDeMedidaId = table.Column<int>(nullable: false)
                 },
@@ -512,6 +513,12 @@ namespace core.Migrations
                         name: "FK_EgresoProducto_Egreso_EgresoId",
                         column: x => x.EgresoId,
                         principalTable: "Egreso",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EgresoProducto_Marca_MarcaId",
+                        column: x => x.MarcaId,
+                        principalTable: "Marca",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(

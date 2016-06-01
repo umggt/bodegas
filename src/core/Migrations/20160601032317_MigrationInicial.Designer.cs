@@ -8,7 +8,7 @@ using Bodegas.Db;
 namespace core.Migrations
 {
     [DbContext(typeof(BodegasContext))]
-    [Migration("20160601022953_MigrationInicial")]
+    [Migration("20160601032317_MigrationInicial")]
     partial class MigrationInicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,6 +61,8 @@ namespace core.Migrations
                     b.Property<decimal>("Cantidad");
 
                     b.Property<int>("EgresoId");
+
+                    b.Property<int>("MarcaId");
 
                     b.Property<int>("ProductoId");
 
@@ -457,6 +459,10 @@ namespace core.Migrations
                     b.HasOne("Bodegas.Db.Entities.Egreso")
                         .WithMany()
                         .HasForeignKey("EgresoId");
+
+                    b.HasOne("Bodegas.Db.Entities.Marca")
+                        .WithMany()
+                        .HasForeignKey("MarcaId");
 
                     b.HasOne("Bodegas.Db.Entities.Producto")
                         .WithMany()
