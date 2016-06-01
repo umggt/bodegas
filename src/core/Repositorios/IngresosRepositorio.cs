@@ -214,14 +214,10 @@ namespace Bodegas.Repositorios
                 throw new InvalidOperationException("Al menos uno de los productos indicados no existe");
             }
 
-            var marcasParaLosProductosTask = db.ProductoMarcas.Where(x => productosIds.Contains(x.ProductoId)).ToArrayAsync();
-            var unidadesParaLosProductosTask = db.ProductoUnidadesDeMedida.Where(x => productosIds.Contains(x.ProductoId)).ToArrayAsync();
-            //var caracteristicasParaLosProductosTask = db.ProductoCaracteristicas.Where(x => productosIds.Contains(x.ProductoId)).ToArrayAsync();
-
-            var marcasParaLosProductos = await marcasParaLosProductosTask;
-            var unidadesParaLosProductos = await unidadesParaLosProductosTask;
-            //var caracteristicasParaLosProductos = await caracteristicasParaLosProductosTask;
-
+            var marcasParaLosProductos = await db.ProductoMarcas.Where(x => productosIds.Contains(x.ProductoId)).ToArrayAsync();
+            var unidadesParaLosProductos = await db.ProductoUnidadesDeMedida.Where(x => productosIds.Contains(x.ProductoId)).ToArrayAsync();
+            //var caracteristicasParaLosProductos = await db.ProductoCaracteristicas.Where(x => productosIds.Contains(x.ProductoId)).ToArrayAsync();
+            
             foreach (var item in ingreso.Productos)
             {
                 if (!marcasParaLosProductos.Any(x => x.MarcaId == item.MarcaId && x.ProductoId == item.ProductoId))
