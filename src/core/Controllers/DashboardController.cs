@@ -48,6 +48,11 @@ namespace Bodegas.Controllers
         [HttpGet("ingresos-vs-egresos")]
         public async Task<IActionResult> GetIngresosVsEgresos()
         {
+
+            // TODO: arreglar este query, ahorita se realizó así porque la versión de Entity Framework que está
+            //       ejecutándose actualmente tiene algunos issues con los unions, groups, etc. por lo que hay
+            //       que realizar pruebas actualizando la dependencia de EF.
+
             var ingresosTask = db.IngresoProductos.Select(x => new { x.Id, x.Ingreso.Fecha, Ingresos = x.Cantidad, Egresos = 0m }).ToArrayAsync();
             var egresosTask = db.EgresoProductos.Select(x => new { x.Id, x.Egreso.Fecha, Ingresos = 0m, Egresos = x.Cantidad }).ToArrayAsync();
 
