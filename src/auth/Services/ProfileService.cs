@@ -32,16 +32,31 @@ namespace Bodegas.Auth.Services
                 new Claim(JwtClaimTypes.Subject, usuario.Id.ToString()),
                 new Claim(JwtClaimTypes.Name, usuario.NombreCompleto),
                 new Claim(JwtClaimTypes.GivenName, usuario.Nombres),
-                new Claim(JwtClaimTypes.FamilyName, usuario.Apellidos),
                 new Claim(JwtClaimTypes.Email, usuario.Correo),
-                new Claim(JwtClaimTypes.EmailVerified, usuario.CorreoVerificado.ToString(), ClaimValueTypes.Boolean),
-                new Claim(JwtClaimTypes.WebSite, usuario.SitioWeb)
+                new Claim(JwtClaimTypes.EmailVerified, usuario.CorreoVerificado.ToString(), ClaimValueTypes.Boolean)
             };
 
-            foreach (var atributo in usuario.Atributos)
+            if (!string.IsNullOrWhiteSpace(usuario.Apellidos))
             {
-                claims.Add(new Claim(atributo.Nombre, atributo.Valor));
+                claims.Add(new Claim(JwtClaimTypes.FamilyName, usuario.Apellidos));
             }
+            if (!string.IsNullOrWhiteSpace(usuario.SitioWeb))
+            {
+                claims.Add(new Claim(JwtClaimTypes.WebSite, usuario.SitioWeb));
+            }
+
+            if (usuario.Atributos != null && usuario.Atributos.Any())
+            {
+                foreach (var atributo in usuario.Atributos)
+                {
+                    if (string.IsNullOrWhiteSpace(atributo.Valor))
+                    {
+                        continue;
+                    }
+                    claims.Add(new Claim(atributo.Nombre, atributo.Valor));
+                }
+            }
+            
 
             context.IssuedClaims = claims;
         }

@@ -76,6 +76,11 @@ namespace Bodegas.Repositorios
             var login = usuario.Login.Trim().ToLowerInvariant();
             var correo = usuario.Correo.Trim().ToLowerInvariant();
 
+            if (string.IsNullOrWhiteSpace(usuario.Clave))
+            {
+                throw new InvalidOperationException("La clave no puede estar en blanco");
+            }
+
             if (await ExisteLoginInterno(login))
             {
                 throw new InvalidOperationException($"El login '{login}' ya está asignado a otro usuario.");
@@ -95,7 +100,7 @@ namespace Bodegas.Repositorios
                 SitioWeb = usuario.SitioWeb?.Trim().ToLowerInvariant(),
                 Activo = false,
                 CorreoVerificado = false,
-                Clave = new byte[] { }
+                Clave = usuario.Clave.Encriptar()
             };
 
             if (usuario.Roles != null && usuario.Roles.Count > 0)

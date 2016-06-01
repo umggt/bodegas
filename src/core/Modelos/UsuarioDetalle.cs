@@ -40,6 +40,8 @@ namespace Bodegas.Modelos
         [StringLength(200, ErrorMessage = StringLengthMessage)]
         public string SitioWeb { get; set; }
 
+        public string Clave { get; set; }
+
         public bool Activo { get; set; }
 
         public IDictionary<string, string[]> Atributos { get; set; }

@@ -28,6 +28,7 @@ export class UsuariosEditarComponent implements OnInit {
     mensaje: string;
     alerta: string;
     errores: string[];
+    confirmacionClave: string;
 
     /**
      * Constructor del componente
@@ -112,10 +113,17 @@ export class UsuariosEditarComponent implements OnInit {
     }
 
     guardar() {
+
         this.guardando = true;
         this.mensaje = null;
         this.alerta = null;
         this.errores = null;
+
+        if (this.modoCreacion && this.confirmacionClave != this.usuario.clave) {
+            this.errores = ["La contraseña y la confirmación no son iguales."];
+            this.guardando = false;
+            return;
+        }
 
         this.usuariosServicio.guardar(this.usuario).subscribe(
             usuario => {

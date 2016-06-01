@@ -16,6 +16,7 @@ export interface Usuario {
     nombreCompleto?: string;
     atributos?: Dictionary<string[]>;
     roles?: Dictionary<string>;
+    clave?: string;
 }
 
 export interface RolResumen {

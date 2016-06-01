@@ -50,14 +50,26 @@
                     <input class="form-control" [(ngModel)]="usuario.sitioWeb" placeholder="ingrese una url, ejemplo: http://www.misitio.com" maxlength="200" type="url" ngControl="sitioWeb" #sitioWeb="ngForm">
                 </div>
 
+                <div *ngIf="modoCreacion" class="form-group col-md-6" [class.has-error]="clave.touched && !clave.valid">
+                    <label class="control-label">Contrase&ntilde;a:</label>
+                    <input type="password" class="form-control" [(ngModel)]="usuario.clave" required maxlength="50" ngControl="clave" #clave="ngForm" />
+                    
+                </div>
+
+                <div *ngIf="modoCreacion" class="form-group col-md-6" [class.has-error]="confirmacion.touched && !confirmacion.valid">
+                    <label class="control-label">Confirmar Contrase&ntilde;a:</label>
+                    <input type="password" class="form-control" [(ngModel)]="confirmacionClave" required maxlength="50" ngControl="confirmacion" #confirmacion="ngForm" />
+                    <p class="text-danger" *ngIf="confirmacionClave != usuario.clave">La contrase&ntilde;a y la confirmaci&oacute;n no son iguales.</p>
+                </div>
+
                 <div class="form-group col-md-12">
 
                     <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active">
+                        <li role="presentation" *ngIf="false">
                             <a href="#atributos" aria-controls="atributos" role="tab" data-toggle="tab">Atributos</a>
                         </li>
                         <li role="presentation">
-                            <a href="#roles" aria-controls="roles" role="tab" data-toggle="tab">Roles</a>
+                            <a href="#roles" class="active" aria-controls="roles" role="tab" data-toggle="tab">Roles</a>
                         </li>
                         <li role="presentation">
                             <a href="#foto" aria-controls="foto" role="tab" data-toggle="tab">Foto</a>
@@ -66,7 +78,7 @@
 
                     <div class="tab-content">
 
-                        <div role="tabpanel" class="tab-pane active" id="atributos">
+                        <div role="tabpanel" class="tab-pane" id="atributos" *ngIf="false">
                             <button type="button" class="btn btn-sm btn-success pull-right" style="margin-bottom: 4px;">
                                 <span class="hidden-xs">Nuevo atributo</span>
                                 <i class="glyphicon glyphicon-plus"></i>
@@ -111,7 +123,7 @@
                             </table>
                         </div>
 
-                        <div role="tabpanel" class="tab-pane" id="roles">
+                        <div role="tabpanel" class="tab-pane active" id="roles">
                             <div class="row">
                                 <button type="button" *ngFor="let rol of roles.elementos" class="btn col-sm-3" style="border-radius: 0;" (click)="toggleRol(rol)" [ngClass]="{ 'btn-success': rol.asignado, 'btn-default': !rol.asignado }">
                                     {{ rol.nombre }}
